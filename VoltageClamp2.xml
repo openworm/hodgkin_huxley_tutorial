@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Lems>
+
+    <notes>A new voltage clamp ComponentType. Needs to have a baseline clamp in addition to a transient clamp. Should probbaly be included in NeuroML core types.</notes>
+
+
+    <ComponentType name="voltageClamp2" extends="baseVoltageDepPointCurrent"
+                   description="Voltage clamp with a baseline clamp in addition to a transient clamp">
+
+        <Parameter name="delay" dimension="time" description="Delay before change in current. Current is zero  prior to this."/>
+        <Parameter name="duration" dimension="time" description="Duration for attempting to keep parent at targetVoltage. Current is zero after delay + duration."/>
+        <Parameter name="baselineVoltage" dimension="voltage" description="Baseline clamped voltage"/>
+        <Parameter name="targetVoltage" dimension="voltage" description="Current will be applied to try to get parent to this target voltage"/>
+        
+        <!-- seriesResistance renamed to simpleSeriesResistance & factor of 1e-5 removed from calculation of current. Still being tested... -->
+        <Parameter name="simpleSeriesResistance" dimension="resistance" description="Current will be calculated by the difference in voltage between the target and parent, divided by this value"/>
+
+        <!--TODO: remove! Only required as EventConnection is used in explicitInput to
+        connect inputs to cells. Events aren't passed! ... -->
+        <EventPort name="in" direction="in" description="Note this is not used here. Will be removed in future"/>
+
+        <Dynamics>
+
+            <StateVariable name="i" exposure="i" dimension="current"/>
+
+            <OnEvent port="in"><!--TODO: remove, see above...
+            <StateAssignment variable="i" value="0"/>-->
+            </OnEvent>
+
+            <OnCondition test="t .lt. delay">
+                <StateAssignment variable="i" value="baselineVoltage - v) / simpleSeriesResistance"/>
+            </OnCondition>
+
+            <OnCondition test="t .geq. delay">
+                <StateAssignment variable="i" value="(targetVoltage - v) / simpleSeriesResistance"/>
+            </OnCondition>
+
+            <OnCondition test="t .gt. duration + delay">
+                <StateAssignment variable="i" value="baselineVoltage - v) / simpleSeriesResistance"/>
+            </OnCondition>
+
+        </Dynamics>
+
+    </ComponentType>
+
+</Lems>

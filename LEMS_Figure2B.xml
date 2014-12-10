@@ -1,0 +1,79 @@
+<Lems>
+
+
+<!-- Specify which component to run -->
+<Target component="sim1"/>
+
+<!-- Include core NeuroML2 ComponentType definitions -->
+<Include file="Cells.xml"/>
+<Include file="Networks.xml"/>
+<Include file="Simulation.xml"/>
+
+<Include file="Leak.channel.nml"/>
+<Include file="k_slow.channel.nml"/>
+<Include file="k_fast.channel.nml"/>
+<Include file="ca_boyle.channel.nml"/>
+<Include file="CaPool.nml"/>
+<Include file="VoltageClamp2.xml"/>
+<Include file="SingleCompMuscle.cell.nml"/>
+
+
+<Include file="Figure2B.net.nml"/>
+
+
+<Simulation id="sim1" length="30ms" step="0.001ms" target="net1">
+
+    <Display id="d1" title="Voltage responses to VClamps (mV)"  timeScale="1ms" xmin="-2" xmax="32" ymin="-80" ymax="50">
+        <Line id="-60mV" quantity="mc1[0]/v" scale="1mV"  color="#ffffff" timeScale="1ms"/>
+        <Line id="-50mV" quantity="mc2[0]/v" scale="1mV"  color="#ffffdd" timeScale="1ms"/>
+        <Line id="-40mV" quantity="mc3[0]/v" scale="1mV"  color="#ffffff" timeScale="1ms"/>
+        <Line id="-30mV" quantity="mc4[0]/v" scale="1mV"  color="#ffddbb" timeScale="1ms"/>
+        <Line id="-20mV" quantity="mc5[0]/v" scale="1mV"  color="#ffbbbb" timeScale="1ms"/>
+        <Line id="-10mV" quantity="mc6[0]/v" scale="1mV"  color="#ddffff" timeScale="1ms"/>
+        <Line id="0mV" quantity="mc7[0]/v" scale="1mV"  color="#bbffff" timeScale="1ms"/>
+        <Line id="10mV" quantity="mc8[0]/v" scale="1mV"  color="#bbffdd" timeScale="1ms"/>
+        <Line id="20mV" quantity="mc9[0]/v" scale="1mV"  color="#bbffbb" timeScale="1ms"/>
+        <Line id="30mV" quantity="mc10[0]/v" scale="1mV"  color="#bbdddd" timeScale="1ms"/>
+        <Line id="40mV" quantity="mc11[0]/v" scale="1mV"  color="#bbbbbb" timeScale="1ms"/>
+    </Display>
+
+
+    <Display id="d2" title="Currents through voltage clamps (nA)" timeScale="1ms" xmin="-2" xmax="32" ymin="-2" ymax="17">
+
+        <Line id="-60mV" quantity="mc1[0]/vClamp1/i" scale="1nA"  color="#111fff" timeScale="1ms"/>
+        <Line id="-50mV" quantity="mc2[0]/vClamp2/i" scale="1nA"  color="#222fff" timeScale="1ms"/>
+        <Line id="-40mV" quantity="mc3[0]/vClamp3/i" scale="1nA"  color="#333fff" timeScale="1ms"/>
+        <Line id="-30mV" quantity="mc4[0]/vClamp4/i" scale="1nA"  color="#444fff" timeScale="1ms"/>
+        <Line id="-20mV" quantity="mc5[0]/vClamp5/i" scale="1nA"  color="#555fff"  timeScale="1ms"/>
+        <Line id="-10mV" quantity="mc6[0]/vClamp6/i" scale="1nA"  color="#666fff"  timeScale="1ms"/>
+        <Line id="0mV" quantity="mc7[0]/vClamp7/i" scale="1nA"  color="#777fff"  timeScale="1ms"/>
+        <Line id="10mV" quantity="mc8[0]/vClamp8/i" scale="1nA"  color="#888fff"  timeScale="1ms"/>
+        <Line id="20mV" quantity="mc9[0]/vClamp9/i" scale="1nA"  color="#999fff"  timeScale="1ms"/>
+        <Line id="30mV" quantity="mc10[0]/vClamp10/i" scale="1nA"  color="#aaafff"  timeScale="1ms"/>
+        <Line id="40mV" quantity="mc11[0]/vClamp11/i" scale="1nA"  color="#bbbfff"  timeScale="1ms"/>
+
+    </Display>
+  
+    <Display id="d3" title="Rate variables at 0mV (dimensionless)" timeScale="1ms" xmin="-2" xmax="32" ymin="-0.1" ymax="1.1">
+
+        <Line id="k_slow/n" quantity="mc7[0]/biophys/membraneProperties/k_slow_all/k_slow/n/q" scale="1"  color="#000000" timeScale="1ms"/>
+        <Line id="k_fast/p" quantity="mc7[0]/biophys/membraneProperties/k_fast_all/k_fast/p/q" scale="1"  color="#0000ff"  timeScale="1ms"/>
+        <Line id="k_fast/q" quantity="mc7[0]/biophys/membraneProperties/k_fast_all/k_fast/q/q" scale="1"  color="#00ffff"  timeScale="1ms"/>
+        <Line id="ca_boyle/e" quantity="mc7[0]/biophys/membraneProperties/ca_boyle_all/ca_boyle/e/q" scale="1"  color="#ff00ff"  timeScale="1ms"/>
+        <Line id="ca_boyle/f" quantity="mc7[0]/biophys/membraneProperties/ca_boyle_all/ca_boyle/f/q" scale="1"  color="#ffff00"  timeScale="1ms"/>
+        <Line id="ca_boyle/h" quantity="mc7[0]/biophys/membraneProperties/ca_boyle_all/ca_boyle/h/q" scale="1"  color="#ff0000" timeScale="1ms"/>
+    </Display>
+   
+
+    <Display id="d4" title="Current densities at 0mV (uA/cm2)" timeScale="1ms" xmin="-2" xmax="32" ymin="-700" ymax="200">
+        <Line id="Leak" quantity="mc7[0]/biophys/membraneProperties/Leak_all/iDensity" scale="1uA_per_cm2"  color="#550000"  timeScale="1ms"/>
+        <Line id="k_slow" quantity="mc7[0]/biophys/membraneProperties/k_slow_all/iDensity" scale="1uA_per_cm2"  color="#005500"  timeScale="1ms"/>
+        <Line id="k_fast" quantity="mc7[0]/biophys/membraneProperties/k_fast_all/iDensity" scale="1uA_per_cm2"  color="#000055"  timeScale="1ms"/>
+        <Line id="ca_boyle" quantity="mc7[0]/biophys/membraneProperties/ca_boyle_all/iDensity" scale="1uA_per_cm2"  color="#fff555"  timeScale="1ms"/>
+       
+    </Display>
+
+</Simulation>
+
+
+</Lems>
