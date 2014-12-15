@@ -16,7 +16,7 @@
 
 
     <!-- Including file with a <neuroml> root, a "real" NeuroML 2 file -->
-    <Include file="../examples/NML2_SingleCompHHCell.nml"/>
+    <Include file="./hh.nml"/>
 
 
     <Simulation id="sim1" length="300ms" step="0.01ms" target="net1">

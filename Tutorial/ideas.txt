@@ -1,0 +1,2 @@
+You can use either reStructuredText or Markdown, per here: http://read-the-docs.readthedocs.org/en/latest/getting_started.html
+we're trying to make sure readthedocs.org can parse all our stuff because that lets it get integrated with the documentation and it is searchable
