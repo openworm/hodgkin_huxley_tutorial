@@ -7,7 +7,7 @@
          imports in "pure" NeuroML 2 and contains some LEMS elements for running 
          a simulation -->
 
-    <!-- This is a modified version to duplicate the values used in
+    <!-- This is a modified version to duplicate the values and charts used in
         https://gist.github.com/slarson/37463b35ef8606629d2e#file-hodgkin-huxley-py -->
 
     <Target component="sim1"/>
