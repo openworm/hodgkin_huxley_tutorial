@@ -24,26 +24,24 @@
     <Simulation id="sim1" length="450ms" step="0.01ms" target="net1">
     
         <Display id="d1" title="Hodgkin-Huxley Neuron: V (mV)" timeScale="1ms" xmin="0" xmax="450" ymin="-90" ymax="50">
-                <Line id="v" quantity="hhpop[0]/v" scale="1mV" color="#ffffff" timeScale="1ms"/>
+            <Line id="v" quantity="hhpop[0]/v" scale="1mV" color="#ffffff" timeScale="1ms"/>
         </Display>
 
         <Display id="d2" title="Hodgkin-Huxley Neuron: Gating Value" timeScale="1ms" xmin="0" xmax="450" ymin="-0.1" ymax="1.1">
-                <Line id="m" quantity="hhpop[0]/bioPhys1/membraneProperties/naChans/naChan/m/q" scale="1"  color="#000000" timeScale="1ms"/>
-                <Line id="h" quantity="hhpop[0]/bioPhys1/membraneProperties/naChans/naChan/h/q" scale="1"  color="#ff0000" timeScale="1ms"/>
-                <Line id="n" quantity="hhpop[0]/bioPhys1/membraneProperties/kChans/kChan/n/q" scale="1"  color="#0000ff" timeScale="1ms"/>
+            <Line id="m" quantity="hhpop[0]/bioPhys1/membraneProperties/naChans/naChan/m/q" scale="1"  color="#000000" timeScale="1ms"/>
+            <Line id="h" quantity="hhpop[0]/bioPhys1/membraneProperties/naChans/naChan/h/q" scale="1"  color="#ff0000" timeScale="1ms"/>
+            <Line id="n" quantity="hhpop[0]/bioPhys1/membraneProperties/kChans/kChan/n/q" scale="1"  color="#0000ff" timeScale="1ms"/>
         </Display>
 
         <Display id="d3" title="Hodgkin-Huxley Neuron: Current" timeScale="1ms" xmin="0" xmax="450" ymin="-10" ymax="10">
-                <Line id="I_na" quantity="hhpop[0]/bioPhys1/membraneProperties/naChans/iDensity" scale="1"  color="#000000" timeScale="1ms"/>
-                <Line id="I_k" quantity="hhpop[0]/bioPhys1/membraneProperties/kChans/iDensity" scale="1"  color="#ff0000" timeScale="1ms"/>
-                <Line id="I_l" quantity="hhpop[0]/bioPhys1/membraneProperties/leak/iDensity" scale="1"  color="#ff0000" timeScale="1ms"/>
+            <Line id="I_na" quantity="hhpop[0]/bioPhys1/membraneProperties/naChans/iDensity" scale="1"  color="#000000" timeScale="1ms"/>
+            <Line id="I_k" quantity="hhpop[0]/bioPhys1/membraneProperties/kChans/iDensity" scale="1"  color="#ff0000" timeScale="1ms"/>
+            <Line id="I_l" quantity="hhpop[0]/bioPhys1/membraneProperties/leak/iDensity" scale="1"  color="#ff0000" timeScale="1ms"/>
         </Display>
 
-        <!-- This doesn't work.  I'm trying to get the input current densities but I don't
-             know what quantity gives me those values.  Currently it references hhpop[0]/iChannels
-             but that's just a placeholder-->
-        <Display id="d4" title="Hodgkin-Huxley Neuron: I_inj ( mu_A / cm^2)" timeScale="1ms" xmin="0" xmax="450" ymin="-1" ymax="40">
-                <Line id="I_inj" quantity="hhpop[0]/iChannels" scale="1"  color="#004040" timeScale="1ms"/>
+        <Display id="d4" title="Hodgkin-Huxley Neuron: I_inj ( nA )" timeScale="1ms" xmin="0" xmax="450" ymin="-0.01" ymax="0.4">
+            <Line id="I_inj1" quantity="hhpop[0]/pulseGen1/i" scale="1nA"  color="#004040" timeScale="1ms"/>
+            <Line id="I_inj2" quantity="hhpop[0]/pulseGen2/i" scale="1nA"  color="#004040" timeScale="1ms"/>
         </Display>
 
         <OutputFile id="of0" fileName="results/hh_v.dat">
