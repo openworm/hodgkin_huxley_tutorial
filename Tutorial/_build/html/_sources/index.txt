@@ -12,7 +12,7 @@ Overview:
    :maxdepth: 4
 
    _static/Tutorial
-   _static/modules
+   _static/Hodgkin Huxley
 
 Indices and tables
 ==================
