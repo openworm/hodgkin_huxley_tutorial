@@ -4,52 +4,111 @@ from scipy.integrate import odeint
 from scipy import stats
 import scipy.linalg as lin
 
-"""
-HodgkinHuxley.py docstring
-"""
-
 class HodgkinHuxley():
     """Full Hodgkin-Huxley Model (copied from Computational Lab 2)"""
 
-    # Constants
-    C_m  =   1.0 # membrane capacitance, in uF/cm^2
-    g_Na = 120.0 # maximum conducances, in mS/cm^2
+    C_m  =   1.0
+    """membrane capacitance, in uF/cm^2"""
+
+    g_Na = 120.0
+    """maximum conducances, in mS/cm^2"""
+
     g_K  =  36.0
+    """maximum conducances, in mS/cm^2"""
+
     g_L  =   0.3
-    E_Na =  50.0 # Nernst reversal potentials, in mV
+    """maximum conducances, in mS/cm^2"""
+
+    E_Na =  50.0
+    """Nernst reversal potentials, in mV"""
+
     E_K  = -77.0
+    """Nernst reversal potentials, in mV"""
+
     E_L  = -54.387
+    """Nernst reversal potentials, in mV"""
 
-    # The time to integrate over
     t = sp.arange(0.0, 400.0, 0.1)
+    """ The time to integrate over """
 
-    # Channel gating kinetics
-    # Functions of membrane voltage
-    def alpha_m(V): return 0.1*(V+40.0)/(1.0 - sp.exp(-(V+40.0) / 10.0))
-    def beta_m(V):  return 4.0*sp.exp(-(V+65.0) / 18.0)
-    def alpha_h(V): return 0.07*sp.exp(-(V+65.0) / 20.0)
-    def beta_h(V):  return 1.0/(1.0 + sp.exp(-(V+35.0) / 10.0))
-    def alpha_n(V): return 0.01*(V+55.0)/(1.0 - sp.exp(-(V+55.0) / 10.0))
-    def beta_n(V):  return 0.125*sp.exp(-(V+65) / 80.0)
+    def alpha_m(V):
+        """Channel gating kinetics. Functions of membrane voltage"""
+        return 0.1*(V+40.0)/(1.0 - sp.exp(-(V+40.0) / 10.0))
 
-    # Membrane currents (in uA/cm^2)
-    #  Sodium (Na = element name)
-    def I_Na(V,m,h):return g_Na * m**3 * h * (V - E_Na)
-    #  Potassium (K = element name)
-    def I_K(V, n):  return g_K  * n**4     * (V - E_K)
+    def beta_m(V):
+        """Channel gating kinetics. Functions of membrane voltage"""
+        return 4.0*sp.exp(-(V+65.0) / 18.0)
+
+    def alpha_h(V):
+        """Channel gating kinetics. Functions of membrane voltage"""
+        return 0.07*sp.exp(-(V+65.0) / 20.0)
+
+    def beta_h(V):
+        """Channel gating kinetics. Functions of membrane voltage"""
+        return 1.0/(1.0 + sp.exp(-(V+35.0) / 10.0))
+
+    def alpha_n(V):
+        """Channel gating kinetics. Functions of membrane voltage"""
+        return 0.01*(V+55.0)/(1.0 - sp.exp(-(V+55.0) / 10.0))
+
+    def beta_n(V):
+        """Channel gating kinetics. Functions of membrane voltage"""
+        return 0.125*sp.exp(-(V+65) / 80.0)
+
+    def I_Na(V,m,h):
+        """
+        Membrane current (in uA/cm^2)
+        Sodium (Na = element name)
+
+        |  :param V:
+        |  :param m:
+        |  :param h:
+        |  :return:
+        """
+        return g_Na * m**3 * h * (V - E_Na)
+
+    def I_K(V, n):
+        """
+        Membrane current (in uA/cm^2)
+        Potassium (K = element name)
+
+        |  :param V:
+        |  :param h:
+        |  :return:
+        """
+        return g_K  * n**4 * (V - E_K)
     #  Leak
-    def I_L(V):     return g_L             * (V - E_L)
+    def I_L(V):
+        """
+        Membrane current (in uA/cm^2)
+        Leak
 
-    # External current
-    def I_inj(t): # step up 10 uA/cm^2 every 100ms for 400ms
+        |  :param V:
+        |  :param h:
+        |  :return:
+        """
+        return g_L * (V - E_L)
+
+    def I_inj(t):
+        """
+        External Current
+
+        |  :param t: time
+        |  :return: step up 10 uA/cm^2 every 100ms for 400ms
+        """
         return 10*(t>100) - 10*(t>200) + 35*(t>300)
         #return 10*t
 
-    # Integrate!
     def dALLdt(X, t):
+        """
+        Integrate
+
+        |  :param X:
+        |  :param t:
+        |  :return: calculate membrane potential & activation variables
+        """
         V, m, h, n = X
 
-        #calculate membrane potential & activation variables
         dVdt = (I_inj(t) - I_Na(V, m, h) - I_K(V, n) - I_L(V)) / C_m
         dmdt = alpha_m(V)*(1.0-m) - beta_m(V)*m
         dhdt = alpha_h(V)*(1.0-h) - beta_h(V)*h

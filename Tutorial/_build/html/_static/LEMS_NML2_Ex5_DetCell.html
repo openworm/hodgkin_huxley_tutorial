@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>LEMS_NML2_Ex5_DetCell.xml &mdash; Hodgin Huxley LEMS Tutorial 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <link rel="top" title="Hodgin Huxley LEMS Tutorial 0.1 documentation" href="../index.html" />
+    <link rel="up" title="Sources" href="Source.html" />
+    <link rel="prev" title="NML2_SingleCompHHCell.nml" href="NML2_SingleCompHHCell.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="NML2_SingleCompHHCell.html" title="NML2_SingleCompHHCell.nml"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Hodgin Huxley LEMS Tutorial 0.1 documentation</a> &raquo;</li>
+          <li><a href="Source.html" accesskey="U">Sources</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="lems-nml2-ex5-detcell-xml">
+<h1>LEMS_NML2_Ex5_DetCell.xml<a class="headerlink" href="#lems-nml2-ex5-detcell-xml" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-python"><div class="highlight"><pre>&lt;Lems&gt;
+
+    &lt;!-- Example with Simple Hodgin-Huxley cell specifying segment details--&gt;
+
+    &lt;!-- This is a file which can be read and executed by the LEMS Interpreter.
+         It imports the LEMS definitions of the core NeuroML 2 Components, 
+         imports in &quot;pure&quot; NeuroML 2 and contains some LEMS elements for running 
+         a simulation --&gt;
+
+    &lt;!-- This is a modified version to duplicate the values and charts used in
+        https://gist.github.com/slarson/37463b35ef8606629d2e#file-hodgkin-huxley-py --&gt;
+
+    &lt;Target component=&quot;sim1&quot;/&gt;
+
+    &lt;Include file=&quot;Cells.xml&quot;/&gt;
+    &lt;Include file=&quot;Networks.xml&quot;/&gt;
+    &lt;Include file=&quot;Simulation.xml&quot;/&gt;
+
+
+    &lt;!-- Including file with a &lt;neuroml&gt; root, a &quot;real&quot; NeuroML 2 file --&gt;
+    &lt;Include file=&quot;./NML2_SingleCompHHCell.nml&quot;/&gt;
+
+
+    &lt;Simulation id=&quot;sim1&quot; length=&quot;450ms&quot; step=&quot;0.01ms&quot; target=&quot;net1&quot;&gt;
+    
+        &lt;Display id=&quot;d1&quot; title=&quot;Hodgkin-Huxley Neuron: V (mV)&quot; timeScale=&quot;1ms&quot; xmin=&quot;0&quot; xmax=&quot;450&quot; ymin=&quot;-90&quot; ymax=&quot;50&quot;&gt;
+            &lt;Line id=&quot;v&quot; quantity=&quot;hhpop[0]/v&quot; scale=&quot;1mV&quot; color=&quot;#ffffff&quot; timeScale=&quot;1ms&quot;/&gt;
+        &lt;/Display&gt;
+
+        &lt;Display id=&quot;d2&quot; title=&quot;Hodgkin-Huxley Neuron: Gating Value&quot; timeScale=&quot;1ms&quot; xmin=&quot;0&quot; xmax=&quot;450&quot; ymin=&quot;-0.1&quot; ymax=&quot;1.1&quot;&gt;
+            &lt;Line id=&quot;m&quot; quantity=&quot;hhpop[0]/bioPhys1/membraneProperties/naChans/naChan/m/q&quot; scale=&quot;1&quot;  color=&quot;#000000&quot; timeScale=&quot;1ms&quot;/&gt;
+            &lt;Line id=&quot;h&quot; quantity=&quot;hhpop[0]/bioPhys1/membraneProperties/naChans/naChan/h/q&quot; scale=&quot;1&quot;  color=&quot;#ff0000&quot; timeScale=&quot;1ms&quot;/&gt;
+            &lt;Line id=&quot;n&quot; quantity=&quot;hhpop[0]/bioPhys1/membraneProperties/kChans/kChan/n/q&quot; scale=&quot;1&quot;  color=&quot;#0000ff&quot; timeScale=&quot;1ms&quot;/&gt;
+        &lt;/Display&gt;
+
+        &lt;Display id=&quot;d3&quot; title=&quot;Hodgkin-Huxley Neuron: Current&quot; timeScale=&quot;1ms&quot; xmin=&quot;0&quot; xmax=&quot;450&quot; ymin=&quot;-10&quot; ymax=&quot;10&quot;&gt;
+            &lt;Line id=&quot;I_na&quot; quantity=&quot;hhpop[0]/bioPhys1/membraneProperties/naChans/iDensity&quot; scale=&quot;1&quot;  color=&quot;#000000&quot; timeScale=&quot;1ms&quot;/&gt;
+            &lt;Line id=&quot;I_k&quot; quantity=&quot;hhpop[0]/bioPhys1/membraneProperties/kChans/iDensity&quot; scale=&quot;1&quot;  color=&quot;#ff0000&quot; timeScale=&quot;1ms&quot;/&gt;
+            &lt;Line id=&quot;I_l&quot; quantity=&quot;hhpop[0]/bioPhys1/membraneProperties/leak/iDensity&quot; scale=&quot;1&quot;  color=&quot;#ff0000&quot; timeScale=&quot;1ms&quot;/&gt;
+        &lt;/Display&gt;
+
+        &lt;Display id=&quot;d4&quot; title=&quot;Hodgkin-Huxley Neuron: I_inj ( nA )&quot; timeScale=&quot;1ms&quot; xmin=&quot;0&quot; xmax=&quot;450&quot; ymin=&quot;-0.01&quot; ymax=&quot;0.4&quot;&gt;
+            &lt;Line id=&quot;I_inj1&quot; quantity=&quot;hhpop[0]/pulseGen1/i&quot; scale=&quot;1nA&quot;  color=&quot;#004040&quot; timeScale=&quot;1ms&quot;/&gt;
+            &lt;Line id=&quot;I_inj2&quot; quantity=&quot;hhpop[0]/pulseGen2/i&quot; scale=&quot;1nA&quot;  color=&quot;#004040&quot; timeScale=&quot;1ms&quot;/&gt;
+        &lt;/Display&gt;
+
+        &lt;OutputFile id=&quot;of0&quot; fileName=&quot;results/hh_v.dat&quot;&gt;
+            &lt;OutputColumn id=&quot;v&quot; quantity=&quot;hhpop[0]/v&quot;/&gt;
+        &lt;/OutputFile&gt;
+
+        &lt;OutputFile id=&quot;of1&quot; fileName=&quot;results/hh_vars.dat&quot;&gt;
+            &lt;OutputColumn id=&quot;m&quot; quantity=&quot;hhpop[0]/bioPhys1/membraneProperties/naChans/naChan/m/q&quot;/&gt; 
+            &lt;OutputColumn id=&quot;h&quot; quantity=&quot;hhpop[0]/bioPhys1/membraneProperties/naChans/naChan/h/q&quot;/&gt; 
+            &lt;OutputColumn id=&quot;n&quot; quantity=&quot;hhpop[0]/bioPhys1/membraneProperties/kChans/kChan/n/q&quot;/&gt; 
+        &lt;/OutputFile&gt;  
+    
+        
+    &lt;/Simulation&gt;
+
+
+&lt;/Lems&gt;
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="NML2_SingleCompHHCell.html"
+                        title="previous chapter">NML2_SingleCompHHCell.nml</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/LEMS_NML2_Ex5_DetCell.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="NML2_SingleCompHHCell.html" title="NML2_SingleCompHHCell.nml"
+             >previous</a> |</li>
+        <li><a href="../index.html">Hodgin Huxley LEMS Tutorial 0.1 documentation</a> &raquo;</li>
+          <li><a href="Source.html" >Sources</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Joe Bowen.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

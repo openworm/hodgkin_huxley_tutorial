@@ -24,8 +24,7 @@
     <script type="text/javascript" src="underscore.js"></script>
     <script type="text/javascript" src="doctools.js"></script>
     <link rel="top" title="Hodgin Huxley LEMS Tutorial 0.1 documentation" href="../index.html" />
-    <link rel="up" title="Source" href="modules.html" />
-    <link rel="prev" title="Source" href="modules.html" /> 
+    <link rel="prev" title="Tutorial" href="Tutorial.html" /> 
   </head>
   <body>
     <div class="related">
@@ -38,10 +37,9 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="modules.html" title="Source"
+          <a href="Tutorial.html" title="Tutorial"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Hodgin Huxley LEMS Tutorial 0.1 documentation</a> &raquo;</li>
-          <li><a href="modules.html" accesskey="U">Source</a> &raquo;</li> 
+        <li><a href="../index.html">Hodgin Huxley LEMS Tutorial 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -53,104 +51,151 @@
   <div class="section" id="hodgkin-huxley-py">
 <h1>Hodgkin Huxley.py<a class="headerlink" href="#hodgkin-huxley-py" title="Permalink to this headline">¶</a></h1>
 <p><tt class="xref py py-mod docutils literal"><span class="pre">Source</span></tt> Package</p>
-<span class="target" id="module-Source.__init__"></span><dl class="class">
-<dt id="Source.__init__.HodgkinHuxley">
-<em class="property">class </em><tt class="descclassname">Source.__init__.</tt><tt class="descname">HodgkinHuxley</tt><a class="headerlink" href="#Source.__init__.HodgkinHuxley" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-Source.HodgkinHuxley"></span><dl class="class">
+<dt id="Source.HodgkinHuxley.HodgkinHuxley">
+<em class="property">class </em><tt class="descclassname">Source.HodgkinHuxley.</tt><tt class="descname">HodgkinHuxley</tt><a class="reference internal" href="../_modules/Source/HodgkinHuxley.html#HodgkinHuxley"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Source.HodgkinHuxley.HodgkinHuxley" title="Permalink to this definition">¶</a></dt>
 <dd><p>Full Hodgkin-Huxley Model (copied from Computational Lab 2)</p>
 <dl class="attribute">
-<dt id="Source.__init__.HodgkinHuxley.C_m">
-<tt class="descname">C_m</tt><em class="property"> = 1.0</em><a class="headerlink" href="#Source.__init__.HodgkinHuxley.C_m" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="Source.HodgkinHuxley.HodgkinHuxley.C_m">
+<tt class="descname">C_m</tt><em class="property"> = 1.0</em><a class="headerlink" href="#Source.HodgkinHuxley.HodgkinHuxley.C_m" title="Permalink to this definition">¶</a></dt>
+<dd><p>membrane capacitance, in uF/cm^2</p>
+</dd></dl>
 
 <dl class="attribute">
-<dt id="Source.__init__.HodgkinHuxley.E_K">
-<tt class="descname">E_K</tt><em class="property"> = -77.0</em><a class="headerlink" href="#Source.__init__.HodgkinHuxley.E_K" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="Source.HodgkinHuxley.HodgkinHuxley.g_Na">
+<tt class="descname">g_Na</tt><em class="property"> = 120.0</em><a class="headerlink" href="#Source.HodgkinHuxley.HodgkinHuxley.g_Na" title="Permalink to this definition">¶</a></dt>
+<dd><p>maximum conducances, in mS/cm^2</p>
+</dd></dl>
 
 <dl class="attribute">
-<dt id="Source.__init__.HodgkinHuxley.E_L">
-<tt class="descname">E_L</tt><em class="property"> = -54.387</em><a class="headerlink" href="#Source.__init__.HodgkinHuxley.E_L" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="Source.HodgkinHuxley.HodgkinHuxley.g_K">
+<tt class="descname">g_K</tt><em class="property"> = 36.0</em><a class="headerlink" href="#Source.HodgkinHuxley.HodgkinHuxley.g_K" title="Permalink to this definition">¶</a></dt>
+<dd><p>maximum conducances, in mS/cm^2</p>
+</dd></dl>
 
 <dl class="attribute">
-<dt id="Source.__init__.HodgkinHuxley.E_Na">
-<tt class="descname">E_Na</tt><em class="property"> = 50.0</em><a class="headerlink" href="#Source.__init__.HodgkinHuxley.E_Na" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="Source.__init__.HodgkinHuxley.I_K">
-<tt class="descname">I_K</tt><big>(</big><em>V</em>, <em>n</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.I_K" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="Source.__init__.HodgkinHuxley.I_L">
-<tt class="descname">I_L</tt><big>(</big><em>V</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.I_L" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="Source.__init__.HodgkinHuxley.I_Na">
-<tt class="descname">I_Na</tt><big>(</big><em>V</em>, <em>m</em>, <em>h</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.I_Na" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="Source.__init__.HodgkinHuxley.I_inj">
-<tt class="descname">I_inj</tt><big>(</big><em>t</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.I_inj" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="Source.__init__.HodgkinHuxley.alpha_h">
-<tt class="descname">alpha_h</tt><big>(</big><em>V</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.alpha_h" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="Source.__init__.HodgkinHuxley.alpha_m">
-<tt class="descname">alpha_m</tt><big>(</big><em>V</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.alpha_m" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="Source.__init__.HodgkinHuxley.alpha_n">
-<tt class="descname">alpha_n</tt><big>(</big><em>V</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.alpha_n" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="Source.__init__.HodgkinHuxley.beta_h">
-<tt class="descname">beta_h</tt><big>(</big><em>V</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.beta_h" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="Source.__init__.HodgkinHuxley.beta_m">
-<tt class="descname">beta_m</tt><big>(</big><em>V</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.beta_m" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="Source.__init__.HodgkinHuxley.beta_n">
-<tt class="descname">beta_n</tt><big>(</big><em>V</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.beta_n" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="Source.__init__.HodgkinHuxley.dALLdt">
-<tt class="descname">dALLdt</tt><big>(</big><em>X</em>, <em>t</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.dALLdt" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="Source.HodgkinHuxley.HodgkinHuxley.g_L">
+<tt class="descname">g_L</tt><em class="property"> = 0.3</em><a class="headerlink" href="#Source.HodgkinHuxley.HodgkinHuxley.g_L" title="Permalink to this definition">¶</a></dt>
+<dd><p>maximum conducances, in mS/cm^2</p>
+</dd></dl>
 
 <dl class="attribute">
-<dt id="Source.__init__.HodgkinHuxley.g_K">
-<tt class="descname">g_K</tt><em class="property"> = 36.0</em><a class="headerlink" href="#Source.__init__.HodgkinHuxley.g_K" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="Source.HodgkinHuxley.HodgkinHuxley.E_Na">
+<tt class="descname">E_Na</tt><em class="property"> = 50.0</em><a class="headerlink" href="#Source.HodgkinHuxley.HodgkinHuxley.E_Na" title="Permalink to this definition">¶</a></dt>
+<dd><p>Nernst reversal potentials, in mV</p>
+</dd></dl>
 
 <dl class="attribute">
-<dt id="Source.__init__.HodgkinHuxley.g_L">
-<tt class="descname">g_L</tt><em class="property"> = 0.3</em><a class="headerlink" href="#Source.__init__.HodgkinHuxley.g_L" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="Source.HodgkinHuxley.HodgkinHuxley.E_K">
+<tt class="descname">E_K</tt><em class="property"> = -77.0</em><a class="headerlink" href="#Source.HodgkinHuxley.HodgkinHuxley.E_K" title="Permalink to this definition">¶</a></dt>
+<dd><p>Nernst reversal potentials, in mV</p>
+</dd></dl>
 
 <dl class="attribute">
-<dt id="Source.__init__.HodgkinHuxley.g_Na">
-<tt class="descname">g_Na</tt><em class="property"> = 120.0</em><a class="headerlink" href="#Source.__init__.HodgkinHuxley.g_Na" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="Source.HodgkinHuxley.HodgkinHuxley.E_L">
+<tt class="descname">E_L</tt><em class="property"> = -54.387</em><a class="headerlink" href="#Source.HodgkinHuxley.HodgkinHuxley.E_L" title="Permalink to this definition">¶</a></dt>
+<dd><p>Nernst reversal potentials, in mV</p>
+</dd></dl>
 
 <dl class="attribute">
-<dt id="Source.__init__.HodgkinHuxley.t">
-<tt class="descname">t</tt><em class="property"> = array([  0.00000000e+00,   1.00000000e-01,   2.00000000e-01, ...,          3.99700000e+02,   3.99800000e+02,   3.99900000e+02])</em><a class="headerlink" href="#Source.__init__.HodgkinHuxley.t" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="Source.HodgkinHuxley.HodgkinHuxley.t">
+<tt class="descname">t</tt><em class="property"> = array([  0.00000000e+00,   1.00000000e-01,   2.00000000e-01, ...,          3.99700000e+02,   3.99800000e+02,   3.99900000e+02])</em><a class="headerlink" href="#Source.HodgkinHuxley.HodgkinHuxley.t" title="Permalink to this definition">¶</a></dt>
+<dd><p>The time to integrate over</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Source.HodgkinHuxley.HodgkinHuxley.alpha_m">
+<tt class="descname">alpha_m</tt><big>(</big><em>V</em><big>)</big><a class="reference internal" href="../_modules/Source/HodgkinHuxley.html#HodgkinHuxley.alpha_m"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Source.HodgkinHuxley.HodgkinHuxley.alpha_m" title="Permalink to this definition">¶</a></dt>
+<dd><p>Channel gating kinetics. Functions of membrane voltage</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Source.HodgkinHuxley.HodgkinHuxley.beta_m">
+<tt class="descname">beta_m</tt><big>(</big><em>V</em><big>)</big><a class="reference internal" href="../_modules/Source/HodgkinHuxley.html#HodgkinHuxley.beta_m"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Source.HodgkinHuxley.HodgkinHuxley.beta_m" title="Permalink to this definition">¶</a></dt>
+<dd><p>Channel gating kinetics. Functions of membrane voltage</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Source.HodgkinHuxley.HodgkinHuxley.alpha_h">
+<tt class="descname">alpha_h</tt><big>(</big><em>V</em><big>)</big><a class="reference internal" href="../_modules/Source/HodgkinHuxley.html#HodgkinHuxley.alpha_h"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Source.HodgkinHuxley.HodgkinHuxley.alpha_h" title="Permalink to this definition">¶</a></dt>
+<dd><p>Channel gating kinetics. Functions of membrane voltage</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Source.HodgkinHuxley.HodgkinHuxley.beta_h">
+<tt class="descname">beta_h</tt><big>(</big><em>V</em><big>)</big><a class="reference internal" href="../_modules/Source/HodgkinHuxley.html#HodgkinHuxley.beta_h"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Source.HodgkinHuxley.HodgkinHuxley.beta_h" title="Permalink to this definition">¶</a></dt>
+<dd><p>Channel gating kinetics. Functions of membrane voltage</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Source.HodgkinHuxley.HodgkinHuxley.alpha_n">
+<tt class="descname">alpha_n</tt><big>(</big><em>V</em><big>)</big><a class="reference internal" href="../_modules/Source/HodgkinHuxley.html#HodgkinHuxley.alpha_n"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Source.HodgkinHuxley.HodgkinHuxley.alpha_n" title="Permalink to this definition">¶</a></dt>
+<dd><p>Channel gating kinetics. Functions of membrane voltage</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Source.HodgkinHuxley.HodgkinHuxley.beta_n">
+<tt class="descname">beta_n</tt><big>(</big><em>V</em><big>)</big><a class="reference internal" href="../_modules/Source/HodgkinHuxley.html#HodgkinHuxley.beta_n"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Source.HodgkinHuxley.HodgkinHuxley.beta_n" title="Permalink to this definition">¶</a></dt>
+<dd><p>Channel gating kinetics. Functions of membrane voltage</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Source.HodgkinHuxley.HodgkinHuxley.I_Na">
+<tt class="descname">I_Na</tt><big>(</big><em>V</em>, <em>m</em>, <em>h</em><big>)</big><a class="reference internal" href="../_modules/Source/HodgkinHuxley.html#HodgkinHuxley.I_Na"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Source.HodgkinHuxley.HodgkinHuxley.I_Na" title="Permalink to this definition">¶</a></dt>
+<dd><p>Membrane current (in uA/cm^2)
+Sodium (Na = element name)</p>
+<div class="line-block">
+<div class="line">:param V:</div>
+<div class="line">:param m:</div>
+<div class="line">:param h:</div>
+<div class="line">:return:</div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Source.HodgkinHuxley.HodgkinHuxley.I_K">
+<tt class="descname">I_K</tt><big>(</big><em>V</em>, <em>n</em><big>)</big><a class="reference internal" href="../_modules/Source/HodgkinHuxley.html#HodgkinHuxley.I_K"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Source.HodgkinHuxley.HodgkinHuxley.I_K" title="Permalink to this definition">¶</a></dt>
+<dd><p>Membrane current (in uA/cm^2)
+Potassium (K = element name)</p>
+<div class="line-block">
+<div class="line">:param V:</div>
+<div class="line">:param h:</div>
+<div class="line">:return:</div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Source.HodgkinHuxley.HodgkinHuxley.I_L">
+<tt class="descname">I_L</tt><big>(</big><em>V</em><big>)</big><a class="reference internal" href="../_modules/Source/HodgkinHuxley.html#HodgkinHuxley.I_L"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Source.HodgkinHuxley.HodgkinHuxley.I_L" title="Permalink to this definition">¶</a></dt>
+<dd><p>Membrane current (in uA/cm^2)
+Leak</p>
+<div class="line-block">
+<div class="line">:param V:</div>
+<div class="line">:param h:</div>
+<div class="line">:return:</div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Source.HodgkinHuxley.HodgkinHuxley.I_inj">
+<tt class="descname">I_inj</tt><big>(</big><em>t</em><big>)</big><a class="reference internal" href="../_modules/Source/HodgkinHuxley.html#HodgkinHuxley.I_inj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Source.HodgkinHuxley.HodgkinHuxley.I_inj" title="Permalink to this definition">¶</a></dt>
+<dd><p>External Current</p>
+<div class="line-block">
+<div class="line">:param t: time</div>
+<div class="line">:return: step up 10 uA/cm^2 every 100ms for 400ms</div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Source.HodgkinHuxley.HodgkinHuxley.dALLdt">
+<tt class="descname">dALLdt</tt><big>(</big><em>X</em>, <em>t</em><big>)</big><a class="reference internal" href="../_modules/Source/HodgkinHuxley.html#HodgkinHuxley.dALLdt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Source.HodgkinHuxley.HodgkinHuxley.dALLdt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Integrate</p>
+<div class="line-block">
+<div class="line">:param X:</div>
+<div class="line">:param t:</div>
+<div class="line">:return: calculate membrane potential &amp; activation variables</div>
+</div>
+</dd></dl>
 
 </dd></dl>
 
@@ -163,8 +208,8 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="modules.html"
-                        title="previous chapter">Source</a></p>
+  <p class="topless"><a href="Tutorial.html"
+                        title="previous chapter">Tutorial</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/_static/Hodgkin Huxley.txt"
@@ -197,10 +242,9 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="modules.html" title="Source"
+          <a href="Tutorial.html" title="Tutorial"
              >previous</a> |</li>
-        <li><a href="../index.html">Hodgin Huxley LEMS Tutorial 0.1 documentation</a> &raquo;</li>
-          <li><a href="modules.html" >Source</a> &raquo;</li> 
+        <li><a href="../index.html">Hodgin Huxley LEMS Tutorial 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
