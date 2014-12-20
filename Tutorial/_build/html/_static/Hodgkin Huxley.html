@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Hodgkin Huxley.py &mdash; Hodgin Huxley LEMS Tutorial 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <link rel="top" title="Hodgin Huxley LEMS Tutorial 0.1 documentation" href="../index.html" />
+    <link rel="up" title="Source" href="modules.html" />
+    <link rel="prev" title="Source" href="modules.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="Source"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Hodgin Huxley LEMS Tutorial 0.1 documentation</a> &raquo;</li>
+          <li><a href="modules.html" accesskey="U">Source</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="hodgkin-huxley-py">
+<h1>Hodgkin Huxley.py<a class="headerlink" href="#hodgkin-huxley-py" title="Permalink to this headline">¶</a></h1>
+<p><tt class="xref py py-mod docutils literal"><span class="pre">Source</span></tt> Package</p>
+<span class="target" id="module-Source.__init__"></span><dl class="class">
+<dt id="Source.__init__.HodgkinHuxley">
+<em class="property">class </em><tt class="descclassname">Source.__init__.</tt><tt class="descname">HodgkinHuxley</tt><a class="headerlink" href="#Source.__init__.HodgkinHuxley" title="Permalink to this definition">¶</a></dt>
+<dd><p>Full Hodgkin-Huxley Model (copied from Computational Lab 2)</p>
+<dl class="attribute">
+<dt id="Source.__init__.HodgkinHuxley.C_m">
+<tt class="descname">C_m</tt><em class="property"> = 1.0</em><a class="headerlink" href="#Source.__init__.HodgkinHuxley.C_m" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Source.__init__.HodgkinHuxley.E_K">
+<tt class="descname">E_K</tt><em class="property"> = -77.0</em><a class="headerlink" href="#Source.__init__.HodgkinHuxley.E_K" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Source.__init__.HodgkinHuxley.E_L">
+<tt class="descname">E_L</tt><em class="property"> = -54.387</em><a class="headerlink" href="#Source.__init__.HodgkinHuxley.E_L" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Source.__init__.HodgkinHuxley.E_Na">
+<tt class="descname">E_Na</tt><em class="property"> = 50.0</em><a class="headerlink" href="#Source.__init__.HodgkinHuxley.E_Na" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Source.__init__.HodgkinHuxley.I_K">
+<tt class="descname">I_K</tt><big>(</big><em>V</em>, <em>n</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.I_K" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Source.__init__.HodgkinHuxley.I_L">
+<tt class="descname">I_L</tt><big>(</big><em>V</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.I_L" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Source.__init__.HodgkinHuxley.I_Na">
+<tt class="descname">I_Na</tt><big>(</big><em>V</em>, <em>m</em>, <em>h</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.I_Na" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Source.__init__.HodgkinHuxley.I_inj">
+<tt class="descname">I_inj</tt><big>(</big><em>t</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.I_inj" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Source.__init__.HodgkinHuxley.alpha_h">
+<tt class="descname">alpha_h</tt><big>(</big><em>V</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.alpha_h" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Source.__init__.HodgkinHuxley.alpha_m">
+<tt class="descname">alpha_m</tt><big>(</big><em>V</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.alpha_m" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Source.__init__.HodgkinHuxley.alpha_n">
+<tt class="descname">alpha_n</tt><big>(</big><em>V</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.alpha_n" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Source.__init__.HodgkinHuxley.beta_h">
+<tt class="descname">beta_h</tt><big>(</big><em>V</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.beta_h" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Source.__init__.HodgkinHuxley.beta_m">
+<tt class="descname">beta_m</tt><big>(</big><em>V</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.beta_m" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Source.__init__.HodgkinHuxley.beta_n">
+<tt class="descname">beta_n</tt><big>(</big><em>V</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.beta_n" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Source.__init__.HodgkinHuxley.dALLdt">
+<tt class="descname">dALLdt</tt><big>(</big><em>X</em>, <em>t</em><big>)</big><a class="headerlink" href="#Source.__init__.HodgkinHuxley.dALLdt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Source.__init__.HodgkinHuxley.g_K">
+<tt class="descname">g_K</tt><em class="property"> = 36.0</em><a class="headerlink" href="#Source.__init__.HodgkinHuxley.g_K" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Source.__init__.HodgkinHuxley.g_L">
+<tt class="descname">g_L</tt><em class="property"> = 0.3</em><a class="headerlink" href="#Source.__init__.HodgkinHuxley.g_L" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Source.__init__.HodgkinHuxley.g_Na">
+<tt class="descname">g_Na</tt><em class="property"> = 120.0</em><a class="headerlink" href="#Source.__init__.HodgkinHuxley.g_Na" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Source.__init__.HodgkinHuxley.t">
+<tt class="descname">t</tt><em class="property"> = array([  0.00000000e+00,   1.00000000e-01,   2.00000000e-01, ...,          3.99700000e+02,   3.99800000e+02,   3.99900000e+02])</em><a class="headerlink" href="#Source.__init__.HodgkinHuxley.t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="modules.html"
+                        title="previous chapter">Source</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/Hodgkin Huxley.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="Source"
+             >previous</a> |</li>
+        <li><a href="../index.html">Hodgin Huxley LEMS Tutorial 0.1 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >Source</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Joe Bowen.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

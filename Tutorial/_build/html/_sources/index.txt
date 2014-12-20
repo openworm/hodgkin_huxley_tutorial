@@ -3,15 +3,16 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Hodgin Huxley LEMS Tutorial's documentation!
-=======================================================
+Welcome to Hodgin Huxley LEMS Tutorial
+======================================
 
-Contents:
+Overview:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
 
-
+   _static/Tutorial
+   _static/modules
 
 Indices and tables
 ==================
@@ -19,4 +20,5 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
 
