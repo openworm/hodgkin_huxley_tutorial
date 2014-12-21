@@ -1,5 +1,5 @@
-Sources
-=======
+Hodgkin Huxley Sources
+======================
 
 .. toctree::
    :maxdepth: 4

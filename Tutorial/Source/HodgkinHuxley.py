@@ -9,24 +9,24 @@ class HodgkinHuxley():
     """membrane capacitance, in uF/cm^2"""
 
     g_Na = 120.0
-    """maximum conducances, in mS/cm^2"""
+    """Sodium (Na) maximum conducances, in mS/cm^2"""
 
     g_K  =  36.0
-    """maximum conducances, in mS/cm^2"""
+    """Postassium (K) maximum conducances, in mS/cm^2"""
 
     g_L  =   0.3
-    """maximum conducances, in mS/cm^2"""
+    """Leak maximum conducances, in mS/cm^2"""
 
     E_Na =  50.0
-    """Nernst reversal potentials, in mV"""
+    """Sodium (Na) Nernst reversal potentials, in mV"""
 
     E_K  = -77.0
-    """Nernst reversal potentials, in mV"""
+    """Postassium (K) Nernst reversal potentials, in mV"""
 
     E_L  = -54.387
-    """Nernst reversal potentials, in mV"""
+    """Leak Nernst reversal potentials, in mV"""
 
-    t = sp.arange(0.0, 400.0, 0.1)
+    t = sp.arange(0.0, 450.0, 0.01)
     """ The time to integrate over """
 
     def alpha_m(self, V):
@@ -92,10 +92,12 @@ class HodgkinHuxley():
         External Current
 
         |  :param t: time
-        |  :return: step up 10 uA/cm^2 every 100ms for 400ms
+        |  :return: step up to 10 uA/cm^2 at t>100
+        |           step down to 0 uA/cm^2 at t>200
+        |           step up to 35 uA/cm^2 at t>300
+        |           step down to 0 uA/cm^2 at t>400
         """
-        return 10*(t>100) - 10*(t>200) + 35*(t>300)
-        #return 10*t
+        return 10*(t>100) - 10*(t>200) + 35*(t>300) - 35*(t>400)
 
     @staticmethod
     def dALLdt(X, t, self):
