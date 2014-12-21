@@ -1,0 +1,21 @@
+\select@language {english}
+\contentsline {chapter}{\numberline {1}Hodgkin Huxley NeuroML/LEMS Neuron Model Tutorial}{3}{chapter.1}
+\contentsline {section}{\numberline {1.1}Membrane Capacitance}{3}{section.1.1}
+\contentsline {section}{\numberline {1.2}Sodium (Na) Ion Channel Variables}{3}{section.1.2}
+\contentsline {section}{\numberline {1.3}Potassium (K) Ion Channel Variables}{3}{section.1.3}
+\contentsline {section}{\numberline {1.4}Passive Leak Channel Variables}{4}{section.1.4}
+\contentsline {section}{\numberline {1.5}Time of Simulation}{4}{section.1.5}
+\contentsline {section}{\numberline {1.6}Input Current / Input Current Density}{4}{section.1.6}
+\contentsline {section}{\numberline {1.7}Channel Gating Kinetics for Sodium (Na) Channel m}{5}{section.1.7}
+\contentsline {section}{\numberline {1.8}Channel Gating Kinetics for Sodium (Na) Channel h}{5}{section.1.8}
+\contentsline {section}{\numberline {1.9}Channel Gating Kinetics for Potassium (K) channel n}{6}{section.1.9}
+\contentsline {section}{\numberline {1.10}Initial Values}{6}{section.1.10}
+\contentsline {section}{\numberline {1.11}Plots}{6}{section.1.11}
+\contentsline {chapter}{\numberline {2}Hodgkin Huxley Sources}{9}{chapter.2}
+\contentsline {section}{\numberline {2.1}Hodgkin Huxley.py}{9}{section.2.1}
+\contentsline {section}{\numberline {2.2}NML2\_SingleCompHHCell.nml}{11}{section.2.2}
+\contentsline {section}{\numberline {2.3}LEMS\_NML2\_Ex5\_DetCell.xml}{12}{section.2.3}
+\contentsline {section}{\numberline {2.4}run.sh}{13}{section.2.4}
+\contentsline {chapter}{\numberline {3}Indices and tables}{15}{chapter.3}
+\contentsline {chapter}{Python Module Index}{17}{section*.25}
+\contentsline {chapter}{Index}{19}{section*.26}
