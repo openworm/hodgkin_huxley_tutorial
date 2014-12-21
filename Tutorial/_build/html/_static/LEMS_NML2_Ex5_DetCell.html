@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>LEMS_NML2_Ex5_DetCell.xml &mdash; Hodgin Huxley LEMS Tutorial 0.1 documentation</title>
+    <title>LEMS_NML2_Ex5_DetCell.xml &mdash; Hodgkin Huxley LEMS Tutorial 0.1 documentation</title>
     
     <link rel="stylesheet" href="default.css" type="text/css" />
     <link rel="stylesheet" href="pygments.css" type="text/css" />
@@ -23,8 +23,9 @@
     <script type="text/javascript" src="jquery.js"></script>
     <script type="text/javascript" src="underscore.js"></script>
     <script type="text/javascript" src="doctools.js"></script>
-    <link rel="top" title="Hodgin Huxley LEMS Tutorial 0.1 documentation" href="../index.html" />
+    <link rel="top" title="Hodgkin Huxley LEMS Tutorial 0.1 documentation" href="../index.html" />
     <link rel="up" title="Sources" href="Source.html" />
+    <link rel="next" title="run.sh" href="run.html" />
     <link rel="prev" title="NML2_SingleCompHHCell.nml" href="NML2_SingleCompHHCell.html" /> 
   </head>
   <body>
@@ -38,9 +39,12 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
+          <a href="run.html" title="run.sh"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
           <a href="NML2_SingleCompHHCell.html" title="NML2_SingleCompHHCell.nml"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Hodgin Huxley LEMS Tutorial 0.1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Hodgkin Huxley LEMS Tutorial 0.1 documentation</a> &raquo;</li>
           <li><a href="Source.html" accesskey="U">Sources</a> &raquo;</li> 
       </ul>
     </div>  
@@ -52,67 +56,57 @@
             
   <div class="section" id="lems-nml2-ex5-detcell-xml">
 <h1>LEMS_NML2_Ex5_DetCell.xml<a class="headerlink" href="#lems-nml2-ex5-detcell-xml" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-python"><div class="highlight"><pre>&lt;Lems&gt;
+<div class="highlight-XML"><div class="highlight"><pre><span class="nt">&lt;Lems&gt;</span>
 
-    &lt;!-- Example with Simple Hodgin-Huxley cell specifying segment details--&gt;
+    <span class="c">&lt;!-- Example with Simple Hodgkin-Huxley cell specifying segment details--&gt;</span>
 
-    &lt;!-- This is a file which can be read and executed by the LEMS Interpreter.
-         It imports the LEMS definitions of the core NeuroML 2 Components, 
-         imports in &quot;pure&quot; NeuroML 2 and contains some LEMS elements for running 
-         a simulation --&gt;
+    <span class="c">&lt;!-- This is a file which can be read and executed by the LEMS Interpreter.</span>
+<span class="c">         It imports the LEMS definitions of the core NeuroML 2 Components, </span>
+<span class="c">         imports in &quot;pure&quot; NeuroML 2 and contains some LEMS elements for running </span>
+<span class="c">         a simulation --&gt;</span>
 
-    &lt;!-- This is a modified version to duplicate the values and charts used in
-        https://gist.github.com/slarson/37463b35ef8606629d2e#file-hodgkin-huxley-py --&gt;
+    <span class="c">&lt;!-- This is a modified version to duplicate the values and charts used in</span>
+<span class="c">        https://gist.github.com/slarson/37463b35ef8606629d2e#file-hodgkin-huxley-py --&gt;</span>
 
-    &lt;Target component=&quot;sim1&quot;/&gt;
+    <span class="nt">&lt;Target</span> <span class="na">component=</span><span class="s">&quot;sim1&quot;</span><span class="nt">/&gt;</span>
 
-    &lt;Include file=&quot;Cells.xml&quot;/&gt;
-    &lt;Include file=&quot;Networks.xml&quot;/&gt;
-    &lt;Include file=&quot;Simulation.xml&quot;/&gt;
-
-
-    &lt;!-- Including file with a &lt;neuroml&gt; root, a &quot;real&quot; NeuroML 2 file --&gt;
-    &lt;Include file=&quot;./NML2_SingleCompHHCell.nml&quot;/&gt;
+    <span class="nt">&lt;Include</span> <span class="na">file=</span><span class="s">&quot;Cells.xml&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;Include</span> <span class="na">file=</span><span class="s">&quot;Networks.xml&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;Include</span> <span class="na">file=</span><span class="s">&quot;Simulation.xml&quot;</span><span class="nt">/&gt;</span>
 
 
-    &lt;Simulation id=&quot;sim1&quot; length=&quot;450ms&quot; step=&quot;0.01ms&quot; target=&quot;net1&quot;&gt;
+    <span class="c">&lt;!-- Including file with a &lt;neuroml&gt; root, a &quot;real&quot; NeuroML 2 file --&gt;</span>
+    <span class="nt">&lt;Include</span> <span class="na">file=</span><span class="s">&quot;./NML2_SingleCompHHCell.nml&quot;</span><span class="nt">/&gt;</span>
+
+
+    <span class="nt">&lt;Simulation</span> <span class="na">id=</span><span class="s">&quot;sim1&quot;</span> <span class="na">length=</span><span class="s">&quot;450ms&quot;</span> <span class="na">step=</span><span class="s">&quot;0.01ms&quot;</span> <span class="na">target=</span><span class="s">&quot;net1&quot;</span><span class="nt">&gt;</span>
     
-        &lt;Display id=&quot;d1&quot; title=&quot;Hodgkin-Huxley Neuron: V (mV)&quot; timeScale=&quot;1ms&quot; xmin=&quot;0&quot; xmax=&quot;450&quot; ymin=&quot;-90&quot; ymax=&quot;50&quot;&gt;
-            &lt;Line id=&quot;v&quot; quantity=&quot;hhpop[0]/v&quot; scale=&quot;1mV&quot; color=&quot;#ffffff&quot; timeScale=&quot;1ms&quot;/&gt;
-        &lt;/Display&gt;
+        <span class="nt">&lt;Display</span> <span class="na">id=</span><span class="s">&quot;d1&quot;</span> <span class="na">title=</span><span class="s">&quot;Hodgkin-Huxley Neuron: V (mV)&quot;</span> <span class="na">timeScale=</span><span class="s">&quot;1ms&quot;</span> <span class="na">xmin=</span><span class="s">&quot;0&quot;</span> <span class="na">xmax=</span><span class="s">&quot;450&quot;</span> <span class="na">ymin=</span><span class="s">&quot;-90&quot;</span> <span class="na">ymax=</span><span class="s">&quot;50&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;Line</span> <span class="na">id=</span><span class="s">&quot;v&quot;</span> <span class="na">quantity=</span><span class="s">&quot;hhpop[0]/v&quot;</span> <span class="na">scale=</span><span class="s">&quot;1mV&quot;</span> <span class="na">color=</span><span class="s">&quot;#ffffff&quot;</span> <span class="na">timeScale=</span><span class="s">&quot;1ms&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/Display&gt;</span>
 
-        &lt;Display id=&quot;d2&quot; title=&quot;Hodgkin-Huxley Neuron: Gating Value&quot; timeScale=&quot;1ms&quot; xmin=&quot;0&quot; xmax=&quot;450&quot; ymin=&quot;-0.1&quot; ymax=&quot;1.1&quot;&gt;
-            &lt;Line id=&quot;m&quot; quantity=&quot;hhpop[0]/bioPhys1/membraneProperties/naChans/naChan/m/q&quot; scale=&quot;1&quot;  color=&quot;#000000&quot; timeScale=&quot;1ms&quot;/&gt;
-            &lt;Line id=&quot;h&quot; quantity=&quot;hhpop[0]/bioPhys1/membraneProperties/naChans/naChan/h/q&quot; scale=&quot;1&quot;  color=&quot;#ff0000&quot; timeScale=&quot;1ms&quot;/&gt;
-            &lt;Line id=&quot;n&quot; quantity=&quot;hhpop[0]/bioPhys1/membraneProperties/kChans/kChan/n/q&quot; scale=&quot;1&quot;  color=&quot;#0000ff&quot; timeScale=&quot;1ms&quot;/&gt;
-        &lt;/Display&gt;
+        <span class="nt">&lt;Display</span> <span class="na">id=</span><span class="s">&quot;d2&quot;</span> <span class="na">title=</span><span class="s">&quot;Hodgkin-Huxley Neuron: Gating Value&quot;</span> <span class="na">timeScale=</span><span class="s">&quot;1ms&quot;</span> <span class="na">xmin=</span><span class="s">&quot;0&quot;</span> <span class="na">xmax=</span><span class="s">&quot;450&quot;</span> <span class="na">ymin=</span><span class="s">&quot;-0.1&quot;</span> <span class="na">ymax=</span><span class="s">&quot;1.1&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;Line</span> <span class="na">id=</span><span class="s">&quot;m&quot;</span> <span class="na">quantity=</span><span class="s">&quot;hhpop[0]/bioPhys1/membraneProperties/naChans/naChan/m/q&quot;</span> <span class="na">scale=</span><span class="s">&quot;1&quot;</span>  <span class="na">color=</span><span class="s">&quot;#000000&quot;</span> <span class="na">timeScale=</span><span class="s">&quot;1ms&quot;</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;Line</span> <span class="na">id=</span><span class="s">&quot;h&quot;</span> <span class="na">quantity=</span><span class="s">&quot;hhpop[0]/bioPhys1/membraneProperties/naChans/naChan/h/q&quot;</span> <span class="na">scale=</span><span class="s">&quot;1&quot;</span>  <span class="na">color=</span><span class="s">&quot;#ff0000&quot;</span> <span class="na">timeScale=</span><span class="s">&quot;1ms&quot;</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;Line</span> <span class="na">id=</span><span class="s">&quot;n&quot;</span> <span class="na">quantity=</span><span class="s">&quot;hhpop[0]/bioPhys1/membraneProperties/kChans/kChan/n/q&quot;</span> <span class="na">scale=</span><span class="s">&quot;1&quot;</span>  <span class="na">color=</span><span class="s">&quot;#0000ff&quot;</span> <span class="na">timeScale=</span><span class="s">&quot;1ms&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/Display&gt;</span>
 
-        &lt;Display id=&quot;d3&quot; title=&quot;Hodgkin-Huxley Neuron: Current&quot; timeScale=&quot;1ms&quot; xmin=&quot;0&quot; xmax=&quot;450&quot; ymin=&quot;-10&quot; ymax=&quot;10&quot;&gt;
-            &lt;Line id=&quot;I_na&quot; quantity=&quot;hhpop[0]/bioPhys1/membraneProperties/naChans/iDensity&quot; scale=&quot;1&quot;  color=&quot;#000000&quot; timeScale=&quot;1ms&quot;/&gt;
-            &lt;Line id=&quot;I_k&quot; quantity=&quot;hhpop[0]/bioPhys1/membraneProperties/kChans/iDensity&quot; scale=&quot;1&quot;  color=&quot;#ff0000&quot; timeScale=&quot;1ms&quot;/&gt;
-            &lt;Line id=&quot;I_l&quot; quantity=&quot;hhpop[0]/bioPhys1/membraneProperties/leak/iDensity&quot; scale=&quot;1&quot;  color=&quot;#ff0000&quot; timeScale=&quot;1ms&quot;/&gt;
-        &lt;/Display&gt;
+        <span class="nt">&lt;Display</span> <span class="na">id=</span><span class="s">&quot;d3&quot;</span> <span class="na">title=</span><span class="s">&quot;Hodgkin-Huxley Neuron: Current&quot;</span> <span class="na">timeScale=</span><span class="s">&quot;1ms&quot;</span> <span class="na">xmin=</span><span class="s">&quot;0&quot;</span> <span class="na">xmax=</span><span class="s">&quot;450&quot;</span> <span class="na">ymin=</span><span class="s">&quot;-10&quot;</span> <span class="na">ymax=</span><span class="s">&quot;10&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;Line</span> <span class="na">id=</span><span class="s">&quot;I_na&quot;</span> <span class="na">quantity=</span><span class="s">&quot;hhpop[0]/bioPhys1/membraneProperties/naChans/iDensity&quot;</span> <span class="na">scale=</span><span class="s">&quot;1&quot;</span>  <span class="na">color=</span><span class="s">&quot;#000000&quot;</span> <span class="na">timeScale=</span><span class="s">&quot;1ms&quot;</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;Line</span> <span class="na">id=</span><span class="s">&quot;I_k&quot;</span> <span class="na">quantity=</span><span class="s">&quot;hhpop[0]/bioPhys1/membraneProperties/kChans/iDensity&quot;</span> <span class="na">scale=</span><span class="s">&quot;1&quot;</span>  <span class="na">color=</span><span class="s">&quot;#ff0000&quot;</span> <span class="na">timeScale=</span><span class="s">&quot;1ms&quot;</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;Line</span> <span class="na">id=</span><span class="s">&quot;I_l&quot;</span> <span class="na">quantity=</span><span class="s">&quot;hhpop[0]/bioPhys1/membraneProperties/leak/iDensity&quot;</span> <span class="na">scale=</span><span class="s">&quot;1&quot;</span>  <span class="na">color=</span><span class="s">&quot;#ff0000&quot;</span> <span class="na">timeScale=</span><span class="s">&quot;1ms&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/Display&gt;</span>
 
-        &lt;Display id=&quot;d4&quot; title=&quot;Hodgkin-Huxley Neuron: I_inj ( nA )&quot; timeScale=&quot;1ms&quot; xmin=&quot;0&quot; xmax=&quot;450&quot; ymin=&quot;-0.01&quot; ymax=&quot;0.4&quot;&gt;
-            &lt;Line id=&quot;I_inj1&quot; quantity=&quot;hhpop[0]/pulseGen1/i&quot; scale=&quot;1nA&quot;  color=&quot;#004040&quot; timeScale=&quot;1ms&quot;/&gt;
-            &lt;Line id=&quot;I_inj2&quot; quantity=&quot;hhpop[0]/pulseGen2/i&quot; scale=&quot;1nA&quot;  color=&quot;#004040&quot; timeScale=&quot;1ms&quot;/&gt;
-        &lt;/Display&gt;
-
-        &lt;OutputFile id=&quot;of0&quot; fileName=&quot;results/hh_v.dat&quot;&gt;
-            &lt;OutputColumn id=&quot;v&quot; quantity=&quot;hhpop[0]/v&quot;/&gt;
-        &lt;/OutputFile&gt;
-
-        &lt;OutputFile id=&quot;of1&quot; fileName=&quot;results/hh_vars.dat&quot;&gt;
-            &lt;OutputColumn id=&quot;m&quot; quantity=&quot;hhpop[0]/bioPhys1/membraneProperties/naChans/naChan/m/q&quot;/&gt; 
-            &lt;OutputColumn id=&quot;h&quot; quantity=&quot;hhpop[0]/bioPhys1/membraneProperties/naChans/naChan/h/q&quot;/&gt; 
-            &lt;OutputColumn id=&quot;n&quot; quantity=&quot;hhpop[0]/bioPhys1/membraneProperties/kChans/kChan/n/q&quot;/&gt; 
-        &lt;/OutputFile&gt;  
+        <span class="nt">&lt;Display</span> <span class="na">id=</span><span class="s">&quot;d4&quot;</span> <span class="na">title=</span><span class="s">&quot;Hodgkin-Huxley Neuron: I_inj ( nA )&quot;</span> <span class="na">timeScale=</span><span class="s">&quot;1ms&quot;</span> <span class="na">xmin=</span><span class="s">&quot;0&quot;</span> <span class="na">xmax=</span><span class="s">&quot;450&quot;</span> <span class="na">ymin=</span><span class="s">&quot;-0.01&quot;</span> <span class="na">ymax=</span><span class="s">&quot;0.4&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;Line</span> <span class="na">id=</span><span class="s">&quot;I_inj1&quot;</span> <span class="na">quantity=</span><span class="s">&quot;hhpop[0]/pulseGen1/i&quot;</span> <span class="na">scale=</span><span class="s">&quot;1nA&quot;</span>  <span class="na">color=</span><span class="s">&quot;#004040&quot;</span> <span class="na">timeScale=</span><span class="s">&quot;1ms&quot;</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;Line</span> <span class="na">id=</span><span class="s">&quot;I_inj2&quot;</span> <span class="na">quantity=</span><span class="s">&quot;hhpop[0]/pulseGen2/i&quot;</span> <span class="na">scale=</span><span class="s">&quot;1nA&quot;</span>  <span class="na">color=</span><span class="s">&quot;#004040&quot;</span> <span class="na">timeScale=</span><span class="s">&quot;1ms&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/Display&gt;</span>
     
         
-    &lt;/Simulation&gt;
+    <span class="nt">&lt;/Simulation&gt;</span>
 
 
-&lt;/Lems&gt;
+<span class="nt">&lt;/Lems&gt;</span>
 </pre></div>
 </div>
 </div>
@@ -126,6 +120,9 @@
   <h4>Previous topic</h4>
   <p class="topless"><a href="NML2_SingleCompHHCell.html"
                         title="previous chapter">NML2_SingleCompHHCell.nml</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="run.html"
+                        title="next chapter">run.sh</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/_static/LEMS_NML2_Ex5_DetCell.txt"
@@ -158,9 +155,12 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
+          <a href="run.html" title="run.sh"
+             >next</a> |</li>
+        <li class="right" >
           <a href="NML2_SingleCompHHCell.html" title="NML2_SingleCompHHCell.nml"
              >previous</a> |</li>
-        <li><a href="../index.html">Hodgin Huxley LEMS Tutorial 0.1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Hodgkin Huxley LEMS Tutorial 0.1 documentation</a> &raquo;</li>
           <li><a href="Source.html" >Sources</a> &raquo;</li> 
       </ul>
     </div>

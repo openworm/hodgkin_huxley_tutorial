@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>NML2_SingleCompHHCell.nml &mdash; Hodgin Huxley LEMS Tutorial 0.1 documentation</title>
+    <title>NML2_SingleCompHHCell.nml &mdash; Hodgkin Huxley LEMS Tutorial 0.1 documentation</title>
     
     <link rel="stylesheet" href="default.css" type="text/css" />
     <link rel="stylesheet" href="pygments.css" type="text/css" />
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="jquery.js"></script>
     <script type="text/javascript" src="underscore.js"></script>
     <script type="text/javascript" src="doctools.js"></script>
-    <link rel="top" title="Hodgin Huxley LEMS Tutorial 0.1 documentation" href="../index.html" />
+    <link rel="top" title="Hodgkin Huxley LEMS Tutorial 0.1 documentation" href="../index.html" />
     <link rel="up" title="Sources" href="Source.html" />
     <link rel="next" title="LEMS_NML2_Ex5_DetCell.xml" href="LEMS_NML2_Ex5_DetCell.html" />
     <link rel="prev" title="Hodgkin Huxley.py" href="Hodgkin Huxley.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="Hodgkin Huxley.html" title="Hodgkin Huxley.py"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Hodgin Huxley LEMS Tutorial 0.1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Hodgkin Huxley LEMS Tutorial 0.1 documentation</a> &raquo;</li>
           <li><a href="Source.html" accesskey="U">Sources</a> &raquo;</li> 
       </ul>
     </div>  
@@ -56,99 +56,99 @@
             
   <div class="section" id="nml2-singlecomphhcell-nml">
 <h1>NML2_SingleCompHHCell.nml<a class="headerlink" href="#nml2-singlecomphhcell-nml" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-python"><div class="highlight"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+<div class="highlight-XML"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
 
-&lt;neuroml xmlns=&quot;http://www.neuroml.org/schema/neuroml2&quot;
-         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-         xsi:schemaLocation=&quot;http://www.neuroml.org/schema/neuroml2 ../Schemas/NeuroML2/NeuroML_v2beta3.xsd&quot;
-         id=&quot;NML2_SingleCompHHCell&quot;&gt;
+<span class="nt">&lt;neuroml</span> <span class="na">xmlns=</span><span class="s">&quot;http://www.neuroml.org/schema/neuroml2&quot;</span>
+         <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+         <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://www.neuroml.org/schema/neuroml2 ../Schemas/NeuroML2/NeuroML_v2beta3.xsd&quot;</span>
+         <span class="na">id=</span><span class="s">&quot;NML2_SingleCompHHCell&quot;</span><span class="nt">&gt;</span>
 
-    &lt;!-- Single compartment cell with HH channels --&gt;
+    <span class="c">&lt;!-- Single compartment cell with HH channels --&gt;</span>
      
-    &lt;!-- This is a &quot;pure&quot; NeuroML 2 file. It can be included in a LEMS file for use in a simulaton 
-    by the LEMS interpreter, see LEMS_NML2_Ex5_DetCell.xml --&gt;     
+    <span class="c">&lt;!-- This is a &quot;pure&quot; NeuroML 2 file. It can be included in a LEMS file for use in a simulation</span>
+<span class="c">    by the LEMS interpreter, see LEMS_NML2_Ex5_DetCell.xml --&gt;</span>     
 
-    &lt;!-- This is a modified version to duplicate the values and charts used in
-        https://gist.github.com/slarson/37463b35ef8606629d2e#file-hodgkin-huxley-py --&gt;
+    <span class="c">&lt;!-- This is a modified version to duplicate the values and charts used in</span>
+<span class="c">        https://gist.github.com/slarson/37463b35ef8606629d2e#file-hodgkin-huxley-py --&gt;</span>
 
-    &lt;ionChannelHH id=&quot;passiveChan&quot; conductance=&quot;10pS&quot;&gt;
-        &lt;notes&gt;Leak conductance&lt;/notes&gt;
-    &lt;/ionChannelHH&gt;
-
-
-    &lt;ionChannelHH id=&quot;naChan&quot; conductance=&quot;10pS&quot; species=&quot;na&quot;&gt;
-        &lt;notes&gt;Na channel&lt;/notes&gt;
-
-        &lt;gateHHrates id=&quot;m&quot; instances=&quot;3&quot;&gt;
-            &lt;forwardRate type=&quot;HHExpLinearRate&quot; rate=&quot;1per_ms&quot; midpoint=&quot;-40mV&quot; scale=&quot;10mV&quot;/&gt;
-            &lt;reverseRate type=&quot;HHExpRate&quot; rate=&quot;4per_ms&quot; midpoint=&quot;-65mV&quot; scale=&quot;-18mV&quot;/&gt;
-        &lt;/gateHHrates&gt;
-
-        &lt;gateHHrates id=&quot;h&quot; instances=&quot;1&quot;&gt;
-            &lt;forwardRate type=&quot;HHExpRate&quot; rate=&quot;0.07per_ms&quot; midpoint=&quot;-65mV&quot; scale=&quot;-20mV&quot;/&gt;
-            &lt;reverseRate type=&quot;HHSigmoidRate&quot; rate=&quot;1per_ms&quot; midpoint=&quot;-35mV&quot; scale=&quot;10mV&quot;/&gt;
-        &lt;/gateHHrates&gt;
-
-    &lt;/ionChannelHH&gt;
+    <span class="nt">&lt;ionChannelHH</span> <span class="na">id=</span><span class="s">&quot;passiveChan&quot;</span> <span class="na">conductance=</span><span class="s">&quot;10pS&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;notes&gt;</span>Leak conductance<span class="nt">&lt;/notes&gt;</span>
+    <span class="nt">&lt;/ionChannelHH&gt;</span>
 
 
-    &lt;ionChannelHH id=&quot;kChan&quot; conductance=&quot;10pS&quot; species=&quot;k&quot;&gt;
+    <span class="nt">&lt;ionChannelHH</span> <span class="na">id=</span><span class="s">&quot;naChan&quot;</span> <span class="na">conductance=</span><span class="s">&quot;10pS&quot;</span> <span class="na">species=</span><span class="s">&quot;na&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;notes&gt;</span>Na channel<span class="nt">&lt;/notes&gt;</span>
 
-        &lt;gateHHrates id=&quot;n&quot; instances=&quot;4&quot;&gt;
-            &lt;forwardRate type=&quot;HHExpLinearRate&quot; rate=&quot;0.1per_ms&quot; midpoint=&quot;-55mV&quot; scale=&quot;10mV&quot;/&gt;
-            &lt;reverseRate type=&quot;HHExpRate&quot; rate=&quot;0.125per_ms&quot; midpoint=&quot;-65mV&quot; scale=&quot;-80mV&quot;/&gt;
-        &lt;/gateHHrates&gt;
+        <span class="nt">&lt;gateHHrates</span> <span class="na">id=</span><span class="s">&quot;m&quot;</span> <span class="na">instances=</span><span class="s">&quot;3&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;forwardRate</span> <span class="na">type=</span><span class="s">&quot;HHExpLinearRate&quot;</span> <span class="na">rate=</span><span class="s">&quot;1per_ms&quot;</span> <span class="na">midpoint=</span><span class="s">&quot;-40mV&quot;</span> <span class="na">scale=</span><span class="s">&quot;10mV&quot;</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;reverseRate</span> <span class="na">type=</span><span class="s">&quot;HHExpRate&quot;</span> <span class="na">rate=</span><span class="s">&quot;4per_ms&quot;</span> <span class="na">midpoint=</span><span class="s">&quot;-65mV&quot;</span> <span class="na">scale=</span><span class="s">&quot;-18mV&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/gateHHrates&gt;</span>
+
+        <span class="nt">&lt;gateHHrates</span> <span class="na">id=</span><span class="s">&quot;h&quot;</span> <span class="na">instances=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;forwardRate</span> <span class="na">type=</span><span class="s">&quot;HHExpRate&quot;</span> <span class="na">rate=</span><span class="s">&quot;0.07per_ms&quot;</span> <span class="na">midpoint=</span><span class="s">&quot;-65mV&quot;</span> <span class="na">scale=</span><span class="s">&quot;-20mV&quot;</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;reverseRate</span> <span class="na">type=</span><span class="s">&quot;HHSigmoidRate&quot;</span> <span class="na">rate=</span><span class="s">&quot;1per_ms&quot;</span> <span class="na">midpoint=</span><span class="s">&quot;-35mV&quot;</span> <span class="na">scale=</span><span class="s">&quot;10mV&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/gateHHrates&gt;</span>
+
+    <span class="nt">&lt;/ionChannelHH&gt;</span>
+
+
+    <span class="nt">&lt;ionChannelHH</span> <span class="na">id=</span><span class="s">&quot;kChan&quot;</span> <span class="na">conductance=</span><span class="s">&quot;10pS&quot;</span> <span class="na">species=</span><span class="s">&quot;k&quot;</span><span class="nt">&gt;</span>
+
+        <span class="nt">&lt;gateHHrates</span> <span class="na">id=</span><span class="s">&quot;n&quot;</span> <span class="na">instances=</span><span class="s">&quot;4&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;forwardRate</span> <span class="na">type=</span><span class="s">&quot;HHExpLinearRate&quot;</span> <span class="na">rate=</span><span class="s">&quot;0.1per_ms&quot;</span> <span class="na">midpoint=</span><span class="s">&quot;-55mV&quot;</span> <span class="na">scale=</span><span class="s">&quot;10mV&quot;</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;reverseRate</span> <span class="na">type=</span><span class="s">&quot;HHExpRate&quot;</span> <span class="na">rate=</span><span class="s">&quot;0.125per_ms&quot;</span> <span class="na">midpoint=</span><span class="s">&quot;-65mV&quot;</span> <span class="na">scale=</span><span class="s">&quot;-80mV&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/gateHHrates&gt;</span>
             
-    &lt;/ionChannelHH&gt;
+    <span class="nt">&lt;/ionChannelHH&gt;</span>
 
 
 
-    &lt;cell id=&quot;hhcell&quot;&gt;
+    <span class="nt">&lt;cell</span> <span class="na">id=</span><span class="s">&quot;hhcell&quot;</span><span class="nt">&gt;</span>
 
-        &lt;morphology id=&quot;morph1&quot;&gt;
-            &lt;segment id=&quot;0&quot; name=&quot;soma&quot;&gt;
-                &lt;proximal x=&quot;0&quot; y=&quot;0&quot; z=&quot;0&quot; diameter=&quot;17.841242&quot;/&gt; &lt;!--Gives a convenient surface area of 1000.0 um^2--&gt;
-                &lt;distal x=&quot;0&quot; y=&quot;0&quot; z=&quot;0&quot; diameter=&quot;17.841242&quot;/&gt;
-            &lt;/segment&gt;
+        <span class="nt">&lt;morphology</span> <span class="na">id=</span><span class="s">&quot;morph1&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;segment</span> <span class="na">id=</span><span class="s">&quot;0&quot;</span> <span class="na">name=</span><span class="s">&quot;soma&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;proximal</span> <span class="na">x=</span><span class="s">&quot;0&quot;</span> <span class="na">y=</span><span class="s">&quot;0&quot;</span> <span class="na">z=</span><span class="s">&quot;0&quot;</span> <span class="na">diameter=</span><span class="s">&quot;17.841242&quot;</span><span class="nt">/&gt;</span> <span class="c">&lt;!--Gives a convenient surface area of 1000.0 um^2--&gt;</span>
+                <span class="nt">&lt;distal</span> <span class="na">x=</span><span class="s">&quot;0&quot;</span> <span class="na">y=</span><span class="s">&quot;0&quot;</span> <span class="na">z=</span><span class="s">&quot;0&quot;</span> <span class="na">diameter=</span><span class="s">&quot;17.841242&quot;</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;/segment&gt;</span>
 
-            &lt;segmentGroup id=&quot;soma_group&quot;&gt;
-                &lt;member segment=&quot;0&quot;/&gt;
-            &lt;/segmentGroup&gt;
+            <span class="nt">&lt;segmentGroup</span> <span class="na">id=</span><span class="s">&quot;soma_group&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;member</span> <span class="na">segment=</span><span class="s">&quot;0&quot;</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;/segmentGroup&gt;</span>
 
-        &lt;/morphology&gt;
+        <span class="nt">&lt;/morphology&gt;</span>
 
-        &lt;biophysicalProperties id=&quot;bioPhys1&quot;&gt;
+        <span class="nt">&lt;biophysicalProperties</span> <span class="na">id=</span><span class="s">&quot;bioPhys1&quot;</span><span class="nt">&gt;</span>
 
-            &lt;membraneProperties&gt;
+            <span class="nt">&lt;membraneProperties&gt;</span>
                         
-                &lt;channelDensity id=&quot;leak&quot; ionChannel=&quot;passiveChan&quot; condDensity=&quot;0.3 mS_per_cm2&quot; erev=&quot;-54.387mV&quot;/&gt;
-                &lt;channelDensity id=&quot;naChans&quot; ionChannel=&quot;naChan&quot; condDensity=&quot;120.0 mS_per_cm2&quot; erev=&quot;50.0 mV&quot; ion=&quot;na&quot;/&gt;
-                &lt;channelDensity id=&quot;kChans&quot; ionChannel=&quot;kChan&quot; condDensity=&quot;36 mS_per_cm2&quot; erev=&quot;-77mV&quot; ion=&quot;k&quot;/&gt;
+                <span class="nt">&lt;channelDensity</span> <span class="na">id=</span><span class="s">&quot;leak&quot;</span> <span class="na">ionChannel=</span><span class="s">&quot;passiveChan&quot;</span> <span class="na">condDensity=</span><span class="s">&quot;0.3 mS_per_cm2&quot;</span> <span class="na">erev=</span><span class="s">&quot;-54.387mV&quot;</span><span class="nt">/&gt;</span>
+                <span class="nt">&lt;channelDensity</span> <span class="na">id=</span><span class="s">&quot;naChans&quot;</span> <span class="na">ionChannel=</span><span class="s">&quot;naChan&quot;</span> <span class="na">condDensity=</span><span class="s">&quot;120.0 mS_per_cm2&quot;</span> <span class="na">erev=</span><span class="s">&quot;50.0 mV&quot;</span> <span class="na">ion=</span><span class="s">&quot;na&quot;</span><span class="nt">/&gt;</span>
+                <span class="nt">&lt;channelDensity</span> <span class="na">id=</span><span class="s">&quot;kChans&quot;</span> <span class="na">ionChannel=</span><span class="s">&quot;kChan&quot;</span> <span class="na">condDensity=</span><span class="s">&quot;36 mS_per_cm2&quot;</span> <span class="na">erev=</span><span class="s">&quot;-77mV&quot;</span> <span class="na">ion=</span><span class="s">&quot;k&quot;</span><span class="nt">/&gt;</span>
 
-                &lt;spikeThresh value=&quot;-20mV&quot;/&gt;
-                &lt;specificCapacitance value=&quot;1.0 uF_per_cm2&quot;/&gt;
-                &lt;initMembPotential value=&quot;-65mV&quot;/&gt;
+                <span class="nt">&lt;spikeThresh</span> <span class="na">value=</span><span class="s">&quot;-20mV&quot;</span><span class="nt">/&gt;</span>
+                <span class="nt">&lt;specificCapacitance</span> <span class="na">value=</span><span class="s">&quot;1.0 uF_per_cm2&quot;</span><span class="nt">/&gt;</span>
+                <span class="nt">&lt;initMembPotential</span> <span class="na">value=</span><span class="s">&quot;-65mV&quot;</span><span class="nt">/&gt;</span>
 
-            &lt;/membraneProperties&gt;
+            <span class="nt">&lt;/membraneProperties&gt;</span>
 
-            &lt;intracellularProperties&gt;
-                &lt;resistivity value=&quot;0.03 kohm_cm&quot;/&gt;   &lt;!-- Note: not used in single compartment simulations --&gt;
-            &lt;/intracellularProperties&gt;
+            <span class="nt">&lt;intracellularProperties&gt;</span>
+                <span class="nt">&lt;resistivity</span> <span class="na">value=</span><span class="s">&quot;0.03 kohm_cm&quot;</span><span class="nt">/&gt;</span>   <span class="c">&lt;!-- Note: not used in single compartment simulations --&gt;</span>
+            <span class="nt">&lt;/intracellularProperties&gt;</span>
 
-        &lt;/biophysicalProperties&gt;
+        <span class="nt">&lt;/biophysicalProperties&gt;</span>
 
-    &lt;/cell&gt;
+    <span class="nt">&lt;/cell&gt;</span>
 
-    &lt;pulseGenerator id=&quot;pulseGen1&quot; delay=&quot;100ms&quot; duration=&quot;100ms&quot; amplitude=&quot;0.10nA&quot;/&gt;
-    &lt;pulseGenerator id=&quot;pulseGen2&quot; delay=&quot;300ms&quot; duration=&quot;100ms&quot; amplitude=&quot;0.35nA&quot;/&gt;
+    <span class="nt">&lt;pulseGenerator</span> <span class="na">id=</span><span class="s">&quot;pulseGen1&quot;</span> <span class="na">delay=</span><span class="s">&quot;100ms&quot;</span> <span class="na">duration=</span><span class="s">&quot;100ms&quot;</span> <span class="na">amplitude=</span><span class="s">&quot;0.10nA&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;pulseGenerator</span> <span class="na">id=</span><span class="s">&quot;pulseGen2&quot;</span> <span class="na">delay=</span><span class="s">&quot;300ms&quot;</span> <span class="na">duration=</span><span class="s">&quot;100ms&quot;</span> <span class="na">amplitude=</span><span class="s">&quot;0.35nA&quot;</span><span class="nt">/&gt;</span>
 
-    &lt;network id=&quot;net1&quot;&gt;
-        &lt;population id=&quot;hhpop&quot; component=&quot;hhcell&quot; size=&quot;1&quot;/&gt;
-        &lt;explicitInput target=&quot;hhpop[0]&quot; input=&quot;pulseGen1&quot;/&gt;
-        &lt;explicitInput target=&quot;hhpop[0]&quot; input=&quot;pulseGen2&quot;/&gt;
-    &lt;/network&gt;
+    <span class="nt">&lt;network</span> <span class="na">id=</span><span class="s">&quot;net1&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;population</span> <span class="na">id=</span><span class="s">&quot;hhpop&quot;</span> <span class="na">component=</span><span class="s">&quot;hhcell&quot;</span> <span class="na">size=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;explicitInput</span> <span class="na">target=</span><span class="s">&quot;hhpop[0]&quot;</span> <span class="na">input=</span><span class="s">&quot;pulseGen1&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;explicitInput</span> <span class="na">target=</span><span class="s">&quot;hhpop[0]&quot;</span> <span class="na">input=</span><span class="s">&quot;pulseGen2&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/network&gt;</span>
 
-&lt;/neuroml&gt;
+<span class="nt">&lt;/neuroml&gt;</span>
 </pre></div>
 </div>
 </div>
@@ -202,7 +202,7 @@
         <li class="right" >
           <a href="Hodgkin Huxley.html" title="Hodgkin Huxley.py"
              >previous</a> |</li>
-        <li><a href="../index.html">Hodgin Huxley LEMS Tutorial 0.1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Hodgkin Huxley LEMS Tutorial 0.1 documentation</a> &raquo;</li>
           <li><a href="Source.html" >Sources</a> &raquo;</li> 
       </ul>
     </div>

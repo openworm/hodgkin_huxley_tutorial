@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Hodgin Huxley LEMS Tutorial documentation build configuration file, created by
+# Hodgkin Huxley LEMS Tutorial documentation build configuration file, created by
 # sphinx-quickstart on Sat Dec 20 13:20:26 2014.
 #
 # This file is execfile()d with the current directory set to its
@@ -48,7 +48,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Hodgin Huxley LEMS Tutorial'
+project = u'Hodgkin Huxley LEMS Tutorial'
 copyright = u'2014, Joe Bowen'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -181,7 +181,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'HodginHuxleyLEMSTutorialdoc'
+htmlhelp_basename = 'HodgkinHuxleyLEMSTutorialdoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -201,7 +201,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'HodginHuxleyLEMSTutorial.tex', u'Hodgin Huxley LEMS Tutorial Documentation',
+  ('index', 'HodgkinHuxleyLEMSTutorial.tex', u'Hodgkin Huxley LEMS Tutorial Documentation',
    u'Joe Bowen', 'manual'),
 ]
 
@@ -231,7 +231,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'hodginhuxleylemstutorial', u'Hodgin Huxley LEMS Tutorial Documentation',
+    ('index', 'hodgkinhuxleylemstutorial', u'Hodgkin Huxley LEMS Tutorial Documentation',
      [u'Joe Bowen'], 1)
 ]
 
@@ -245,8 +245,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'HodginHuxleyLEMSTutorial', u'Hodgin Huxley LEMS Tutorial Documentation',
-   u'Joe Bowen', 'HodginHuxleyLEMSTutorial', 'One line description of project.',
+  ('index', 'HodgkinHuxleyLEMSTutorial', u'Hodgkin Huxley LEMS Tutorial Documentation',
+   u'Joe Bowen', 'HodgkinHuxleyLEMSTutorial', 'One line description of project.',
    'Miscellaneous'),
 ]
 

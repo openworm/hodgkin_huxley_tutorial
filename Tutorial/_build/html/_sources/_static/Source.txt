@@ -7,3 +7,4 @@ Sources
    Hodgkin Huxley
    NML2_SingleCompHHCell
    LEMS_NML2_Ex5_DetCell
+   run

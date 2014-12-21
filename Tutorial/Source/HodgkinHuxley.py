@@ -1,8 +1,6 @@
 import scipy as sp
 import pylab as plt
 from scipy.integrate import odeint
-from scipy import stats
-import scipy.linalg as lin
 
 class HodgkinHuxley():
     """Full Hodgkin-Huxley Model (copied from Computational Lab 2)"""
@@ -31,31 +29,31 @@ class HodgkinHuxley():
     t = sp.arange(0.0, 400.0, 0.1)
     """ The time to integrate over """
 
-    def alpha_m(V):
+    def alpha_m(self, V):
         """Channel gating kinetics. Functions of membrane voltage"""
         return 0.1*(V+40.0)/(1.0 - sp.exp(-(V+40.0) / 10.0))
 
-    def beta_m(V):
+    def beta_m(self, V):
         """Channel gating kinetics. Functions of membrane voltage"""
         return 4.0*sp.exp(-(V+65.0) / 18.0)
 
-    def alpha_h(V):
+    def alpha_h(self, V):
         """Channel gating kinetics. Functions of membrane voltage"""
         return 0.07*sp.exp(-(V+65.0) / 20.0)
 
-    def beta_h(V):
+    def beta_h(self, V):
         """Channel gating kinetics. Functions of membrane voltage"""
         return 1.0/(1.0 + sp.exp(-(V+35.0) / 10.0))
 
-    def alpha_n(V):
+    def alpha_n(self, V):
         """Channel gating kinetics. Functions of membrane voltage"""
         return 0.01*(V+55.0)/(1.0 - sp.exp(-(V+55.0) / 10.0))
 
-    def beta_n(V):
+    def beta_n(self, V):
         """Channel gating kinetics. Functions of membrane voltage"""
         return 0.125*sp.exp(-(V+65) / 80.0)
 
-    def I_Na(V,m,h):
+    def I_Na(self, V, m, h):
         """
         Membrane current (in uA/cm^2)
         Sodium (Na = element name)
@@ -65,9 +63,9 @@ class HodgkinHuxley():
         |  :param h:
         |  :return:
         """
-        return g_Na * m**3 * h * (V - E_Na)
+        return self.g_Na * m**3 * h * (V - self.E_Na)
 
-    def I_K(V, n):
+    def I_K(self, V, n):
         """
         Membrane current (in uA/cm^2)
         Potassium (K = element name)
@@ -76,9 +74,9 @@ class HodgkinHuxley():
         |  :param h:
         |  :return:
         """
-        return g_K  * n**4 * (V - E_K)
+        return self.g_K  * n**4 * (V - self.E_K)
     #  Leak
-    def I_L(V):
+    def I_L(self, V):
         """
         Membrane current (in uA/cm^2)
         Leak
@@ -87,9 +85,9 @@ class HodgkinHuxley():
         |  :param h:
         |  :return:
         """
-        return g_L * (V - E_L)
+        return self.g_L * (V - self.E_L)
 
-    def I_inj(t):
+    def I_inj(self, t):
         """
         External Current
 
@@ -99,7 +97,8 @@ class HodgkinHuxley():
         return 10*(t>100) - 10*(t>200) + 35*(t>300)
         #return 10*t
 
-    def dALLdt(X, t):
+    @staticmethod
+    def dALLdt(X, t, self):
         """
         Integrate
 
@@ -109,47 +108,55 @@ class HodgkinHuxley():
         """
         V, m, h, n = X
 
-        dVdt = (I_inj(t) - I_Na(V, m, h) - I_K(V, n) - I_L(V)) / C_m
-        dmdt = alpha_m(V)*(1.0-m) - beta_m(V)*m
-        dhdt = alpha_h(V)*(1.0-h) - beta_h(V)*h
-        dndt = alpha_n(V)*(1.0-n) - beta_n(V)*n
+        dVdt = (self.I_inj(t) - self.I_Na(V, m, h) - self.I_K(V, n) - self.I_L(V)) / self.C_m
+        dmdt = self.alpha_m(V)*(1.0-m) - self.beta_m(V)*m
+        dhdt = self.alpha_h(V)*(1.0-h) - self.beta_h(V)*h
+        dndt = self.alpha_n(V)*(1.0-n) - self.beta_n(V)*n
         return dVdt, dmdt, dhdt, dndt
 
+    def Main(self):
+        """
+        Main demo for the Hodgkin Huxley neuron model
+        """
+
+        X = odeint(self.dALLdt, [-65, 0.05, 0.6, 0.32], self.t, args=(self,))
+        V = X[:,0]
+        m = X[:,1]
+        h = X[:,2]
+        n = X[:,3]
+        ina = self.I_Na(V, m, h)
+        ik = self.I_K(V, n)
+        il = self.I_L(V)
+
+        plt.figure()
+
+        plt.subplot(4,1,1)
+        plt.title('Hodgkin-Huxley Neuron')
+        plt.plot(self.t, V, 'k')
+        plt.ylabel('V (mV)')
+
+        plt.subplot(4,1,2)
+        plt.plot(self.t, ina, 'c', label='$I_{Na}$')
+        plt.plot(self.t, ik, 'y', label='$I_{K}$')
+        plt.plot(self.t, il, 'm', label='$I_{L}$')
+        plt.ylabel('Current')
+        plt.legend()
+
+        plt.subplot(4,1,3)
+        plt.plot(self.t, m, 'r', label='m')
+        plt.plot(self.t, h, 'g', label='h')
+        plt.plot(self.t, n, 'b', label='n')
+        plt.ylabel('Gating Value')
+        plt.legend()
+
+        plt.subplot(4,1,4)
+        plt.plot(self.t, self.I_inj(self.t), 'k')
+        plt.xlabel('t (ms)')
+        plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')
+        plt.ylim(-1, 40)
+
+        plt.show()
+
 if __name__ == '__main__':
-    X = odeint(dALLdt, [-65, 0.05, 0.6, 0.32], t)
-    V = X[:,0]
-    m = X[:,1]
-    h = X[:,2]
-    n = X[:,3]
-    ina = I_Na(V,m,h)
-    ik = I_K(V, n)
-    il = I_L(V)
-
-    plt.figure()
-
-    plt.subplot(4,1,1)
-    plt.title('Hodgkin-Huxley Neuron')
-    plt.plot(t, V, 'k')
-    plt.ylabel('V (mV)')
-
-    plt.subplot(4,1,2)
-    plt.plot(t, ina, 'c', label='$I_{Na}$')
-    plt.plot(t, ik, 'y', label='$I_{K}$')
-    plt.plot(t, il, 'm', label='$I_{L}$')
-    plt.ylabel('Current')
-    plt.legend()
-
-    plt.subplot(4,1,3)
-    plt.plot(t, m, 'r', label='m')
-    plt.plot(t, h, 'g', label='h')
-    plt.plot(t, n, 'b', label='n')
-    plt.ylabel('Gating Value')
-    plt.legend()
-
-    plt.subplot(4,1,4)
-    plt.plot(t, I_inj(t), 'k')
-    plt.xlabel('t (ms)')
-    plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')
-    plt.ylim(-1, 40)
-
-    plt.show    ()
+    runner = HodgkinHuxley()
+    runner.Main()
