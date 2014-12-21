@@ -91,7 +91,7 @@ Is used in this line in LEMS_NML2_Ex5_DetCell.xml:
 Input Current / Input Current Density
 -------------------------------------
 
-The method from HodgkinHuxley.py takes the input in as a current density in the form of uA/cm^2.  NeuroML/LEMS uses an input current, which requires a conversion in the input values.
+The method from HodgkinHuxley.py takes the input in as a current density in the form of uA/cm^2.  NeuroML/LEMS uses an input current in the form of nA, which requires a conversion in the input values.
 
 This method from HodgkinHuxley.py:
 
