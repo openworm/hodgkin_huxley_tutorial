@@ -14,7 +14,7 @@
 
 
 \title{Hodgkin Huxley LEMS Tutorial Documentation}
-\date{December 20, 2014}
+\date{December 21, 2014}
 \release{0.1}
 \author{Joe Bowen}
 \newcommand{\sphinxlogo}{}
@@ -246,11 +246,9 @@ This method from HodgkinHuxley.py:
 \end{Verbatim}
 
 By using a given surface area of 1000.0 um\textasciicircum{}2 in the cell, it makes the conversion from uA/cm\textasciicircum{}2 to nA easier.
-\begin{quote}
-
-\textbf{Insert explanation of how to go from 1000.0 um\textasciicircum{}2 to 17.841242}
-\end{quote}
-
+\begin{gather}
+\begin{split}Surface Area = 4 * pi * (radius)^2 = 4 * pi * (diameter / 2)^2 = 4 * pi * (17.841242 / 2)^2 = 4 * pi * (8.920621)^2 = 1000 um^2\end{split}\notag
+\end{gather}
 \begin{Verbatim}[commandchars=\\\{\}]
             \PYG{n+nt}{\PYGZlt{}segment} \PYG{n+na}{id=}\PYG{l+s}{\PYGZdq{}0\PYGZdq{}} \PYG{n+na}{name=}\PYG{l+s}{\PYGZdq{}soma\PYGZdq{}}\PYG{n+nt}{\PYGZgt{}}
                 \PYG{n+nt}{\PYGZlt{}proximal} \PYG{n+na}{x=}\PYG{l+s}{\PYGZdq{}0\PYGZdq{}} \PYG{n+na}{y=}\PYG{l+s}{\PYGZdq{}0\PYGZdq{}} \PYG{n+na}{z=}\PYG{l+s}{\PYGZdq{}0\PYGZdq{}} \PYG{n+na}{diameter=}\PYG{l+s}{\PYGZdq{}17.841242\PYGZdq{}}\PYG{n+nt}{/\PYGZgt{}} \PYG{c}{\PYGZlt{}!\PYGZhy{}\PYGZhy{}}\PYG{c}{Gives a convenient surface area of 1000.0 um\PYGZca{}2}\PYG{c}{\PYGZhy{}\PYGZhy{}\PYGZgt{}}

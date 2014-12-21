@@ -102,7 +102,8 @@ This method from HodgkinHuxley.py:
 
 By using a given surface area of 1000.0 um^2 in the cell, it makes the conversion from uA/cm^2 to nA easier.
 
-   **Insert explanation of how to go from 1000.0 um^2 to 17.841242**
+.. math::
+   Surface Area = 4 * pi * (radius)^2 = 4 * pi * (diameter / 2)^2 = 4 * pi * (17.841242 / 2)^2 = 4 * pi * (8.920621)^2 = 1000 um^2
 
 .. literalinclude:: ../Source/NML2_SingleCompHHCell.nml
    :language: XML
