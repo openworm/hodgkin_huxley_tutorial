@@ -1,4 +1,4 @@
-hodgin_huxley_tutorial
+hodgkin_huxley_tutorial
 ======================
 
 Hodgkin Huxley Tutorial
