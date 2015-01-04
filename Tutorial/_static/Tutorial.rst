@@ -19,6 +19,8 @@ Is used in this line in NML2_SingleCompHHCell.nml:
    :language: XML
    :lines: 71
 
+You can `read more about the capacitance of a membrane <http://www.scholarpedia.org/article/Electrical_properties_of_cell_membranes#Capacitance>`_.
+
 Sodium (Na) Ion Channel Variables
 ---------------------------------
 
@@ -37,6 +39,9 @@ Are used in this line in NML2_SingleCompHHCell.nml:
 .. literalinclude:: ../Source/NML2_SingleCompHHCell.nml
    :language: XML
    :lines: 67
+
+You can `read more about the maximum conductance and reversal potential (zero-current potential) of an ion channel <http://www.scholarpedia.org/article/Ion_channels#Bioelectricity_results_from_currents_in_ion_channels>`_.
+
 
 Potassium (K) Ion Channel Variables
 -----------------------------------
@@ -57,6 +62,8 @@ Are used in this line in NML2_SingleCompHHCell.nml:
    :language: XML
    :lines: 68
 
+You can `read more about the maximum conductance and reversal potential (zero-current potential) of an ion channel <http://www.scholarpedia.org/article/Ion_channels#Bioelectricity_results_from_currents_in_ion_channels>`_.
+
 Passive Leak Channel Variables
 ------------------------------
 
@@ -76,6 +83,8 @@ Are used in this line in NML2_SingleCompHHCell.nml:
    :language: XML
    :lines: 66
 
+You can `read more about the maximum conductance and reversal potential (zero-current potential) of an ion channel <http://www.scholarpedia.org/article/Ion_channels#Bioelectricity_results_from_currents_in_ion_channels>`_.
+
 Time of Simulation
 ------------------
 
@@ -90,6 +99,8 @@ Is used in this line in LEMS_NML2_Ex5_DetCell.xml:
 .. literalinclude:: ../Source/LEMS_NML2_Ex5_DetCell.xml
    :language: XML
    :lines: 24
+
+This specifies that the simulation should run for 450 milliseconds and use a step size for integration of 0.01 milliseconds.
 
 Input Current / Input Current Density
 -------------------------------------
@@ -127,7 +138,13 @@ Line 11 can then be translated into the delay, duration and amplitude of the two
 
 Channel Gating Kinetics for Sodium (Na) Channel m
 -------------------------------------------------
-Functions of membrane voltage
+
+m is the activation variable for the Sodium (Na) Channel.
+
+The function that governs the activation of this channel is based on the overall
+membrane voltage, because the channel opens and closes based on detecting the membrane potential.
+
+You can `read more about these variables <https://en.wikipedia.org/wiki/Hodgkin%E2%80%93Huxley_model#Voltage-gated_ion_channels>`_.
 
 These methods from HodgkinHuxley.py:
 
@@ -149,7 +166,15 @@ Are used in these lines in NML2_SingleCompHHCell.nml:
 
 Channel Gating Kinetics for Sodium (Na) Channel h
 -------------------------------------------------
-Functions of membrane voltage
+
+h is the inactivation variable for the Sodium (Na) Channel.  Inactivation is a
+different state than not being activated, which is called "deactivated".  You can
+`read more about how Sodium channel gating works <https://en.wikipedia.org/wiki/Sodium_channel#Gating>`_.
+
+The function that governs the activation of this channel is based on the overall
+membrane voltage, because the channel opens and closes based on detecting the membrane potential.
+
+You can `read more about these variables <https://en.wikipedia.org/wiki/Hodgkin%E2%80%93Huxley_model#Voltage-gated_ion_channels>`_.
 
 These methods from HodgkinHuxley.py:
 
@@ -171,7 +196,13 @@ Are used in these lines in NML2_SingleCompHHCell.nml:
 
 Channel Gating Kinetics for Potassium (K) channel n
 ---------------------------------------------------
-Functions of membrane voltage
+
+n is the activation variable for the Potassium (Na) Channel.  The potassium channel does not inactivate, so there is no inactivation variable.
+
+The function that governs the activation of this channel is based on the overall
+membrane voltage, because the channel opens and closes based on detecting the membrane potential.
+
+You can `read more about these variables <https://en.wikipedia.org/wiki/Hodgkin%E2%80%93Huxley_model#Voltage-gated_ion_channels>`_.
 
 These methods from HodgkinHuxley.py:
 
@@ -206,7 +237,19 @@ Is used to define the initial values for the model in NML2_SingleCompHHCell.nml:
    :language: XML
    :lines: 72
 
-**Where do the rest of these initial values from HodgkinHuxley.py fit into the NeuroML/LEMS Model?**
+The values for m, h, n at t=0 in LEMS/NML2 are worked out as the steady state values (inf)
+of each activation variable for the given initial membrane potential.
+See [here](http://www.neuroml.org/NeuroML2CoreTypes/Channels.html#gateHHrates)
+for the nml2 implementation (see On Start).
+
+You could refactor the script to do this too by introducing tau_m() and inf_m()
+and using alpha_m etc., change the expressions for dmdt etc. (e.g. dm/dt = (inf_m - m) / tau_m) etc. and:
+
+```
+V_init = -65
+X = odeint(self.dALLdt, [V_init, m_inf(V_init), h_inf(V_init), n_inf(V_init)], self.t, args=(self,))
+```
+
 
 Plots
 -----
