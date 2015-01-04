@@ -1,5 +1,8 @@
-Hodgkin Huxley NeuroML/LEMS Neuron Model Tutorial
+Hodgkin Huxley NeuroML2/LEMS Neuron Model Tutorial
 =================================================
+
+In this section, we make line-by-line comparisons of the contents of the HodgkinHuxley.py python script and
+the contents of the NML2_SingleCompHHCell.nml NeuroML2 file and the related LEMS_NML2_Ex5_DetCell.xml LEMS file.
 
 Membrane Capacitance
 --------------------
