@@ -3,19 +3,19 @@ import pylab as plt
 from scipy.integrate import odeint
 
 class HodgkinHuxley():
-    """Full Hodgkin-Huxley Model (copied from Computational Lab 2)"""
+    """Full Hodgkin-Huxley Model implemented in Python"""
 
     C_m  =   1.0
     """membrane capacitance, in uF/cm^2"""
 
     g_Na = 120.0
-    """Sodium (Na) maximum conducances, in mS/cm^2"""
+    """Sodium (Na) maximum conductances, in mS/cm^2"""
 
     g_K  =  36.0
-    """Postassium (K) maximum conducances, in mS/cm^2"""
+    """Postassium (K) maximum conductances, in mS/cm^2"""
 
     g_L  =   0.3
-    """Leak maximum conducances, in mS/cm^2"""
+    """Leak maximum conductances, in mS/cm^2"""
 
     E_Na =  50.0
     """Sodium (Na) Nernst reversal potentials, in mV"""
