@@ -243,12 +243,11 @@ See [here](http://www.neuroml.org/NeuroML2CoreTypes/Channels.html#gateHHrates)
 for the nml2 implementation (see On Start).
 
 You could refactor the script to do this too by introducing tau_m() and inf_m()
-and using alpha_m etc., change the expressions for dmdt etc. (e.g. dm/dt = (inf_m - m) / tau_m) etc. and:
+and using alpha_m etc., change the expressions for dmdt etc. (e.g. dm/dt = (inf_m - m) / tau_m) etc. and::
 
-```
-V_init = -65
-X = odeint(self.dALLdt, [V_init, m_inf(V_init), h_inf(V_init), n_inf(V_init)], self.t, args=(self,))
-```
+  V_init = -65
+  X = odeint(self.dALLdt, [V_init, m_inf(V_init), h_inf(V_init), n_inf(V_init)], self.t, args=(self,))
+
 
 
 Plots
