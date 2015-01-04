@@ -29,7 +29,7 @@ These variables from HodgkinHuxley.py:
    :language: python
    :lines: 20-21
 
-Is used in this line in NML2_SingleCompHHCell.nml:
+Are used in this line in NML2_SingleCompHHCell.nml:
 
 .. literalinclude:: ../Source/NML2_SingleCompHHCell.nml
    :language: XML
@@ -48,7 +48,7 @@ These variables from HodgkinHuxley.py:
    :language: python
    :lines: 23-24
 
-Is used in this line in NML2_SingleCompHHCell.nml:
+Are used in this line in NML2_SingleCompHHCell.nml:
 
 .. literalinclude:: ../Source/NML2_SingleCompHHCell.nml
    :language: XML
@@ -67,7 +67,7 @@ These variables from HodgkinHuxley.py:
    :language: python
    :lines: 26-27
 
-Is used in this line in NML2_SingleCompHHCell.nml:
+Are used in this line in NML2_SingleCompHHCell.nml:
 
 .. literalinclude:: ../Source/NML2_SingleCompHHCell.nml
    :language: XML
