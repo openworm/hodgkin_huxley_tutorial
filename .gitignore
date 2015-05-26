@@ -1,7 +1,9 @@
-# Created by .ignore support plugin (hsz.mobi)
 .idea
 .idea/*
 Ideas
 Ideas/*
 _build
 _build/*
+.DS_Store
+_static/.DS_Store
+

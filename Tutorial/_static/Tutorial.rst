@@ -1,5 +1,5 @@
 Hodgkin Huxley NeuroML2/LEMS Neuron Model Tutorial
-=================================================
+==================================================
 
 In this section, we make line-by-line comparisons of the contents of the HodgkinHuxley.py python script and
 the contents of the NML2_SingleCompHHCell.nml NeuroML2 file and the related LEMS_NML2_Ex5_DetCell.xml LEMS file.
@@ -239,7 +239,7 @@ Is used to define the initial values for the model in NML2_SingleCompHHCell.nml:
 
 The values for m, h, n at t=0 in LEMS/NML2 are worked out as the steady state values (inf)
 of each activation variable for the given initial membrane potential.
-See [here](http://www.neuroml.org/NeuroML2CoreTypes/Channels.html#gateHHrates)
+See `here <http://www.neuroml.org/NeuroML2CoreTypes/Channels.html#gateHHrates>`_
 for the nml2 implementation (see On Start).
 
 You could refactor the script to do this too by introducing tau_m() and inf_m()
