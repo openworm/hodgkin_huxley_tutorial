@@ -18,7 +18,7 @@ Overview:
 
    _static/Tutorial
    _static/Source
-   _statis/Electrophysiology
+   _static/Electrophysiology
 
 Indices and tables
 ==================

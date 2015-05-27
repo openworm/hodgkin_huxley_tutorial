@@ -197,7 +197,7 @@ Are used in these lines in NML2_SingleCompHHCell.nml:
 Channel Gating Kinetics for Potassium (K) channel n
 ---------------------------------------------------
 
-n is the activation variable for the Potassium (Na) Channel.  The potassium channel does not inactivate, so there is no inactivation variable.
+n is the activation variable for the Potassium (K) Channel.  The potassium channel does not inactivate, so there is no inactivation variable.
 
 The function that governs the activation of this channel is based on the overall
 membrane voltage, because the channel opens and closes based on detecting the membrane potential.
