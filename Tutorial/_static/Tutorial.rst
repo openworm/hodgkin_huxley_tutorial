@@ -300,3 +300,10 @@ Is used in these lines in LEMS_NML2_Ex5_DetCell.xml:
 .. literalinclude:: ../Source/LEMS_NML2_Ex5_DetCell.xml
    :language: XML
    :lines: 42-45
+
+Finally, after running the script the output figure should look like the one below.
+
+Check out `the electrophysiology part of this tutorial <Electrophysiology.html#plots>`_
+for an explanation of these plots.
+
+.. image:: ../_media/figure_1.png
