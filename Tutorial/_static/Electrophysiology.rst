@@ -16,16 +16,17 @@ diagram representing a patch of cellular membrane.
 The Circuit
 -----------
 
-The **membrane capacitance** ( C\ :subscript:`m` ) is taken to be a fixed property of the membrane.
+The **membrane capacitance** ( |Cm| ) is taken to be a fixed property of the membrane.
 
-Parallel to C\ :sub:`m` are two "battery-capacitor" series; one for each of
+
+Parallel to |Cm| are two "battery-capacitor" series; one for each of
 voltage-gated and leak ion channels.
 
 Each of these ion pathways are modeled as the product of the ion's
 **conductance** ( g ) and its driving electrochemical gradient ( E ), both of which may vary
-over time (except in the case of g\ :sub:`L` ; see below).
+over time (except in the case of |gL| ; see below).
 
-I\ :sub:`p` represents the active movement of ions provided by
+|Ip| represents the active movement of ions provided by
 **ion transporters**.
 
 The net result of all of this activity in the cell membrane is a current across
@@ -34,7 +35,7 @@ the membrane (i.e. from intracellular medium to extracellular medium, or vice ve
 Modeling voltage-gating versus leak:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The conductances of voltage-gated and leak channels, g\ :sub:`n` and g\ :sub:`L`
+The conductances of voltage-gated and leak channels, |gn| and |gL|
 respectively, are modeled differently. Since the gating of voltage-gated ion
 channels depends on the membrane potential at a given moment, it is non-linear.
 In contrast, leak ion channels are always in the same state, so their
@@ -48,21 +49,21 @@ Lipid bilayer current
 
 .. image:: http://upload.wikimedia.org/math/2/2/4/224f520989592dc0d3aa096313581e19.png
 
-The current across the cell's lipid bilayer ( I\ :sub:`c` ) is the product of the
-membrane's capacitance ( C\ :sub:`m` ) and the rate of change of membrane
-potential ( V\ :sub:`m` ) with respect to time ( t ).
+The current across the cell's lipid bilayer ( |Ic| ) is the product of the
+membrane's capacitance ( |Cm| ) and the rate of change of membrane
+potential ( |Vm| ) with respect to time ( t ).
 
 Ion channel current
 ^^^^^^^^^^^^^^^^^^^
 
 .. image:: http://upload.wikimedia.org/math/6/1/7/617b32943eae50e0e9f34cc5d0f4faf4.png
 
-The current through a given ion channel ( I\ :sub:`i` ) is the product of that
-channel's conductance ( g\ :sub:`i` ) and the difference V\ :sub:`m` - V\ :sub:`i`
+The current through a given ion channel ( |Ii| ) is the product of that
+channel's conductance ( |gi| ) and the difference |Vm| - |Vi|
 
-V\ :sub:`i` is the ion species' **reversal potential**. Notice that when V\ :sub:`m`
-is equal to V\ :sub:`i` the product becomes zero, and there is no net flow
-( I\ :sub:`i` ) for the ion, which is what defines reversal potential.
+|Vi| is the ion species' **reversal potential**. Notice that when |Vm|
+is equal to |Vi| the product becomes zero, and there is no net flow
+( |Ii| ) for the ion, which is what defines reversal potential.
 
 Combining these currents
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -86,7 +87,7 @@ parameters are now included in each ion channel current calculation.
 
 .. image:: https://upload.wikimedia.org/math/e/2/6/e26962e13109f3e6df273553a731f24b.png
 
-The new notation for each conductance variable ( :raw-html:`<span style="text-decoration:overline">g</span>` )
+The new notation for each conductance variable (|g_|)
 is the *maximal* conductance for that ion channel type. This, combined with the
 activation/inactivation parameters *n*, *m* and *h*, still represents the level
 of conductance for an ion channel, but with parameters that modify this
@@ -114,3 +115,14 @@ Terms
     - See "Reversal potential".
 - `Reversal potential <https://en.wikipedia.org/wiki/Reversal_potential>`_
     - The membrane potential at which a given ion species has no overall flow across the membrane (i.e. the ion flow direction "reverses").
+
+.. |Cm| replace:: C\ :sub:`m`
+.. |g_| replace:: :raw-html:`<span style="text-decoration:overline">g</span>`
+.. |gi| replace:: g\ :sub:`i`
+.. |gL| replace:: g\ :sub:`L`
+.. |gn| replace:: g\ :sub:`n`
+.. |Ic| replace:: I\ :sub:`c`
+.. |Ii| replace:: I\ :sub:`i`
+.. |Ip| replace:: I\ :sub:`p`
+.. |Vi| replace:: V\ :sub:`i`
+.. |Vm| replace:: V\ :sub:`m`
