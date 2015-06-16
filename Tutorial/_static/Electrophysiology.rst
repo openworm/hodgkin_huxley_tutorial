@@ -16,7 +16,7 @@ diagram representing a patch of cellular membrane.
 The Circuit
 -----------
 
-The **membrane capacitance** ( C\ :sub:`m` ) is taken to be a fixed property of the membrane.
+The **membrane capacitance** ( C\ :subscript:`m` ) is taken to be a fixed property of the membrane.
 
 Parallel to C\ :sub:`m` are two "battery-capacitor" series; one for each of
 voltage-gated and leak ion channels.
