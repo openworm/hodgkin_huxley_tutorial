@@ -11,7 +11,7 @@ This tutorial demonstrates a side-by-side comparison of Python code that runs th
 This was originally created by @joebowen on behalf of the OpenWorm project.
 
 
-Overview:
+Table of Contents:
 
 .. toctree::
    :maxdepth: 4
@@ -20,9 +20,3 @@ Overview:
    _static/Source
    _static/Electrophysiology
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

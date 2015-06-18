@@ -5,5 +5,7 @@
 
 from livereload import Server, shell
 server = Server()
+server.watch('index.rst', shell('make html', cwd='.'))
 server.watch('_static/*.rst', shell('make html', cwd='.'))
-server.serve(root='_build/html')
+server.serve(root='_build/html', port=1337)
+
