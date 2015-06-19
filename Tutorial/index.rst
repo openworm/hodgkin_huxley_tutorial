@@ -10,6 +10,31 @@ This tutorial demonstrates a side-by-side comparison of Python code that runs th
 
 This was originally created by @joebowen on behalf of the OpenWorm project.
 
+What is the Hodgkin-Huxley model?
+=================================
+
+`From Wikipedia <https://en.wikipedia.org/wiki/Hodgkin%E2%80%93Huxley_model>`_: 
+The Hodgkin–Huxley model, or conductance-based model, 
+is a mathematical model that describes how action potentials in neurons 
+are initiated and propagated.
+
+The model describes an equivalence between the electrical properties of
+excitable membranes and typical electrical components. For instance,
+the cell's membrane is modeled as a capacitor, and voltage-dependent 
+conductances stand in for what are now known to be voltage-gated ion
+channels.
+
+For a detailed run through the Hodgkin-Huxley's electronics, math and 
+biology, take a look at the `Electrophysiology page <_static/electrophysiology.html>`_. 
+
+After you understand the electronic model there, check out the 
+`code walkthrough <_static/Tutorial.html>`_ to see an example
+implementation of the Hodgkin-Huxley model in Python, using a cell
+modeled in NeuroML2.
+
+Finally, you can look at the `current-voltage characteristic page <_static/iv_curve.html>`_
+to get an understanding of another biological-electronic equivalence
+that is useful in describing ion channel and cell models.
 
 Table of Contents:
 
@@ -19,4 +44,5 @@ Table of Contents:
    _static/Tutorial
    _static/Source
    _static/Electrophysiology
+   _static/iv_curve
 
