@@ -307,3 +307,4 @@ Check out `the electrophysiology part of this tutorial <Electrophysiology.html#p
 for an explanation of these plots.
 
 .. image:: ../_media/figure_1.png
+

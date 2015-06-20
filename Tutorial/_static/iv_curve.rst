@@ -15,7 +15,7 @@ easy to see how this property would also be useful in defining
 the behaviour of excitable membranes and their embedded ion channels.
 
 The patch-clamp protocol
-========================
+------------------------
 
 In a patch-clamp experiment, a piece of membrane is sealed off from its
 surrounding environment, such that there is almost no influence of external
@@ -52,7 +52,7 @@ observe the current response that occurs (fig. 2).
 ---------
 
 Making I/V plots
-================
+----------------
 
 With this data, we can now plot a current-voltage relationship, to help
 us characterize and model the electrophysiological behaviour of the 
@@ -91,7 +91,7 @@ it. See figure 4 for an example of this type of I/V plot.
 -----------
 
 How does current even flow across the membrane?
------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In the `electrophysiology <Electrophysiology.html>`_ section we looked
 at how voltage-gated ion channels influence the kinetics of excitable
@@ -110,7 +110,7 @@ The above figures are all examples of this type of ion channel patch
 clamping. 
 
 Using code to produce these plots
-=================================
+---------------------------------
 
 At the risk of losing your trust, it must be admitted that the plots
 above were not actual biological recordings, but were instead 

@@ -42,7 +42,7 @@ Table of Contents:
    :maxdepth: 4
 
    _static/Tutorial
-   _static/Source
    _static/Electrophysiology
    _static/iv_curve
+   _static/Source
 
