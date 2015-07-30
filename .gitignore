@@ -6,4 +6,6 @@ _build
 _build/*
 .DS_Store
 _static/.DS_Store
+*~
+
 

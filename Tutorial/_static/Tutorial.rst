@@ -1,13 +1,13 @@
 Hodgkin Huxley NeuroML2/LEMS Neuron Model Tutorial
 ==================================================
 
-In this section, we make line-by-line comparisons of the contents of the HodgkinHuxley.py python script and
+In this section, we make line-by-line comparisons of the contents of the `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_ python script and
 the contents of the NML2_SingleCompHHCell.nml NeuroML2 file and the related LEMS_NML2_Ex5_DetCell.xml LEMS file.
 
 Membrane Capacitance
 --------------------
 
-This variable from HodgkinHuxley.py:
+This variable from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
@@ -24,7 +24,7 @@ You can `read more about the capacitance of a membrane <http://www.scholarpedia.
 Sodium (Na) Ion Channel Variables
 ---------------------------------
 
-These variables from HodgkinHuxley.py:
+These variables from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
@@ -46,7 +46,7 @@ You can `read more about the maximum conductance and reversal potential (zero-cu
 Potassium (K) Ion Channel Variables
 -----------------------------------
 
-These variables from HodgkinHuxley.py:
+These variables from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
@@ -67,7 +67,7 @@ You can `read more about the maximum conductance and reversal potential (zero-cu
 Passive Leak Channel Variables
 ------------------------------
 
-These variables from HodgkinHuxley.py:
+These variables from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
@@ -88,7 +88,7 @@ You can `read more about the maximum conductance and reversal potential (zero-cu
 Time of Simulation
 ------------------
 
-This variable from HodgkinHuxley.py:
+This variable from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
@@ -105,9 +105,9 @@ This specifies that the simulation should run for 450 milliseconds and use a ste
 Input Current / Input Current Density
 -------------------------------------
 
-The method from HodgkinHuxley.py takes the input in as a current density in the form of uA/cm^2.  NeuroML/LEMS uses an input current in the form of nA, which requires a conversion in the input values.
+The method from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_ takes the input in as a current density in the form of uA/cm^2.  NeuroML/LEMS uses an input current in the form of nA, which requires a conversion in the input values.
 
-This method from HodgkinHuxley.py:
+This method from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
@@ -146,7 +146,7 @@ membrane voltage, because the channel opens and closes based on detecting the me
 
 You can `read more about these variables <https://en.wikipedia.org/wiki/Hodgkin%E2%80%93Huxley_model#Voltage-gated_ion_channels>`_.
 
-These methods from HodgkinHuxley.py:
+These methods from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
@@ -176,7 +176,7 @@ membrane voltage, because the channel opens and closes based on detecting the me
 
 You can `read more about these variables <https://en.wikipedia.org/wiki/Hodgkin%E2%80%93Huxley_model#Voltage-gated_ion_channels>`_.
 
-These methods from HodgkinHuxley.py:
+These methods from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
@@ -204,7 +204,7 @@ membrane voltage, because the channel opens and closes based on detecting the me
 
 You can `read more about these variables <https://en.wikipedia.org/wiki/Hodgkin%E2%80%93Huxley_model#Voltage-gated_ion_channels>`_.
 
-These methods from HodgkinHuxley.py:
+These methods from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
@@ -225,7 +225,7 @@ Are used in these lines in NML2_SingleCompHHCell.nml:
 Initial Values
 --------------
 
-This line from HodgkinHuxley.py:
+This line from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
@@ -253,7 +253,7 @@ and using alpha_m etc., change the expressions for dmdt etc. (e.g. dm/dt = (inf_
 Plots
 -----
 
-This line in HodgkinHuxley.py:
+This line in `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
@@ -265,7 +265,7 @@ Is used in these lines in LEMS_NML2_Ex5_DetCell.xml:
    :language: XML
    :lines: 26-28
 
-This line in HodgkinHuxley.py:
+This line in `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
@@ -277,7 +277,7 @@ Is used in these lines in LEMS_NML2_Ex5_DetCell.xml:
    :language: XML
    :lines: 36-40
 
-This line in HodgkinHuxley.py:
+This line in `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
@@ -289,7 +289,7 @@ Is used in these lines in LEMS_NML2_Ex5_DetCell.xml:
    :language: XML
    :lines: 30-34
 
-This line in HodgkinHuxley.py:
+This line in `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
