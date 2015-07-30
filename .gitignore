@@ -1,3 +1,6 @@
+/Tutorial/Source/*.hoc
+/Tutorial/Source/*.mod
+/Tutorial/Source/hh_v.dat
 .idea
 .idea/*
 Ideas

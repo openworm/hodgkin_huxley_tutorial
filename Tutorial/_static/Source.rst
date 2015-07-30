@@ -5,6 +5,10 @@ Hodgkin Huxley Sources
    :maxdepth: 4
 
    Hodgkin Huxley
-   NML2_SingleCompHHCell
-   LEMS_NML2_Ex5_DetCell
+   LEMS_HH_Simulation
+   HHCellNetwork
+   hhcell
+   passiveChan
+   naChan
+   kChan
    run
