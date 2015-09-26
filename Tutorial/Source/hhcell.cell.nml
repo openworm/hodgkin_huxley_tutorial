@@ -29,7 +29,7 @@
 
             <membraneProperties>
                         
-                <channelDensity id="leak" ionChannel="passiveChan" condDensity="0.3 mS_per_cm2" erev="-54.387mV"/>
+                <channelDensity id="leak" ionChannel="passiveChan" condDensity="0.3 mS_per_cm2" erev="-54.387mV" ion="non_specific"/>
                 <channelDensity id="naChans" ionChannel="naChan" condDensity="120.0 mS_per_cm2" erev="50.0 mV" ion="na"/>
                 <channelDensity id="kChans" ionChannel="kChan" condDensity="36 mS_per_cm2" erev="-77mV" ion="k"/>
 
