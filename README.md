@@ -6,3 +6,5 @@ This tutorial contains a side-by-side comparison of Python code that runs the [H
 This was originally created by [@joebowen](https://github.com/joebowen) on behalf of the [OpenWorm project](http://www.openworm.org).  
 
 The latest version of the tutorial is visible [online at ReadTheDocs](http://hodgkin-huxley-tutorial.readthedocs.org/en/latest/).
+
+See also http://www.opensourcebrain.org/projects/hodgkin-huxley-tutorial.
