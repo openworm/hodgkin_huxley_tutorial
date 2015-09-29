@@ -45,7 +45,7 @@ Some exercises which can be carried out with the Python or NeuroML versions of t
 
 **3) Hyperpolarizing current injections**
 
-All of the previously used current injection pulses have been depolarising (increasing the membrane potential from resting voltage). We now try some hyperpolarizing currnet injections. 
+All of the previously used current injection pulses have been depolarising (increasing the membrane potential from resting voltage). We now try some hyperpolarizing current injections (see 1) above for changing current amplitudes). 
 
     3.1 What happens for hyperpolarizing current injections (set the pulse amplitude to –5 and the pulse duration to 5 ms)? 
     
