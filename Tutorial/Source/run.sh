@@ -1,12 +1,13 @@
 #!/bin/bash
+
 #################################################
 # LEMS Hodgkin Huxley Neuron Model
 #
-# Command to run LEMS_NML2_Ex5_DetCell.xml script
+# Command to run LEMS_HH_Simulation.xml script on Linux/Mac
 #
 # Usage: ./run.sh
 #
 #################################################
 
 set -e
-jnml LEMS_NML2_Ex5_DetCell.xml
+java -jar jNeuroML-0.7.2-jar-with-dependencies.jar LEMS_HH_Simulation.xml

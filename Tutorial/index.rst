@@ -43,5 +43,6 @@ Table of Contents:
    _static/Tutorial
    _static/Electrophysiology
    _static/iv_curve
+   _static/Exercises
    _static/Source
 
