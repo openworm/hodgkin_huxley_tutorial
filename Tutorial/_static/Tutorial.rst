@@ -1,8 +1,8 @@
-Hodgkin Huxley NeuroML2/LEMS Neuron Model Tutorial
+Implementation of HH Model in Python and NeuroML 2 
 ==================================================
 
 In this section, we make line-by-line comparisons of the contents of the `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_ python script and
-the contents of the `NeuroML2 files <Source.html>`_ and the related `LEMS_HH_Simulation.xml <LEMS_HH_Simulation.html>`_ LEMS file.
+the contents of the `NeuroML 2 files <Source.html>`_ and the related `LEMS_HH_Simulation.xml <LEMS_HH_Simulation.html>`_ LEMS file.
 
 Membrane Capacitance
 --------------------
@@ -16,7 +16,7 @@ This variable from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 Is used in this line in `hhcell.cell.nml <hhcell.html>`_:
 
 .. literalinclude:: ../Source/hhcell.cell.nml
-   :language: XML
+   :language: xml
    :lines: 37
 
 You can `read more about the capacitance of a membrane <http://www.scholarpedia.org/article/Electrical_properties_of_cell_membranes#Capacitance>`_.
@@ -37,7 +37,7 @@ These variables from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 Are used in this line in `hhcell.cell.nml <hhcell.html>`_:
 
 .. literalinclude:: ../Source/hhcell.cell.nml
-   :language: XML
+   :language: xml
    :lines: 33
 
 You can `read more about the maximum conductance and reversal potential (zero-current potential) of an ion channel <http://www.scholarpedia.org/article/Ion_channels#Bioelectricity_results_from_currents_in_ion_channels>`_.
@@ -59,7 +59,7 @@ These variables from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 Are used in this line in `hhcell.cell.nml <hhcell.html>`_:
 
 .. literalinclude:: ../Source/hhcell.cell.nml
-   :language: XML
+   :language: xml
    :lines: 34
 
 You can `read more about the maximum conductance and reversal potential (zero-current potential) of an ion channel <http://www.scholarpedia.org/article/Ion_channels#Bioelectricity_results_from_currents_in_ion_channels>`_.
@@ -80,7 +80,7 @@ These variables from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 Are used in this line in `hhcell.cell.nml <hhcell.html>`_:
 
 .. literalinclude:: ../Source/hhcell.cell.nml
-   :language: XML
+   :language: xml
    :lines: 32
 
 You can `read more about the maximum conductance and reversal potential (zero-current potential) of an ion channel <http://www.scholarpedia.org/article/Ion_channels#Bioelectricity_results_from_currents_in_ion_channels>`_.
@@ -97,7 +97,7 @@ This variable from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 Is used in this line in `LEMS_HH_Simulation.xml <LEMS_HH_Simulation.html>`_:
 
 .. literalinclude:: ../Source/LEMS_HH_Simulation.xml
-   :language: XML
+   :language: xml
    :lines: 25
 
 This specifies that the simulation should run for 450 milliseconds and use a step size for integration of 0.01 milliseconds.
@@ -121,7 +121,7 @@ By using a given surface area of 1000.0 um^2 in the cell, it makes the conversio
    Surface Area = 4 * pi * (radius)^2 = 4 * pi * (diameter / 2)^2 = 4 * pi * (17.841242 / 2)^2 = 4 * pi * (8.920621)^2 = 1000 um^2
 
 .. literalinclude:: ../Source/hhcell.cell.nml
-   :language: XML
+   :language: xml
    :lines: 17-20
 
 Given a surface area of 1000.0 um^2 in the cell the following equation is used to convert from X uA/cm^2 to Y nA:
@@ -133,7 +133,7 @@ Given a surface area of 1000.0 um^2 in the cell the following equation is used t
 Line 11 can then be translated into the delay, duration and amplitude of the two pulseGenerator objects in `HHCellNetwork.net.nml <HHCellNetwork.html>`_:
 
 .. literalinclude:: ../Source/HHCellNetwork.net.nml
-   :language: XML
+   :language: xml
    :lines: 13-14
 
 Channel Gating Kinetics for Sodium (Na) Channel m
@@ -161,7 +161,7 @@ These methods from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 Are used in these lines in `naChan.channel.nml <naChan.html>`_:
 
 .. literalinclude:: ../Source/naChan.channel.nml
-   :language: XML
+   :language: xml
    :lines: 13-16
 
 Channel Gating Kinetics for Sodium (Na) Channel h
@@ -191,7 +191,7 @@ These methods from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 Are used in these lines in `naChan.channel.nml <naChan.html>`_:
 
 .. literalinclude:: ../Source/naChan.channel.nml
-   :language: XML
+   :language: xml
    :lines: 18-21
 
 Channel Gating Kinetics for Potassium (K) channel n
@@ -219,7 +219,7 @@ These methods from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 Are used in these lines in `kChan.channel.nml <kChan.html>`_:
 
 .. literalinclude:: ../Source/kChan.channel.nml
-   :language: XML
+   :language: xml
    :lines: 13-16
 
 Initial Values
@@ -234,7 +234,7 @@ This line from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 Is used to define the initial values for the model in `hhcell.cell.nml <hhcell.html>`_:
 
 .. literalinclude:: ../Source/hhcell.cell.nml
-   :language: XML
+   :language: xml
    :lines: 38
 
 The values for m, h, n at t=0 in LEMS/NML2 are worked out as the steady state values (inf)
@@ -262,7 +262,7 @@ This line in `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 Is used in these lines in `LEMS_HH_Simulation.xml <LEMS_HH_Simulation.html>`_:
 
 .. literalinclude:: ../Source/LEMS_HH_Simulation.xml
-   :language: XML
+   :language: xml
    :lines: 27-29
 
 This line in `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
@@ -274,7 +274,7 @@ This line in `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 Is used in these lines in `LEMS_HH_Simulation.xml <LEMS_HH_Simulation.html>`_:
 
 .. literalinclude:: ../Source/LEMS_HH_Simulation.xml
-   :language: XML
+   :language: xml
    :lines: 37-41
 
 This line in `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
@@ -286,7 +286,7 @@ This line in `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 Is used in these lines in `LEMS_HH_Simulation.xml <LEMS_HH_Simulation.html>`_:
 
 .. literalinclude:: ../Source/LEMS_HH_Simulation.xml
-   :language: XML
+   :language: xml
    :lines: 31-35
 
 This line in `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
@@ -298,13 +298,22 @@ This line in `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 Is used in these lines in `LEMS_HH_Simulation.xml <LEMS_HH_Simulation.html>`_:
 
 .. literalinclude:: ../Source/LEMS_HH_Simulation.xml
-   :language: XML
+   :language: xml
    :lines: 43-46
 
-Finally, after running the script the output figure should look like the one below.
+Finally, after running the script the output figure should look like the ones below. 
+
+For: *python HodgkinHuxley.py*
+
+.. image:: ../_media/figure_1.png
+
+
+For: *run.sh* (or *run.bat* on Windows)
+
+.. image:: ../_media/jNeuroML.png
+
 
 Check out `the electrophysiology part of this tutorial <Electrophysiology.html#plots>`_
 for an explanation of these plots.
 
-.. image:: ../_media/figure_1.png
 

@@ -48,7 +48,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Hodgkin Huxley LEMS Tutorial'
+project = u'Hodgkin Huxley Tutorial'
 copyright = u'2014, Joe Bowen'
 
 # The version info for the project you're documenting, acts as replacement for
