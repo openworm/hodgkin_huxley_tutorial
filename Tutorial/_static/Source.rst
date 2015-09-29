@@ -12,3 +12,4 @@ Hodgkin Huxley Sources
    naChan
    kChan
    run
+   run_bat

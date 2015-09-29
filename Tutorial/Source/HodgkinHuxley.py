@@ -152,7 +152,8 @@ class HodgkinHuxley():
         plt.legend()
 
         plt.subplot(4,1,4)
-        plt.plot(self.t, self.I_inj(self.t), 'k')
+        i_inj_values = [self.I_inj(t) for t in self.t]
+        plt.plot(self.t, i_inj_values, 'k')
         plt.xlabel('t (ms)')
         plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')
         plt.ylim(-1, 40)
