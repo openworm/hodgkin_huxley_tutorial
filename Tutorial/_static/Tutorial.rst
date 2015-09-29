@@ -4,8 +4,27 @@ Implementation of HH Model in Python and NeuroML 2
 In this section, we make line-by-line comparisons of the contents of the `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_ python script and
 the contents of the `NeuroML 2 files <Source.html>`_ and the related `LEMS_HH_Simulation.xml <LEMS_HH_Simulation.html>`_ LEMS file.
 
+
+Running the model implemetations
+--------------------------------
+
+To run the Python version::
+
+    python HodgkinHuxley.py
+    
+To run the NeuroML 2 version on Linux/Mac::
+
+    ./run.sh
+    
+or on Windows::
+
+    run.bat
+    
+These both use the `bundled jar file <https://github.com/openworm/hodgkin_huxley_tutorial/blob/master/Tutorial/Source/jNeuroML-0.7.2-jar-with-dependencies.jar>`_
+generated from `jNeuroML <https://github.com/NeuroML/jNeuroML>`_.
+
 Membrane Capacitance
---------------------
+....................
 
 This variable from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
@@ -22,7 +41,7 @@ Is used in this line in `hhcell.cell.nml <hhcell.html>`_:
 You can `read more about the capacitance of a membrane <http://www.scholarpedia.org/article/Electrical_properties_of_cell_membranes#Capacitance>`_.
 
 Sodium (Na) Ion Channel Variables
----------------------------------
+.................................
 
 These variables from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
@@ -44,7 +63,7 @@ You can `read more about the maximum conductance and reversal potential (zero-cu
 
 
 Potassium (K) Ion Channel Variables
------------------------------------
+...................................
 
 These variables from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
@@ -65,7 +84,7 @@ Are used in this line in `hhcell.cell.nml <hhcell.html>`_:
 You can `read more about the maximum conductance and reversal potential (zero-current potential) of an ion channel <http://www.scholarpedia.org/article/Ion_channels#Bioelectricity_results_from_currents_in_ion_channels>`_.
 
 Passive Leak Channel Variables
-------------------------------
+..............................
 
 These variables from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
@@ -86,7 +105,7 @@ Are used in this line in `hhcell.cell.nml <hhcell.html>`_:
 You can `read more about the maximum conductance and reversal potential (zero-current potential) of an ion channel <http://www.scholarpedia.org/article/Ion_channels#Bioelectricity_results_from_currents_in_ion_channels>`_.
 
 Time of Simulation
-------------------
+..................
 
 This variable from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
@@ -103,7 +122,7 @@ Is used in this line in `LEMS_HH_Simulation.xml <LEMS_HH_Simulation.html>`_:
 This specifies that the simulation should run for 450 milliseconds and use a step size for integration of 0.01 milliseconds.
 
 Input Current / Input Current Density
--------------------------------------
+.....................................
 
 The method from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_ takes the input in as a current density in the form of uA/cm^2.  NeuroML/LEMS uses an input current in the form of nA, which requires a conversion in the input values.
 
@@ -137,7 +156,7 @@ Line 11 can then be translated into the delay, duration and amplitude of the two
    :lines: 13-14
 
 Channel Gating Kinetics for Sodium (Na) Channel m
--------------------------------------------------
+.................................................
 
 m is the activation variable for the Sodium (Na) Channel.
 
@@ -165,7 +184,7 @@ Are used in these lines in `naChan.channel.nml <naChan.html>`_:
    :lines: 13-16
 
 Channel Gating Kinetics for Sodium (Na) Channel h
--------------------------------------------------
+.................................................
 
 h is the inactivation variable for the Sodium (Na) Channel.  Inactivation is a
 different state than not being activated, which is called "deactivated".  You can
@@ -195,7 +214,7 @@ Are used in these lines in `naChan.channel.nml <naChan.html>`_:
    :lines: 18-21
 
 Channel Gating Kinetics for Potassium (K) channel n
----------------------------------------------------
+...................................................
 
 n is the activation variable for the Potassium (K) Channel.  The potassium channel does not inactivate, so there is no inactivation variable.
 
@@ -223,7 +242,7 @@ Are used in these lines in `kChan.channel.nml <kChan.html>`_:
    :lines: 13-16
 
 Initial Values
---------------
+..............
 
 This line from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
@@ -251,7 +270,7 @@ and using alpha_m etc., change the expressions for dmdt etc. (e.g. dm/dt = (inf_
 
 
 Plots
------
+.....
 
 This line in `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
@@ -300,8 +319,12 @@ Is used in these lines in `LEMS_HH_Simulation.xml <LEMS_HH_Simulation.html>`_:
 .. literalinclude:: ../Source/LEMS_HH_Simulation.xml
    :language: xml
    :lines: 43-46
+   
+   
+Output of simulations
+.....................
 
-Finally, after running the script the output figure should look like the ones below. 
+After running the scripts the output figures should look like the ones below.
 
 For: *python HodgkinHuxley.py*
 
