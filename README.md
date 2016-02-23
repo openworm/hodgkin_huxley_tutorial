@@ -8,3 +8,5 @@ This was originally created by [@joebowen](https://github.com/joebowen) on behal
 The latest version of the tutorial is visible [online at ReadTheDocs](http://hodgkin-huxley-tutorial.readthedocs.org/en/latest/).
 
 See also http://www.opensourcebrain.org/projects/hodgkin-huxley-tutorial.
+
+[![Build Status](https://travis-ci.org/openworm/hodgkin_huxley_tutorial.svg?branch=master)](https://travis-ci.org/openworm/hodgkin_huxley_tutorial)
