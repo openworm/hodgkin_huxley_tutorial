@@ -14,6 +14,11 @@ _build
 _build/*
 .DS_Store
 _static/.DS_Store
+*.pyc
+
+Tutorial/Source/*_pynn.py
+Tutorial/Source/*definition.py
+Tutorial/Source/*json
 *~
 
 
