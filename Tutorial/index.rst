@@ -11,8 +11,8 @@ This tutorial gives an introduction to the `Hodgkin-Huxley model <https://en.wik
 
 **The aims of this tutorial are:**
 
-1) Provide `a guide <_static/Tutorial.html>`_ to implementing the HH model using both `Python <https://www.python.org/>`_ and a `NeuroML2 implementation <http://journal.frontiersin.org/Journal/10.3389/fninf.2014.00079/abstract>`_ of the same equations.
-2) Give some background information on the `electrophysiology <_static/Electrophysiology.html>`_ underlying the HH model.
+1) Provide `a guide <_static/Tutorial.html>`_ to implementing the Hodgkin-Huxley model using both `Python <https://www.python.org/>`_ and a `NeuroML2 implementation <http://journal.frontiersin.org/Journal/10.3389/fninf.2014.00079/abstract>`_ of the same equations.
+2) Give some background information on the `electrophysiology <_static/Electrophysiology.html>`_ underlying the Hodgkin-Huxley model.
 
 This was originally created by `@joebowen <https://github.com/joebowen>`_ on behalf of the `OpenWorm project <http://www.openworm.org>`_.
 
