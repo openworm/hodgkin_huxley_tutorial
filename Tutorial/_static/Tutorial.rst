@@ -5,8 +5,8 @@ In this section, we make line-by-line comparisons of the contents of the `Hodgki
 the contents of the `NeuroML 2 files <Source.html>`_ and the related `LEMS_HH_Simulation.xml <LEMS_HH_Simulation.html>`_ LEMS file.
 
 
-Running the model implemetations
---------------------------------
+Running the model implementations
+---------------------------------
 
 To run the Python version::
 
