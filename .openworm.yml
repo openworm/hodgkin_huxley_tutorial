@@ -12,5 +12,6 @@ languages:
   - markdown
 members: 
   - joe.b.bowen@gmail.com 
+  - p.gleeson@gmail.com
 parent: 
   - openworm/OpenWorm

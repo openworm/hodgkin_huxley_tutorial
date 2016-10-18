@@ -33,7 +33,7 @@ or on Windows::
     run.bat
     
 These both use the `bundled jar file <https://github.com/openworm/hodgkin_huxley_tutorial/blob/master/Tutorial/Source/jNeuroML-0.7.2-jar-with-dependencies.jar>`_
-generated from `jNeuroML <https://github.com/NeuroML/jNeuroML>`_. Alternatively you can install the latest `jNeuroML <https://github.com/NeuroML/jNeuroML>`_ 
+generated from `jNeuroML <https://github.com/NeuroML/jNeuroML>`_. Alternatively, you can install the latest `jNeuroML <https://github.com/NeuroML/jNeuroML>`_ 
 or `pyNeuroML <https://github.com/NeuroML/pyNeuroML>`_ and use the corresponding command line utilities to run the model::
     
     jnml LEMS_HH_Simulation.xml
