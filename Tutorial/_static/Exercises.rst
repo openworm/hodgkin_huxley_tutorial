@@ -1,7 +1,7 @@
 Exercises
 =========
 
-Some exercises which can be carried out with the Python or NeuroML versions of the HH model.
+Some exercises which can be carried out with the Python or NeuroML versions of the HH model. See `here <Tutorial.html>`_ for installation instructions.
 
 
 
