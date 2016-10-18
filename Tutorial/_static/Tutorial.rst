@@ -5,6 +5,18 @@ In this section, we make line-by-line comparisons of the contents of the `Hodgki
 the contents of the `NeuroML 2 files <Source.html>`_ and the related `LEMS_HH_Simulation.xml <LEMS_HH_Simulation.html>`_ LEMS file.
 
 
+Installing the code
+-------------------
+
+You can either clone a local copy of this repository from GitHub using::
+    
+    git clone https://github.com/openworm/hodgkin_huxley_tutorial.git
+    cd hodgkin_huxley_tutorial/Tutorial/Source
+    
+or just download `a zip file of the latest code <https://github.com/openworm/hodgkin_huxley_tutorial/archive/master.zip>`_, extract 
+the contents and go to hodgkin_huxley_tutorial-master/Tutorial/Source/.
+
+
 Running the model implementations
 ---------------------------------
 
@@ -21,7 +33,13 @@ or on Windows::
     run.bat
     
 These both use the `bundled jar file <https://github.com/openworm/hodgkin_huxley_tutorial/blob/master/Tutorial/Source/jNeuroML-0.7.2-jar-with-dependencies.jar>`_
-generated from `jNeuroML <https://github.com/NeuroML/jNeuroML>`_.
+generated from `jNeuroML <https://github.com/NeuroML/jNeuroML>`_. Alternatively you can install the latest `jNeuroML <https://github.com/NeuroML/jNeuroML>`_ 
+or `pyNeuroML <https://github.com/NeuroML/pyNeuroML>`_ and use the corresponding command line utilities to run the model::
+    
+    jnml LEMS_HH_Simulation.xml
+    pynml LEMS_HH_Simulation.xml
+    
+    
 
 Membrane Capacitance
 ....................
