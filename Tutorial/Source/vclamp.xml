@@ -7,9 +7,11 @@
     <ComponentType name="voltageClamp2" extends="baseVoltageDepPointCurrent"
                    description="Voltage clamp. Applies a variable current _i to try to keep parent at _targetVoltage. ">
 
-        <Parameter name="delay" dimension="time" description="Delay before change in current. Current is zero  prior to this."/>
-        <Parameter name="duration" dimension="time" description="Duration for attempting to keep parent at targetVoltage. Current is zero after delay + duration."/>
-        <Parameter name="targetVoltage" dimension="voltage" description="Current will be applied to try to get parent to this target voltage"/>
+        <Parameter name="delay" dimension="time" description="Delay before switching from conditioningVoltage to testingVoltage."/>
+        <Parameter name="duration" dimension="time" description="Duration to hold at testingVoltage."/>
+        <Parameter name="conditioningVoltage" dimension="voltage" description="Target voltage before time delay"/>
+        <Parameter name="testingVoltage" dimension="voltage" description="Target voltage between times delay and delay + duration"/>
+        <Parameter name="returnVoltage" dimension="voltage" description="Target voltage after time duration"/>
         
         <!-- seriesResistance renamed to simpleSeriesResistance & factor of 1e-5 removed from calculation of current. Still being tested... -->
         <Parameter name="simpleSeriesResistance" dimension="resistance" description="Current will be calculated by the difference in voltage between the target and parent, divided by this value"/>
@@ -27,16 +29,15 @@
             </OnEvent>
 
             <OnCondition test="t .lt. delay">
-                <StateAssignment variable="i" value="0"/>
+                <StateAssignment variable="i" value="(conditioningVoltage - v) / simpleSeriesResistance"/>
             </OnCondition>
 
             <OnCondition test="t .geq. delay">
-                <!-- seriesResistance renamed to simpleSeriesResistance & factor of 1e-5 removed from calculation of current. Still being tested... -->
-                <StateAssignment variable="i" value="(targetVoltage - v) / simpleSeriesResistance"/>
+                <StateAssignment variable="i" value="(testingVoltage - v) / simpleSeriesResistance"/>
             </OnCondition>
 
             <OnCondition test="t .gt. duration + delay">
-                <StateAssignment variable="i" value="0"/>
+                <StateAssignment variable="i" value="(returnVoltage - v) / simpleSeriesResistance"/>
             </OnCondition>
 
         </Dynamics>
@@ -45,6 +46,9 @@
     
     
     <voltageClamp2 id="vClamp" delay="10ms" duration="30ms"
-              targetVoltage="10mV" simpleSeriesResistance="1e4ohm"/>
+              conditioningVoltage="-63.77mV" 
+              testingVoltage="10mV" 
+              returnVoltage="-63.77mV" 
+              simpleSeriesResistance="1e4ohm"/>
     
 </Lems>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<neuroml xmlns="http://www.neuroml.org/schema/neuroml2"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.neuroml.org/schema/neuroml2  https://raw.githubusercontent.com/NeuroML/NeuroML2/master/Schemas/NeuroML2/NeuroML_v2beta3.xsd"   
+         id="HHCellNetwork">
+    
+    <include href="hhcell.cell.nml"/> <!-- Include the cell definition -->
+
+    <!-- Short small current pulse input & short larger current pulse input -->
+    <pulseGenerator id="pulseGen1" delay="5ms" duration="25ms" amplitude="0.05nA"/>
+
+    <network id="HHCellNetwork">
+
+        <notes>Network with a single cell based on the Hodgkin Huxley model with 1 input current</notes>
+    
+        <population id="hhpop" component="hhcell" size="1"/>
+        <explicitInput target="hhpop[0]" input="pulseGen1"/>
+    </network>
+
+</neuroml>
+
