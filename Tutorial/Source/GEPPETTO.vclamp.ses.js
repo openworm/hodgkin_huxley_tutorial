@@ -31,5 +31,14 @@ Plot2.setLegend(HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.naChans.naChan
 Plot2.setLegend(HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.naChans.naChan.m.q,"Sodium m.q");
 Plot2.setLegend(HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.kChans.kChan.n.q,"Potassium n.q");
 
+
+
+Instances.getInstance("HHCellVClamp.hhpop[0].v");
 HHCellVClamp.hhpop[0].v.setWatched(true);
+
+Instances.getInstance("HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.naChans.naChan.m.q");
 HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.naChans.naChan.m.q.setWatched(true);
+Instances.getInstance("HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.naChans.naChan.h.q");
+HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.naChans.naChan.h.q.setWatched(true);
+Instances.getInstance("HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.kChans.kChan.n.q");
+HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.kChans.kChan.n.q.setWatched(true);
