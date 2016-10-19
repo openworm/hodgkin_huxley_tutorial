@@ -8,10 +8,6 @@
     <include href="hhcell.cell.nml"/> <!-- Include the cell definition -->
     <include href="vclamp.xml"/> <!-- Include the voltage clamp definition -->
 
-    
-    <voltageClamp2 id="vClamp" delay="10ms" duration="30ms"
-              targetVoltage="10mV" simpleSeriesResistance="1e4ohm"/>
-
     <network id="HHCellNetwork">
 
         <notes>Network with a single cell based on the Hodgkin Huxley model with a voltage clamp</notes>

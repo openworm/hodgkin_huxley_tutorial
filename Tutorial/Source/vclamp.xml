@@ -43,4 +43,8 @@
 
     </ComponentType>
     
+    
+    <voltageClamp2 id="vClamp" delay="10ms" duration="30ms"
+              targetVoltage="10mV" simpleSeriesResistance="1e4ohm"/>
+    
 </Lems>
