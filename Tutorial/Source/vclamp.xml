@@ -1,0 +1,46 @@
+<Lems xmlns="http://www.neuroml.org/lems/0.7.4"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.neuroml.org/lems/0.7.4 ../../LEMS/Schemas/LEMS/LEMS_v0.7.4.xsd"
+      description="New voltage clamp">
+
+
+    <ComponentType name="voltageClamp2" extends="baseVoltageDepPointCurrent"
+                   description="Voltage clamp. Applies a variable current _i to try to keep parent at _targetVoltage. ">
+
+        <Parameter name="delay" dimension="time" description="Delay before change in current. Current is zero  prior to this."/>
+        <Parameter name="duration" dimension="time" description="Duration for attempting to keep parent at targetVoltage. Current is zero after delay + duration."/>
+        <Parameter name="targetVoltage" dimension="voltage" description="Current will be applied to try to get parent to this target voltage"/>
+        
+        <!-- seriesResistance renamed to simpleSeriesResistance & factor of 1e-5 removed from calculation of current. Still being tested... -->
+        <Parameter name="simpleSeriesResistance" dimension="resistance" description="Current will be calculated by the difference in voltage between the target and parent, divided by this value"/>
+
+        <!--TODO: remove! Only required as EventConnection is used in explicitInput to
+        connect inputs to cells. Events aren't passed! ... -->
+        <EventPort name="in" direction="in" description="Note this is not used here. Will be removed in future"/>
+
+        <Dynamics>
+
+            <StateVariable name="i" exposure="i" dimension="current"/>
+
+            <OnEvent port="in"><!--TODO: remove, see above...
+            <StateAssignment variable="i" value="0"/>-->
+            </OnEvent>
+
+            <OnCondition test="t .lt. delay">
+                <StateAssignment variable="i" value="0"/>
+            </OnCondition>
+
+            <OnCondition test="t .geq. delay">
+                <!-- seriesResistance renamed to simpleSeriesResistance & factor of 1e-5 removed from calculation of current. Still being tested... -->
+                <StateAssignment variable="i" value="(targetVoltage - v) / simpleSeriesResistance"/>
+            </OnCondition>
+
+            <OnCondition test="t .gt. duration + delay">
+                <StateAssignment variable="i" value="0"/>
+            </OnCondition>
+
+        </Dynamics>
+
+    </ComponentType>
+    
+</Lems>
