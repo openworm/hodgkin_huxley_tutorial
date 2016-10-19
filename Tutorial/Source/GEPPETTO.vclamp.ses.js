@@ -31,6 +31,16 @@ Plot2.setLegend(HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.naChans.naChan
 Plot2.setLegend(HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.naChans.naChan.m.q,"Sodium m.q");
 Plot2.setLegend(HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.kChans.kChan.n.q,"Potassium n.q");
 
+var Plot3 = G.addWidget(Widgets.PLOT);
+
+Plot3.setName("Conductances");
+Plot3.setPosition(120,350);
+Plot3.setSize(285,465)
+Plot3.plotData(HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.naChans.naChan.g);
+Plot3.setLegend(HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.naChans.naChan.g,"Sodium g");
+Plot3.plotData(HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.kChans.kChan.g);
+Plot3.setLegend(HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.kChans.kChan.g,"Potassium g");
+
 
 
 Instances.getInstance("HHCellVClamp.hhpop[0].v");
@@ -42,3 +52,8 @@ Instances.getInstance("HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.naChans
 HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.naChans.naChan.h.q.setWatched(true);
 Instances.getInstance("HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.kChans.kChan.n.q");
 HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.kChans.kChan.n.q.setWatched(true);
+
+Instances.getInstance("HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.naChans.naChan.g");
+HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.naChans.naChan.g.setWatched(true);
+Instances.getInstance("HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.kChans.kChan.g");
+HHCellVClamp.hhpop[0].bioPhys1.membraneProperties.kChans.kChan.g.setWatched(true);
