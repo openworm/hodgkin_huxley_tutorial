@@ -15,3 +15,14 @@ experiments:
           method: threshold
           threshold: 0
         tolerance: 0.0008071
+  Current clamp i:
+    observables:
+      spike times:
+        file: 
+          path: ../hh_tut_ic.dat
+          columns: [0,1]
+          scaling: [1000, 1]
+        spike detection: 
+          method: threshold
+          threshold: 1e-12
+        tolerance: 0.000

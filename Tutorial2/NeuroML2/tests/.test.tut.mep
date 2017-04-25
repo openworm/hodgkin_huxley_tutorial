@@ -4,3 +4,7 @@ experiments:
   Current clamp:
     expected:
       spike times: [9.913] 
+
+  Current clamp i:
+    expected:
+      spike times: [5] 
