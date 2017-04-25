@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<neuroml xmlns="http://www.neuroml.org/schema/neuroml2"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.neuroml.org/schema/neuroml2  https://raw.githubusercontent.com/NeuroML/NeuroML2/master/Schemas/NeuroML2/NeuroML_v2beta3.xsd"   
+         id="hhneuron">
+
+    <include href="passiveChan.channel.nml"/> <!-- Include the channel definitions -->
+    <include href="naChan.channel.nml"/>
+    <include href="kChan.channel.nml"/>
+
+    <cell id="hhneuron">
+        
+        <notes>Conductance based cell model NeuroML2 format: standard Hodgkin Huxley model cell with Na, K and passive conductances</notes>
+
+        <morphology id="morph1">
+            <segment id="0" name="soma">
+                <proximal x="0" y="0" z="0" diameter="3.1831"/> <!--Gives a convenient surface area of 100.0 um^2-->
+                <distal x="0" y="10" z="0" diameter="3.1831"/>
+            </segment>
+
+            <segmentGroup id="soma_group">
+                <member segment="0"/>
+            </segmentGroup>
+
+        </morphology>
+
+        <biophysicalProperties id="biophysics">
+
+            <membraneProperties>
+                        
+                <channelDensity id="leak" ionChannel="passiveChan" condDensity="0.0003 S_per_cm2" erev="-54.3mV" ion="non_specific"/>
+                <channelDensity id="naChans" ionChannel="naChan" condDensity="0.12 S_per_cm2" erev="63.543396 mV" ion="na"/>
+                <channelDensity id="kChans" ionChannel="kChan" condDensity="0.036 S_per_cm2" erev="-74.162211mV" ion="k"/>
+
+                <spikeThresh value="-20mV"/>
+                <specificCapacitance value="1.0 uF_per_cm2"/>
+                <initMembPotential value="-63.77mV"/>
+
+            </membraneProperties>
+
+            <intracellularProperties>
+                <resistivity value="0.03 kohm_cm"/>   <!-- Note: not used in single compartment simulations -->
+            </intracellularProperties>
+
+        </biophysicalProperties>
+
+    </cell>
+
+
+</neuroml>
+
