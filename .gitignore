@@ -20,5 +20,7 @@ Tutorial/Source/*_pynn.py
 Tutorial/Source/*definition.py
 Tutorial/Source/*json
 *~
-
-
+/Tutorial2/NeuroML2/*mod
+/Tutorial2/NeuroML2/*.dat
+/Tutorial2/NeuroML2/*nrn.py
+/Tutorial2/NeuroML2/*.hoc
