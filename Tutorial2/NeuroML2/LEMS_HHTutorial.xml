@@ -14,7 +14,6 @@
     <Include file="Networks.xml"/>
     <Include file="Simulation.xml"/>
 
-
     <Include file="HHTutorial.net.nml"/>
 
     <Simulation id="sim1" length="50ms" step="0.001ms" target="HHTutorial">
@@ -42,6 +41,10 @@
 
         <Display id="d5" title="Hodgkin-Huxley Neuron: I_inj (nA)" timeScale="1ms" xmin="-5" xmax="55" ymin="-0.0005" ymax="0.0025">
             <Line id="I_inj (nA)" quantity="hhpop/0/hhneuron/IClamp/i" scale="1nA"  color="#ffffff" timeScale="1ms"/>
+        </Display>
+
+        <Display id="d6" title="Hodgkin-Huxley Neuron: VClamp i (nA)" timeScale="1ms" xmin="-5" xmax="55" ymin="-0.0005" ymax="0.0025">
+            <Line id="VClamp i (nA)" quantity="hhpop/0/hhneuron/vClamp/i" scale="1nA"  color="#ffffff" timeScale="1ms"/>
         </Display>
         
         <OutputFile id="of0" fileName="hh_tut_v.dat">
