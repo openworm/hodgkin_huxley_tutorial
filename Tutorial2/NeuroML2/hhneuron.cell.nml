@@ -11,7 +11,7 @@
 
     <cell id="hhneuron">
         
-        <notes>Conductance based cell model NeuroML2 format: standard Hodgkin Huxley model cell with Na, K and passive conductances</notes>
+        <notes>Standard Hodgkin Huxley model cell with Na, K and passive conductances</notes>
 
         <morphology id="morph1">
             <segment id="0" name="soma">

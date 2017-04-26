@@ -6,16 +6,24 @@
          id="HHTutorial">
     
     <include href="hhneuron.cell.nml"/> <!-- Include the cell definition -->
-    
-    <include href="vclamp.xml"/>
+   
 
     <!-- Short small current pulse input & short larger current pulse input -->
     <pulseGenerator id="IClamp" delay="5ms" duration="25ms" amplitude="0.002nA"/>
     
+    <!-- A voltage clamp with 3 clamp levels. Initially set to active=0, i.e. turned off! -->
+    <voltageClampTriple id="vClamp" 
+                        active = "0"
+                        delay="10ms" 
+                        duration="30ms"
+                        conditioningVoltage="-63.77mV" 
+                        testingVoltage="10mV" 
+                        returnVoltage="-63.77mV" 
+                        simpleSeriesResistance="1e4ohm"/>
 
     <network id="HHTutorial">
 
-        <notes>Network with a single cell based on the Hodgkin Huxley model with 1 input current (initially enabled) and 1 voltage clamp (initially disnabled)</notes>
+        <notes>Network with a single cell based on the Hodgkin Huxley model with 1 input current (initially enabled) and 1 voltage clamp (initially disabled)</notes>
     
         <population id="hhpop" component="hhneuron" type="populationList" size="1">
            <annotation>
