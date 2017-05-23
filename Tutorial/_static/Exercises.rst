@@ -17,7 +17,7 @@ Some exercises which can be carried out with the Python or NeuroML versions of t
 
     1.1 What is the minimum current you can inject that will cause at least one spike?
 
-    1.2 Adjust the input current duration to stimulate the cell for the full duration of the simulation. What is the minimum curent you need to inject to get the cell to fire for the full duration?
+    1.2 Adjust the input current duration to stimulate the cell for the full duration of the simulation. What is the minimum current you need to inject to get the cell to fire for the full duration?
     
     1.3 How much does a 10-fold increase in injected current from the repetitive firing current increase the firing rate? 
     
@@ -25,7 +25,7 @@ Some exercises which can be carried out with the Python or NeuroML versions of t
 
     1.5 Is there any current you can inject to get a half height action potential?
     
-    1.6 Single action potentials can also be elicited by transient current pulses, even when the duration of the current pulse is shorter than the action potential. What is the effect of pulse duration on threshold current for eliciting a single action potential? Generate a plot of threshold current vs. pulse duration for pulse widths between 0.1 ms and 5 ms. Is there a simple relationship between pulse width and threshold current? 
+    1.6 Single action potentials can also be elicited by transient current pulses, even when the duration of the current pulse is shorter than the action potential. What is the effect of pulse duration on threshold current for eliciting a single action potential? Generate a plot of threshold current vs. pulse duration for pulse widths between 0.1 ms and 5 ms (You don't need to write code for this, you can just run the existing code several times to find the data points and then make a plot).  Is there a simple relationship between pulse width and threshold current? 
 
 
 **2) Adjusting properties of Na & K**
@@ -47,9 +47,9 @@ Some exercises which can be carried out with the Python or NeuroML versions of t
 
 All of the previously used current injection pulses have been depolarising (increasing the membrane potential from resting voltage). We now try some hyperpolarizing current injections (see 1) above for changing current amplitudes). 
 
-    3.1 What happens for hyperpolarizing current injections (set the pulse amplitude to –5 and the pulse duration to 5 ms)? 
+    3.1 Set the pulse amplitude to –5 and the pulse duration to 5 ms.  What happens for hyperpolarizing current injections? 
     
-    3.2 What is the threshold, in terms of current magnitude and pulse duration, for eliciting this so called anode break excitation? 
+    3.2 What is the threshold, in terms of current magnitude and pulse duration, for eliciting this so-called `anode break excitation <https://en.wikipedia.org/wiki/Anode_break_excitation>`_? 
     
     3.3 What mechanisms in the model are responsible for this behaviour? Look at the time course of the activation and inactivation variables n, m and h. 
 
