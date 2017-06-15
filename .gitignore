@@ -24,3 +24,4 @@ Tutorial/Source/*json
 /Tutorial2/NeuroML2/*.dat
 /Tutorial2/NeuroML2/*nrn.py
 /Tutorial2/NeuroML2/*.hoc
+/Tutorial/Source/LEMS_HH_Simulation_netpyne.py
