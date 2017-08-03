@@ -1,7 +1,24 @@
 # Framework for running automated tests on OSB using Travis-CI, see https://github.com/OpenSourceBrain/osb-model-validation
 
+dist: trusty
+sudo: false  
+
+addons:
+  apt:
+    packages:
+    - python-matplotlib 
+    - python-tk
+    - python-numpy 
+    - python-scipy 
+    - python-lxml
+    - libhdf5-7
+    - python-tables
+
 language: python
 python: 2.7
+
+virtualenv:
+system_site_packages: true
 
 env:
     - OMV_ENGINE=jNeuroML
@@ -11,8 +28,8 @@ env:
 
 install: 
     - pip install git+https://github.com/OpenSourceBrain/osb-model-validation
-    - pip install scipy
-    - pip install tables
+    - pip install scipy # Why is this needed? Doesn't seem to get installed correctly on trusty with addons above...
+    - pip install tables # Ditto
 
 script:
     - omv all -V
