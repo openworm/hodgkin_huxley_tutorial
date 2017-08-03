@@ -11,6 +11,8 @@ env:
 
 install: 
     - pip install git+https://github.com/OpenSourceBrain/osb-model-validation
+    - pip install scipy
+    - pip install tables
 
 script:
     - omv all -V
