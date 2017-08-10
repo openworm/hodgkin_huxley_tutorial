@@ -1,7 +1,7 @@
 # Script for running automated tests on OSB using Travis-CI, see https://github.com/OpenSourceBrain/osb-model-validation
 
 target: ../LEMS_HH_SingleAP.xml 
-engine: jNeuroML_NEURON
+engine: jNeuroML_Brian2
 mep: .test.singleap.mep
 experiments:
   Current clamp:
@@ -14,4 +14,4 @@ experiments:
         spike detection: 
           method: threshold
           threshold: 0
-        tolerance: 0.0
+        tolerance: 0.000375281461096

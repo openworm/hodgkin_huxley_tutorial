@@ -1,7 +1,7 @@
 # Script for running automated tests on OSB using Travis-CI, see https://github.com/OpenSourceBrain/osb-model-validation
 
 target: ../LEMS_HH_SingleAP.xml 
-engine: jNeuroML_NEURON
+engine: jNeuroML_PyNN_NEURON
 mep: .test.singleap.mep
 experiments:
   Current clamp:

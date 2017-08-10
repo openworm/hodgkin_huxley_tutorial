@@ -29,21 +29,6 @@
             <Line id="V" quantity="hhpop/0/hhcell/v" scale="1mV" color="#000000" timeScale="1ms"/>
         </Display>
 
-        <Display id="d2" title="Hodgkin-Huxley Neuron: Gating Variables" timeScale="1ms" xmin="-5" xmax="55" ymin="-0.1" ymax="1.1">
-            <Line id="m" quantity="hhpop/0/hhcell/bioPhys1/membraneProperties/naChans/naChan/m/q" scale="1"  color="#ff0000" timeScale="1ms"/>
-            <Line id="h" quantity="hhpop/0/hhcell/bioPhys1/membraneProperties/naChans/naChan/h/q" scale="1"  color="#00dd00" timeScale="1ms"/>
-            <Line id="n" quantity="hhpop/0/hhcell/bioPhys1/membraneProperties/kChans/kChan/n/q" scale="1"  color="#0000ff" timeScale="1ms"/>
-        </Display>
-
-        <Display id="d3" title="Hodgkin-Huxley Neuron: Current" timeScale="1ms" xmin="-5" xmax="55" ymin="-10" ymax="10">
-            <Line id="I_na" quantity="hhpop/0/hhcell/bioPhys1/membraneProperties/naChans/iDensity" scale="1"  color="#00ffff" timeScale="1ms"/>
-            <Line id="I_k" quantity="hhpop/0/hhcell/bioPhys1/membraneProperties/kChans/iDensity" scale="1"  color="#ffff00" timeScale="1ms"/>
-            <Line id="I_l" quantity="hhpop/0/hhcell/bioPhys1/membraneProperties/leak/iDensity" scale="1"  color="#ff00ff" timeScale="1ms"/>
-        </Display>
-
-        <Display id="d4" title="Hodgkin-Huxley Neuron: I_inj (nA)" timeScale="1ms" xmin="-5" xmax="55" ymin="-0.01" ymax="0.4">
-            <Line id="I_inj" quantity="hhpop/0/hhcell/pulseGen1/i" scale="1nA"  color="#ffffff" timeScale="1ms"/>
-        </Display>
         
         <OutputFile id="of0" fileName="hh_v.dat">
             <OutputColumn id="v" quantity="hhpop/0/hhcell/v"/> 
