@@ -12,7 +12,12 @@ addons:
     - python-scipy 
     - python-lxml
     - libhdf5-7
-    - python-tables
+    - python-tables   
+        # Requirements for Moose
+    - python-dev
+    - libhdf5-dev
+    - libgsl0-dev 
+    - g++
 
 language: python
 python: 2.7
@@ -27,6 +32,7 @@ env:
     - OMV_ENGINE=jNeuroML_NetPyNE
     - OMV_ENGINE=jNeuroML_PyNN_NEURON
     - OMV_ENGINE=jNeuroML_Brian2
+    - OMV_ENGINE=jNeuroML_Moose
 
 install: 
     - pip install git+https://github.com/OpenSourceBrain/osb-model-validation

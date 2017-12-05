@@ -26,3 +26,4 @@ Tutorial/Source/*json
 /Tutorial2/NeuroML2/*.hoc
 /Tutorial/Source/LEMS_HH_Simulation_netpyne.py
 /Tutorial/Source/LEMS_HH_SingleAP_brian2.py
+/Tutorial/Source/LEMS*_moose.py
