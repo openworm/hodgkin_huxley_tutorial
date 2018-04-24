@@ -27,3 +27,8 @@ Tutorial/Source/*json
 /Tutorial/Source/LEMS_HH_Simulation_netpyne.py
 /Tutorial/Source/LEMS_HH_SingleAP_brian2.py
 /Tutorial/Source/LEMS*_moose.py
+/Tutorial/Source/*.gv
+/Tutorial/Source/*.gv.pdf
+/Tutorial/Source/*_netpyne.py
+/Tutorial/Source/tests.log
+/tests.log
