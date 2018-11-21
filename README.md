@@ -1,4 +1,8 @@
-### Hodgkin Huxley Tutorial
+### Hodgkin Huxley Tutorials
+
+This repository contains the code for 2 related tutorials on the Hodgkin Huxley model
+
+#### Tutorial 1: HH model in Python and NeuroML
 
 This tutorial contains a side-by-side comparison of Python code that runs the [Hodgkin-Huxley equations](https://en.wikipedia.org/wiki/Hodgkin%E2%80%93Huxley_model) and generates plots with a [NeuroML2 implementation](http://journal.frontiersin.org/Journal/10.3389/fninf.2014.00079/abstract) of the same equations.  
 
@@ -6,6 +10,19 @@ This was originally created by [@joebowen](https://github.com/joebowen) on behal
 
 The latest version of the tutorial is visible [online at ReadTheDocs](http://hodgkin-huxley-tutorial.readthedocs.org/en/latest/).
 
+#### Tutorial 2: Interactive introduction to the HH model on Open Source Brain
+
+This tutorial also uses the NeuroML model from above, but provides a high level introduction to the concepts of the model (as well as computational modelling in neuroscience). It can be accessed on the Open Source Brain site at this location: http://www.opensourcebrain.org/tutorials. It is built on the [Geppetto platform](http://www.geppetto.org/), which was also initially developed in the OpenWorm project. 
+
+![HH](https://raw.githubusercontent.com/openworm/hodgkin_huxley_tutorial/master/Tutorial2/NeuroML2/images/HH_OSB.png)
+
 See also http://www.opensourcebrain.org/projects/hodgkin-huxley-tutorial.
 
 [![Build Status](https://travis-ci.org/openworm/hodgkin_huxley_tutorial.svg?branch=master)](https://travis-ci.org/openworm/hodgkin_huxley_tutorial)
+
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1493456.svg)](https://doi.org/10.5281/zenodo.1493456)
+
+
+
+
