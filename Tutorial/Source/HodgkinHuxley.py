@@ -132,32 +132,33 @@ class HodgkinHuxley():
 
         plt.figure()
 
-        plt.subplot(4,1,1)
+        ax1 = plt.subplot(4,1,1)
         plt.title('Hodgkin-Huxley Neuron')
         plt.plot(self.t, V, 'k')
         plt.ylabel('V (mV)')
 
-        plt.subplot(4,1,2)
+        plt.subplot(4,1,2, sharex = ax1)
         plt.plot(self.t, ina, 'c', label='$I_{Na}$')
         plt.plot(self.t, ik, 'y', label='$I_{K}$')
         plt.plot(self.t, il, 'm', label='$I_{L}$')
         plt.ylabel('Current')
         plt.legend()
 
-        plt.subplot(4,1,3)
+        plt.subplot(4,1,3, sharex = ax1)
         plt.plot(self.t, m, 'r', label='m')
         plt.plot(self.t, h, 'g', label='h')
         plt.plot(self.t, n, 'b', label='n')
         plt.ylabel('Gating Value')
         plt.legend()
 
-        plt.subplot(4,1,4)
+        plt.subplot(4,1,4, sharex = ax1)
         i_inj_values = [self.I_inj(t) for t in self.t]
         plt.plot(self.t, i_inj_values, 'k')
         plt.xlabel('t (ms)')
         plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')
         plt.ylim(-1, 40)
 
+        plt.tight_layout()
         plt.show()
 
 if __name__ == '__main__':
