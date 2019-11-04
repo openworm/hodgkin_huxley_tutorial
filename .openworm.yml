@@ -3,7 +3,6 @@ shortDescription: "Hodgkin Huxley Tutorial"
 coordinator: stephen@openworm.org
 earnable-badges: 
   - "http://www.badgelist.com/OpenWorm/Hodgkin-Huxley-Tutorial-Graduate"
-gitter: "http://gitter.im/openworm/OpenWorm"
 keywords: 
   - tutorial
   - simulation
