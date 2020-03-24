@@ -14,6 +14,9 @@
 
         <notes>Network with a single cell based on the Hodgkin Huxley model with 1 input current</notes>
     
+        <property tag="recommended_dt_ms" value="0.025"/>
+        <property tag="recommended_duration_ms" value="50.0"/>
+             
         <population id="hhpop" component="hhcell" type="populationList" size="1">
            <annotation>
                 <property tag="color" value="1 0 0"/>
