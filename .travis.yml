@@ -1,6 +1,6 @@
 # Framework for running automated tests on OSB using Travis-CI, see https://github.com/OpenSourceBrain/osb-model-validation
 
-dist: trusty
+dist: xenial
 sudo: false  
 
 addons:
@@ -20,10 +20,11 @@ addons:
     - g++
 
 language: python
-python: 2.7
 
-virtualenv:
-system_site_packages: true
+python:
+    - "2.7"
+    - "3.7"
+
 
 env:
     - OMV_ENGINE=jNeuroML
@@ -38,9 +39,11 @@ install:
     - pip install git+https://github.com/OpenSourceBrain/osb-model-validation
     - pip install scipy # Why is this needed? Doesn't seem to get installed correctly on trusty with addons above...
     - pip install tables # Ditto
+    - pip install future pandas matplotlib-scalebar bokeh # For NetPyNE
 
 script:
     - omv all -V
+    - omv list-engines -V
     
     
     
