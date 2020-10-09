@@ -1,4 +1,5 @@
 import scipy as sp
+import numpy as np
 import pylab as plt
 from scipy.integrate import odeint
 
@@ -26,32 +27,32 @@ class HodgkinHuxley():
     E_L  = -54.387
     """Leak Nernst reversal potentials, in mV"""
 
-    t = sp.arange(0.0, 450.0, 0.01)
+    t = np.arange(0.0, 450.0, 0.01)
     """ The time to integrate over """
 
     def alpha_m(self, V):
         """Channel gating kinetics. Functions of membrane voltage"""
-        return 0.1*(V+40.0)/(1.0 - sp.exp(-(V+40.0) / 10.0))
+        return 0.1*(V+40.0)/(1.0 - np.exp(-(V+40.0) / 10.0))
 
     def beta_m(self, V):
         """Channel gating kinetics. Functions of membrane voltage"""
-        return 4.0*sp.exp(-(V+65.0) / 18.0)
+        return 4.0*np.exp(-(V+65.0) / 18.0)
 
     def alpha_h(self, V):
         """Channel gating kinetics. Functions of membrane voltage"""
-        return 0.07*sp.exp(-(V+65.0) / 20.0)
+        return 0.07*np.exp(-(V+65.0) / 20.0)
 
     def beta_h(self, V):
         """Channel gating kinetics. Functions of membrane voltage"""
-        return 1.0/(1.0 + sp.exp(-(V+35.0) / 10.0))
+        return 1.0/(1.0 + np.exp(-(V+35.0) / 10.0))
 
     def alpha_n(self, V):
         """Channel gating kinetics. Functions of membrane voltage"""
-        return 0.01*(V+55.0)/(1.0 - sp.exp(-(V+55.0) / 10.0))
+        return 0.01*(V+55.0)/(1.0 - np.exp(-(V+55.0) / 10.0))
 
     def beta_n(self, V):
         """Channel gating kinetics. Functions of membrane voltage"""
-        return 0.125*sp.exp(-(V+65) / 80.0)
+        return 0.125*np.exp(-(V+65) / 80.0)
 
     def I_Na(self, V, m, h):
         """
