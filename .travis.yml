@@ -29,7 +29,7 @@ env:
     - OMV_ENGINE=jNeuroML_NEURON
     - OMV_ENGINE=jNeuroML_validate
     - OMV_ENGINE=jNeuroML_NetPyNE
-    - OMV_ENGINE=jNeuroML_PyNN_NEURON
+    #- OMV_ENGINE=jNeuroML_PyNN_NEURON # issue with python3 -> resolve in PyNNShowcase...
     - OMV_ENGINE=jNeuroML_Brian2
     #- OMV_ENGINE=jNeuroML_Moose
 
