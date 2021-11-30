@@ -1,0 +1,28 @@
+name: Non OMV tests
+
+on:
+  push:
+    branches: [ master, development, experimental ]
+  pull_request:
+    branches: [ master, development, experimental ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ 2.7, 3.9 ]
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up Python  ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version:  ${{ matrix.python-version }}
+        
+    - name: Test python HH
+      run: |
+        cd Tutorial/Source
+        python HodgkinHuxley.py 
