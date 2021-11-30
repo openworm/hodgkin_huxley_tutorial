@@ -24,6 +24,6 @@ jobs:
         
     - name: Test python HH
       run: |
-        pip install scipy
+        pip install scipy matplotlib
         cd Tutorial/Source
         python HodgkinHuxley.py 
