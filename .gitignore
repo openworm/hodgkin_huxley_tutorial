@@ -33,3 +33,5 @@ Tutorial/Source/*json
 /Tutorial/Source/tests.log
 /tests.log
 /Tutorial/Source/*_brian.py
+*code.gen.*
+*_eden.py
