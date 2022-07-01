@@ -35,3 +35,4 @@ Tutorial/Source/*json
 /Tutorial/Source/*_brian.py
 *code.gen.*
 *_eden.py
+.ipynb_*

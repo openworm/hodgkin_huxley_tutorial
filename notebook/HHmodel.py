@@ -4,7 +4,6 @@ import pylab as plt
 from scipy.integrate import odeint
 
 class HodgkinHuxley:
-    t = np.arange(0.0, 450.0, 0.01)
     def __init__(self, C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, t):
         self.C_m  = C_m
         self.g_Na = g_Na
@@ -16,8 +15,8 @@ class HodgkinHuxley:
         self.t    = t
         #self.tn    = tn
         #self.delta_t    = delta_t
-        #self.t = np.arange(t0, tn, delta_t)
-        #print(self.t)
+        #t = np.arange(t0, tn, delta_t)
+        #print(t)
 
     def alpha_m(self, V):
         """Channel gating kinetics. Functions of membrane voltage"""
@@ -115,36 +114,35 @@ class HodgkinHuxley:
         ik = self.I_K(V, n)
         il = self.I_L(V)
 
-        plt.figure(figsize=[4,2])
-
+        plt.figure(figsize=[15,10])
+        
         ax1 = plt.subplot(4,1,1)
-        plt.title('Hodgkin-Huxley Neuron')
+        plt.xlim([np.min(self.t),np.max(self.t)])  #for all subplots
+        plt.title('Hodgkin-Huxley Neuron', fontsize = 20)
         plt.plot(self.t, V, 'k')
-        plt.ylabel('V (mV)')
+        plt.ylabel('V (mV)', fontsize = 15)
+        
 
         plt.subplot(4,1,2, sharex = ax1)
         plt.plot(self.t, ina, 'c', label='$I_{Na}$')
         plt.plot(self.t, ik, 'y', label='$I_{K}$')
         plt.plot(self.t, il, 'm', label='$I_{L}$')
-        plt.ylabel('Current')
-        plt.legend()
+        plt.ylabel('Current', fontsize = 15)
+        plt.legend(bbox_to_anchor=(1.1, 0.5),loc='center right', fontsize = 15, borderaxespad=0)
 
         plt.subplot(4,1,3, sharex = ax1)
         plt.plot(self.t, m, 'r', label='m')
         plt.plot(self.t, h, 'g', label='h')
         plt.plot(self.t, n, 'b', label='n')
-        plt.ylabel('Gating Value')
-        plt.legend()
+        plt.ylabel('Gating Value', fontsize = 15)
+        plt.legend(bbox_to_anchor=(1.1, 0.5),loc='center right', fontsize = 15, borderaxespad=0)
 
         plt.subplot(4,1,4, sharex = ax1)
         i_inj_values = [self.I_inj(t) for t in self.t]
         plt.plot(self.t, i_inj_values, 'k')
-        plt.xlabel('t (ms)')
-        plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')
+        plt.xlabel('t (ms)', fontsize = 15)
+        plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)', fontsize = 15)
         plt.ylim(-1, 40)
 
         plt.tight_layout()
         plt.show()
-        
-        #plt.rcParams["figure.figsize"]=200,100
-        #plt.show()
