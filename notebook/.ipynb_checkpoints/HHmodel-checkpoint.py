@@ -3,8 +3,8 @@ import numpy as np
 import pylab as plt
 from scipy.integrate import odeint
 
-class HodgkinHuxley:
-    def __init__(self, C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, t):
+class HodgkinHuxley():
+    def __init__(self, C_m=1, g_Na=120, g_K=36, g_L=0.3, E_Na=50, E_K=-77, E_L=-54.387, t_0=0, t_n=450, delta_t=0.01):
         self.C_m  = C_m
         self.g_Na = g_Na
         self.g_K  = g_K
@@ -12,12 +12,8 @@ class HodgkinHuxley:
         self.E_Na = E_Na
         self.E_K  = E_K
         self.E_L  = E_L
-        self.t    = t
-        #self.tn    = tn
-        #self.delta_t    = delta_t
-        #t = np.arange(t0, tn, delta_t)
-        #print(t)
-
+        self.t    = np.arange(t_0, t_n, delta_t)
+        
     def alpha_m(self, V):
         """Channel gating kinetics. Functions of membrane voltage"""
         return 0.1*(V+40.0)/(1.0 - np.exp(-(V+40.0) / 10.0))

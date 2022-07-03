@@ -6,29 +6,34 @@ from scipy.integrate import odeint
 class HodgkinHuxley():
     """Full Hodgkin-Huxley Model implemented in Python"""
 
-    C_m  =   1.0
-    """membrane capacitance, in uF/cm^2"""
-
-    g_Na = 120.0
-    """Sodium (Na) maximum conductances, in mS/cm^2"""
-
-    g_K  =  36.0
-    """Postassium (K) maximum conductances, in mS/cm^2"""
-
-    g_L  =   0.3
-    """Leak maximum conductances, in mS/cm^2"""
-
-    E_Na =  50.0
-    """Sodium (Na) Nernst reversal potentials, in mV"""
-
-    E_K  = -77.0
-    """Postassium (K) Nernst reversal potentials, in mV"""
-
-    E_L  = -54.387
-    """Leak Nernst reversal potentials, in mV"""
-
-    t = np.arange(0.0, 450.0, 0.01)
-    """ The time to integrate over """
+    """ __init__ uses optional arguments """
+    """ when no argument is passed default values are used """
+    
+    def __init__(self, C_m=1, g_Na=120, g_K=36, g_L=0.3, E_Na=50, E_K=-77, E_L=-54.387, t_0=0, t_n=450, delta_t=0.01):
+        
+        self.C_m  = C_m                              
+        """ membrane capacitance, in uF/cm^2 """
+        
+        self.g_Na = g_Na                             
+        """ Sodium (Na) maximum conductances, in mS/cm^2 """
+        
+        self.g_K  = g_K                              
+        """ Postassium (K) maximum conductances, in mS/cm^2 """
+        
+        self.g_L  = g_L                              
+        """ Leak maximum conductances, in mS/cm^2 """
+        
+        self.E_Na = E_Na                             
+        """ Sodium (Na) Nernst reversal potentials, in mV """
+        
+        self.E_K  = E_K                              
+        """ Postassium (K) Nernst reversal potentials, in mV """
+        
+        self.E_L  = E_L                              
+        """ Leak Nernst reversal potentials, in mV """
+        
+        self.t    = np.arange(t_0, t_n, delta_t)     
+        """ The time to integrate over """  
 
     def alpha_m(self, V):
         """Channel gating kinetics. Functions of membrane voltage"""
@@ -131,32 +136,34 @@ class HodgkinHuxley():
         ik = self.I_K(V, n)
         il = self.I_L(V)
 
-        plt.figure()
-
+        plt.figure(figsize=[15,10])
+        
         ax1 = plt.subplot(4,1,1)
-        plt.title('Hodgkin-Huxley Neuron')
+        plt.xlim([np.min(self.t),np.max(self.t)])  #for all subplots
+        plt.title('Hodgkin-Huxley Neuron', fontsize = 20)
         plt.plot(self.t, V, 'k')
-        plt.ylabel('V (mV)')
+        plt.ylabel('V (mV)', fontsize = 15)
+        
 
         plt.subplot(4,1,2, sharex = ax1)
         plt.plot(self.t, ina, 'c', label='$I_{Na}$')
         plt.plot(self.t, ik, 'y', label='$I_{K}$')
         plt.plot(self.t, il, 'm', label='$I_{L}$')
-        plt.ylabel('Current')
-        plt.legend()
+        plt.ylabel('Current', fontsize = 15)
+        plt.legend(bbox_to_anchor=(1.1, 0.5),loc='center right', fontsize = 15, borderaxespad=0)
 
         plt.subplot(4,1,3, sharex = ax1)
         plt.plot(self.t, m, 'r', label='m')
         plt.plot(self.t, h, 'g', label='h')
         plt.plot(self.t, n, 'b', label='n')
-        plt.ylabel('Gating Value')
-        plt.legend()
+        plt.ylabel('Gating Value', fontsize = 15)
+        plt.legend(bbox_to_anchor=(1.1, 0.5),loc='center right', fontsize = 15, borderaxespad=0)
 
         plt.subplot(4,1,4, sharex = ax1)
         i_inj_values = [self.I_inj(t) for t in self.t]
         plt.plot(self.t, i_inj_values, 'k')
-        plt.xlabel('t (ms)')
-        plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')
+        plt.xlabel('t (ms)', fontsize = 15)
+        plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)', fontsize = 15)
         plt.ylim(-1, 40)
 
         plt.tight_layout()
