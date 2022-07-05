@@ -9,7 +9,7 @@ class HodgkinHuxley():
     """ __init__ uses optional arguments """
     """ when no argument is passed default values are used """
     
-    def __init__(self, C_m=1, g_Na=120, g_K=36, g_L=0.3, E_Na=50, E_K=-77, E_L=-54.387, t_0=0, t_n=450, delta_t=0.01):
+    def __init__(self, C_m=1, g_Na=120, g_K=36, g_L=0.3, E_Na=50, E_K=-77, E_L=-54.387, t_0=0, t_n=450, delta_t=0.01, I_inj_max=0, I_inj_width=0, I_inj_trans=0):
         
         self.C_m  = C_m                              
         """ membrane capacitance, in uF/cm^2 """
@@ -33,7 +33,18 @@ class HodgkinHuxley():
         """ Leak Nernst reversal potentials, in mV """
         
         self.t    = np.arange(t_0, t_n, delta_t)     
-        """ The time to integrate over """  
+        """ The time to integrate over """
+        
+        """ Advanced input - injection current (single rectangular pulse only) """
+        
+        self.I_inj_max   = I_inj_max
+        """ maximum value or amplitude of injection pulse """
+        
+        self.I_inj_width = I_inj_width
+        """ duration or width of injection pulse """
+        
+        self.I_inj_trans = I_inj_trans
+        """ strart time of injection pulse or tranlation about time axis """
 
     def alpha_m(self, V):
         """Channel gating kinetics. Functions of membrane voltage"""
@@ -103,7 +114,19 @@ class HodgkinHuxley():
         |           step up to 35 uA/cm^2 at t>300
         |           step down to 0 uA/cm^2 at t>400
         """
-        return 10*(t>100) - 10*(t>200) + 35*(t>300) - 35*(t>400)
+        
+        """ running standalone python script """
+        if __name__ == '__main__':     
+            return 10*(t>100) - 10*(t>200) + 35*(t>300) - 35*(t>400)
+        
+        #""" running jupyterLab notebook """
+        #advanced input (if checkbox selected)
+        elif self.I_inj_width>0:              
+            return self.I_inj_max*(t>self.I_inj_trans) - self.I_inj_max*(t>self.I_inj_trans+self.I_inj_width)
+        
+        #basic input
+        else:
+            return 10*(t>100) - 10*(t>200) + 35*(t>300) - 35*(t>400)
 
     @staticmethod
     def dALLdt(X, t, self):
