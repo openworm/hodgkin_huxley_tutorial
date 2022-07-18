@@ -170,9 +170,9 @@ class HodgkinHuxley():
         ax1 = plt.subplot(4,1,1)
         plt.xlim([np.min(self.t),np.max(self.t)])  #for all subplots
         plt.title('Hodgkin-Huxley Neuron')
-        plt.plot(self.t, V, 'k')
-        plt.ylabel('V (mV)')
-        
+        i_inj_values = [self.I_inj(t) for t in self.t]
+        plt.plot(self.t, i_inj_values, 'k')
+        plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')      
 
         plt.subplot(4,1,2, sharex = ax1)
         plt.plot(self.t, ina, 'c', label='$I_{Na}$')
@@ -189,10 +189,10 @@ class HodgkinHuxley():
         plt.legend()
 
         plt.subplot(4,1,4, sharex = ax1)
-        i_inj_values = [self.I_inj(t) for t in self.t]
-        plt.plot(self.t, i_inj_values, 'k')
+       
+        plt.plot(self.t, V, 'k')
+        plt.ylabel('V (mV)')
         plt.xlabel('t (ms)')
-        plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')
         #plt.ylim(-1, 40)
 
         plt.tight_layout()

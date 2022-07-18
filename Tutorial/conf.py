@@ -31,7 +31,7 @@ sys.path.insert(0, os.path.abspath('Source'))
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.doctest',
-    'sphinx.ext.pngmath',
+    'sphinx.ext.imgmath',
     'sphinx.ext.viewcode',
 ]
 
