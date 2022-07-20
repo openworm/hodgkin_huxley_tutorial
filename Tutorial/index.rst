@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Hodgkin Huxley Tutorial
+Welcome to the Hodgkin Huxley Tutorial
 ===============================================
 
 This tutorial gives an introduction to the `Hodgkin-Huxley model <https://en.wikipedia.org/wiki/Hodgkin%E2%80%93Huxley_model>`_ by use of executable example implementations in Python and `NeuroML <http://www.neuroml.org>`_. 
