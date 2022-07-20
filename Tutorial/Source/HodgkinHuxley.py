@@ -158,36 +158,42 @@ class HodgkinHuxley():
         ina = self.I_Na(V, m, h)
         ik = self.I_K(V, n)
         il = self.I_L(V)
-
-        plt.figure(figsize=[15,10])
+        
+        #increase figure and font size for display in jupyter notebook
+        if __name__ != '__main__':        
+            plt.rcParams['figure.figsize'] = [12, 8]
+            plt.rcParams['font.size'] = 15
+            plt.rcParams['legend.fontsize'] = 12
+            
+        fig=plt.figure()
         
         ax1 = plt.subplot(4,1,1)
         plt.xlim([np.min(self.t),np.max(self.t)])  #for all subplots
-        plt.title('Hodgkin-Huxley Neuron', fontsize = 20)
-        plt.plot(self.t, V, 'k')
-        plt.ylabel('V (mV)', fontsize = 15)
-        
+        plt.title('Hodgkin-Huxley Neuron')
+        i_inj_values = [self.I_inj(t) for t in self.t]
+        plt.plot(self.t, i_inj_values, 'k')
+        plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')      
 
         plt.subplot(4,1,2, sharex = ax1)
         plt.plot(self.t, ina, 'c', label='$I_{Na}$')
         plt.plot(self.t, ik, 'y', label='$I_{K}$')
         plt.plot(self.t, il, 'm', label='$I_{L}$')
-        plt.ylabel('Current', fontsize = 15)
-        plt.legend(bbox_to_anchor=(1.1, 0.5),loc='center right', fontsize = 15, borderaxespad=0)
+        plt.ylabel('Current')
+        plt.legend()
 
         plt.subplot(4,1,3, sharex = ax1)
         plt.plot(self.t, m, 'r', label='m')
         plt.plot(self.t, h, 'g', label='h')
         plt.plot(self.t, n, 'b', label='n')
-        plt.ylabel('Gating Value', fontsize = 15)
-        plt.legend(bbox_to_anchor=(1.1, 0.5),loc='center right', fontsize = 15, borderaxespad=0)
+        plt.ylabel('Gating Value')
+        plt.legend()
 
         plt.subplot(4,1,4, sharex = ax1)
-        i_inj_values = [self.I_inj(t) for t in self.t]
-        plt.plot(self.t, i_inj_values, 'k')
-        plt.xlabel('t (ms)', fontsize = 15)
-        plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)', fontsize = 15)
-        plt.ylim(-1, 40)
+       
+        plt.plot(self.t, V, 'k')
+        plt.ylabel('V (mV)')
+        plt.xlabel('t (ms)')
+        #plt.ylim(-1, 40)
 
         plt.tight_layout()
         plt.show()

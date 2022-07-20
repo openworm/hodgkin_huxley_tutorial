@@ -49,9 +49,9 @@ Table of Contents:
 .. toctree::
    :maxdepth: 4
 
-   _static/Tutorial
-   _static/Electrophysiology
-   _static/iv_curve
-   _static/Exercises
-   _static/Source
+   _toc/Tutorial
+   _toc/Electrophysiology
+   _toc/iv_curve
+   _toc/Exercises
+   _toc/Source
 
