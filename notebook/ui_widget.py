@@ -65,7 +65,7 @@ header_conductance = ipywidgets.HTMLMath(value=r"<b> Maximum Conductances, \(mS/
 header_potential   = ipywidgets.HTMLMath(value=r"<b> Nernst Reverasal Potentials, \(mV\)</b>")
 header_simTime     = ipywidgets.HTMLMath(value=r"<b> Simulation Time, \(ms\)</b>")
 header_injCurrent  = ipywidgets.HTMLMath(value=r"<b> Injection Current, \(\mu{A}/cm^2\)</b>")
-injCurrent_note    = ipywidgets.HTML(value=f"<i>*For injection current width = 0, the model uses default two pulse signal from tutorial</i>")
+injCurrent_note    = ipywidgets.HTML(value=f"<i>*For injection current duration = 0, the model uses default pulse signal from tutorial</i>")
 
 #slider widgets
 slider_capacitance = ipywidgets.FloatSlider(value=default_capacitance,min=0,max=3,step=0.1,description='Capacitance',readout=False,continuous_update=False)
@@ -76,8 +76,8 @@ slider_pot_Na      = ipywidgets.FloatSlider(value=default_pot_Na,min=-100,max=10
 slider_pot_K       = ipywidgets.FloatSlider(value=default_pot_K,min=-100,max=100,step=0.1,description='Potassium',readout=False,continuous_update=False)
 slider_pot_L       = ipywidgets.FloatSlider(value=default_pot_L,min=-100,max=100,step=0.1,description='Leak',readout=False,continuous_update=False)
 slider_amplitude   = ipywidgets.FloatSlider(value=default_amplitude,min=-20,max=200,step=0.1,description='Amplitude',readout=False,continuous_update=False)
-slider_width       = ipywidgets.FloatSlider(value=default_width,min=0,max=500,step=0.1,description='Width',readout=False,continuous_update=False)
-slider_translation = ipywidgets.FloatSlider(value=default_translation,min=0,max=250,step=0.1,description='Start at',readout=False,continuous_update=False)
+slider_width       = ipywidgets.FloatSlider(value=default_width,min=0,max=500,step=0.1,description='Duration',readout=False,continuous_update=False)
+slider_translation = ipywidgets.FloatSlider(value=default_translation,min=0,max=250,step=0.1,description='Time Delay',readout=False,continuous_update=False)
 
 #text box widgets
 time_start         = ipywidgets.FloatText(value=0,description='Start Time',disabled=True)
