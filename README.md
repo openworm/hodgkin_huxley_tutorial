@@ -24,8 +24,7 @@ It can be accessed on the Open Source Brain site at this location: http://www.op
 
 See also http://www.opensourcebrain.org/projects/hodgkin-huxley-tutorial.
 
-[![Build Status](https://travis-ci.org/openworm/hodgkin_huxley_tutorial.svg?branch=master)](https://travis-ci.org/openworm/hodgkin_huxley_tutorial)
-
+[![Continuous build using OMV](https://github.com/openworm/hodgkin_huxley_tutorial/actions/workflows/main.yml/badge.svg)](https://github.com/openworm/hodgkin_huxley_tutorial/actions/workflows/main.yml) [![Non OMV tests](https://github.com/openworm/hodgkin_huxley_tutorial/actions/workflows/non-omv.yml/badge.svg)](https://github.com/openworm/hodgkin_huxley_tutorial/actions/workflows/non-omv.yml)
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1493456.svg)](https://doi.org/10.5281/zenodo.1493456)
 

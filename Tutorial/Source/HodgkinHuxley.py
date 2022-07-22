@@ -6,29 +6,45 @@ from scipy.integrate import odeint
 class HodgkinHuxley():
     """Full Hodgkin-Huxley Model implemented in Python"""
 
-    C_m  =   1.0
-    """membrane capacitance, in uF/cm^2"""
-
-    g_Na = 120.0
-    """Sodium (Na) maximum conductances, in mS/cm^2"""
-
-    g_K  =  36.0
-    """Postassium (K) maximum conductances, in mS/cm^2"""
-
-    g_L  =   0.3
-    """Leak maximum conductances, in mS/cm^2"""
-
-    E_Na =  50.0
-    """Sodium (Na) Nernst reversal potentials, in mV"""
-
-    E_K  = -77.0
-    """Postassium (K) Nernst reversal potentials, in mV"""
-
-    E_L  = -54.387
-    """Leak Nernst reversal potentials, in mV"""
-
-    t = np.arange(0.0, 450.0, 0.01)
-    """ The time to integrate over """
+    """ __init__ uses optional arguments """
+    """ when no argument is passed default values are used """
+    
+    def __init__(self, C_m=1, g_Na=120, g_K=36, g_L=0.3, E_Na=50, E_K=-77, E_L=-54.387, t_0=0, t_n=450, delta_t=0.01, I_inj_max=0, I_inj_width=0, I_inj_trans=0):
+        
+        self.C_m  = C_m                              
+        """ membrane capacitance, in uF/cm^2 """
+        
+        self.g_Na = g_Na                             
+        """ Sodium (Na) maximum conductances, in mS/cm^2 """
+        
+        self.g_K  = g_K                              
+        """ Postassium (K) maximum conductances, in mS/cm^2 """
+        
+        self.g_L  = g_L                              
+        """ Leak maximum conductances, in mS/cm^2 """
+        
+        self.E_Na = E_Na                             
+        """ Sodium (Na) Nernst reversal potentials, in mV """
+        
+        self.E_K  = E_K                              
+        """ Postassium (K) Nernst reversal potentials, in mV """
+        
+        self.E_L  = E_L                              
+        """ Leak Nernst reversal potentials, in mV """
+        
+        self.t    = np.arange(t_0, t_n, delta_t)     
+        """ The time to integrate over """
+        
+        """ Advanced input - injection current (single rectangular pulse only) """
+        
+        self.I_inj_max   = I_inj_max
+        """ maximum value or amplitude of injection pulse """
+        
+        self.I_inj_width = I_inj_width
+        """ duration or width of injection pulse """
+        
+        self.I_inj_trans = I_inj_trans
+        """ strart time of injection pulse or tranlation about time axis """
 
     def alpha_m(self, V):
         """Channel gating kinetics. Functions of membrane voltage"""
@@ -98,7 +114,19 @@ class HodgkinHuxley():
         |           step up to 35 uA/cm^2 at t>300
         |           step down to 0 uA/cm^2 at t>400
         """
-        return 10*(t>100) - 10*(t>200) + 35*(t>300) - 35*(t>400)
+        
+        """ running standalone python script """
+        if __name__ == '__main__':     
+            return 10*(t>100) - 10*(t>200) + 35*(t>300) - 35*(t>400)
+        
+        #""" running jupyterLab notebook """
+        #injection current is defined
+        elif self.I_inj_width>0:              
+            return self.I_inj_max*(t>self.I_inj_trans) - self.I_inj_max*(t>self.I_inj_trans+self.I_inj_width)
+        
+        #default injection current
+        else:
+            return 10*(t>150) - 10*(t>300)
 
     @staticmethod
     def dALLdt(X, t, self):
@@ -130,13 +158,22 @@ class HodgkinHuxley():
         ina = self.I_Na(V, m, h)
         ik = self.I_K(V, n)
         il = self.I_L(V)
-
-        plt.figure()
-
+        
+        #increase figure and font size for display in jupyter notebook
+        if __name__ != '__main__':        
+            plt.rcParams['figure.figsize'] = [12, 8]
+            plt.rcParams['font.size'] = 15
+            plt.rcParams['legend.fontsize'] = 12
+            plt.rcParams['legend.loc'] = "upper right"
+            
+        fig=plt.figure()
+        
         ax1 = plt.subplot(4,1,1)
+        plt.xlim([np.min(self.t),np.max(self.t)])  #for all subplots
         plt.title('Hodgkin-Huxley Neuron')
-        plt.plot(self.t, V, 'k')
-        plt.ylabel('V (mV)')
+        i_inj_values = [self.I_inj(t) for t in self.t]
+        plt.plot(self.t, i_inj_values, 'k')
+        plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')      
 
         plt.subplot(4,1,2, sharex = ax1)
         plt.plot(self.t, ina, 'c', label='$I_{Na}$')
@@ -153,11 +190,10 @@ class HodgkinHuxley():
         plt.legend()
 
         plt.subplot(4,1,4, sharex = ax1)
-        i_inj_values = [self.I_inj(t) for t in self.t]
-        plt.plot(self.t, i_inj_values, 'k')
+        plt.plot(self.t, V, 'k')
+        plt.ylabel('V (mV)')
         plt.xlabel('t (ms)')
-        plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')
-        plt.ylim(-1, 40)
+        #plt.ylim(-1, 40)
 
         plt.tight_layout()
         plt.show()
