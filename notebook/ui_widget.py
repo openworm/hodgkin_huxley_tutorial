@@ -12,11 +12,11 @@ default_pot_Na       = 50
 default_pot_K        = -77
 default_pot_L        = -54.387
 default_t0           = 0
-default_tn           = 450
+default_tn           = 150
 default_deltat       = 0.01
-default_amplitude    = 50
-default_width        = 0
-default_translation  = 50
+default_amplitude    = 10
+default_width        = 100
+default_translation  = 25
 
 #function to reset input values to default on button click
 def resetTodefault(_):
@@ -42,13 +42,14 @@ def showDefault(response):
     
 #function to change slider handle colour when move from default
 def highlight_slider():
-    inputList    = [slider_capacitance, slider_cond_Na, slider_cond_K, slider_cond_L, slider_pot_Na, slider_pot_K, slider_pot_L]
-    inputDefault = [default_capacitance, default_cond_Na, default_cond_K, default_cond_L, default_pot_Na, default_pot_K, default_pot_L]
+    inputList    = [slider_capacitance, slider_cond_Na, slider_cond_K, slider_cond_L, slider_pot_Na, slider_pot_K, slider_pot_L, slider_amplitude, slider_width, slider_translation]
+    inputDefault = [default_capacitance, default_cond_Na, default_cond_K, default_cond_L, default_pot_Na, default_pot_K, default_pot_L, default_amplitude, default_width, default_translation]
     for l, d in zip(inputList,inputDefault):
         if l.value == d:
             l.style.handle_color = 'white'
         else:
             l.style.handle_color = 'orange'
+    """
     if slider_width.value == default_width:
         slider_amplitude.style.handle_color = 'white'
         slider_width.style.handle_color = 'white'
@@ -57,6 +58,7 @@ def highlight_slider():
         slider_amplitude.style.handle_color = 'orange'
         slider_width.style.handle_color = 'orange'
         slider_translation.style.handle_color = 'orange'
+    """
 
 #defining the widgets
 #Header or texts as HTMLMath to include symbols
@@ -80,9 +82,9 @@ slider_width       = ipywidgets.FloatSlider(value=default_width,min=0,max=500,st
 slider_translation = ipywidgets.FloatSlider(value=default_translation,min=0,max=250,step=0.1,description='Time Delay',readout=False,continuous_update=False)
 
 #text box widgets
-time_start         = ipywidgets.FloatText(value=0,description='Start Time',disabled=True)
-time_end           = ipywidgets.FloatText(value=450,description='Total Time',disabled=False)
-time_step          = ipywidgets.FloatText(value=0.01,description='Time Step',disabled=False)
+time_start         = ipywidgets.FloatText(value=default_t0,description='Start Time',disabled=True)
+time_end           = ipywidgets.FloatText(value=default_tn,description='Total Time',disabled=False)
+time_step          = ipywidgets.FloatText(value=default_deltat,description='Time Step',disabled=False)
 
 #text box widgets to link with sliders (included to type in values for slider inputs also)
 textBox_capacitance = ipywidgets.FloatText(value=default_capacitance,step=0.1,layout=ipywidgets.Layout(width='5%'))
