@@ -48,7 +48,7 @@ This variable from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
-   :lines: 8-9
+   :lines: 12-15
 
 Is used in this line in `hhcell.cell.nml <hhcell.html>`_:
 
@@ -65,11 +65,11 @@ These variables from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
-   :lines: 11-12
+   :lines: 12-13,17-18
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
-   :lines: 20-21
+   :lines: 26-27
 
 Are used in this line in `hhcell.cell.nml <hhcell.html>`_:
 
@@ -87,11 +87,11 @@ These variables from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
-   :lines: 14-15
+   :lines: 12-13,20-21
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
-   :lines: 23-24
+   :lines: 29-30
 
 Are used in this line in `hhcell.cell.nml <hhcell.html>`_:
 
@@ -108,11 +108,11 @@ These variables from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
-   :lines: 17-18
+   :lines: 12-13,23-24
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
-   :lines: 26-27
+   :lines: 32-33
 
 Are used in this line in `hhcell.cell.nml <hhcell.html>`_:
 
@@ -129,7 +129,7 @@ This variable from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
-   :lines: 29-30
+   :lines: 12-13,35-36
 
 Is used in this line in `LEMS_HH_Simulation.xml <LEMS_HH_Simulation.html>`_:
 
@@ -266,7 +266,7 @@ This line from `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
-   :lines: 124
+   :lines: 153
 
 Is used to define the initial values for the model in `hhcell.cell.nml <hhcell.html>`_:
 
@@ -294,7 +294,7 @@ This line in `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
-   :lines: 135-138
+   :lines: 191-194
 
 Is used in these lines in `LEMS_HH_Simulation.xml <LEMS_HH_Simulation.html>`_:
 
@@ -306,7 +306,7 @@ This line in `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
-   :lines: 140-145
+   :lines: 177-182
 
 Is used in these lines in `LEMS_HH_Simulation.xml <LEMS_HH_Simulation.html>`_:
 
@@ -318,7 +318,7 @@ This line in `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
-   :lines: 147-152
+   :lines: 184-189
 
 Is used in these lines in `LEMS_HH_Simulation.xml <LEMS_HH_Simulation.html>`_:
 
@@ -330,7 +330,7 @@ This line in `HodgkinHuxley.py <Hodgkin%20Huxley.html>`_:
 
 .. literalinclude:: ../Source/HodgkinHuxley.py
    :language: python
-   :lines: 154-158
+   :lines: 170-175
 
 Is used in these lines in `LEMS_HH_Simulation.xml <LEMS_HH_Simulation.html>`_:
 

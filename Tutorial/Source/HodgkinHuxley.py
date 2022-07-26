@@ -120,13 +120,8 @@ class HodgkinHuxley():
             return 10*(t>100) - 10*(t>200) + 35*(t>300) - 35*(t>400)
         
         #""" running jupyterLab notebook """
-        #advanced input (if checkbox selected)
-        elif self.I_inj_width>0:              
-            return self.I_inj_max*(t>self.I_inj_trans) - self.I_inj_max*(t>self.I_inj_trans+self.I_inj_width)
-        
-        #basic input
         else:
-            return 10*(t>100) - 10*(t>200) + 35*(t>300) - 35*(t>400)
+            return self.I_inj_max*(t>self.I_inj_trans) - self.I_inj_max*(t>self.I_inj_trans+self.I_inj_width)
 
     @staticmethod
     def dALLdt(X, t, self):
@@ -164,6 +159,7 @@ class HodgkinHuxley():
             plt.rcParams['figure.figsize'] = [12, 8]
             plt.rcParams['font.size'] = 15
             plt.rcParams['legend.fontsize'] = 12
+            plt.rcParams['legend.loc'] = "upper right"
             
         fig=plt.figure()
         
@@ -189,7 +185,6 @@ class HodgkinHuxley():
         plt.legend()
 
         plt.subplot(4,1,4, sharex = ax1)
-       
         plt.plot(self.t, V, 'k')
         plt.ylabel('V (mV)')
         plt.xlabel('t (ms)')
