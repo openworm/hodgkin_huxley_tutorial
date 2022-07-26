@@ -120,13 +120,8 @@ class HodgkinHuxley():
             return 10*(t>100) - 10*(t>200) + 35*(t>300) - 35*(t>400)
         
         #""" running jupyterLab notebook """
-        #injection current is defined
-        elif self.I_inj_width>0:              
-            return self.I_inj_max*(t>self.I_inj_trans) - self.I_inj_max*(t>self.I_inj_trans+self.I_inj_width)
-        
-        #default injection current
         else:
-            return 10*(t>150) - 10*(t>300)
+            return self.I_inj_max*(t>self.I_inj_trans) - self.I_inj_max*(t>self.I_inj_trans+self.I_inj_width)
 
     @staticmethod
     def dALLdt(X, t, self):
