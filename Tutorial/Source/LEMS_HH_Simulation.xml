@@ -22,7 +22,7 @@
     <Include file="kChan.channel.nml"/>
 
 
-    <Simulation id="sim1" length="450ms" step="0.01ms" target="HHCellNetwork">
+    <Simulation id="sim1" length="150.0ms" step="0.01ms" target="HHCellNetwork">
     
         <Display id="d1" title="Hodgkin-Huxley Neuron: V (mV)" timeScale="1ms" xmin="-20" xmax="470" ymin="-90" ymax="50">
             <Line id="V" quantity="hhpop[0]/v" scale="1mV" color="#000000" timeScale="1ms"/>
@@ -48,8 +48,20 @@
         <!-- Saved the membrane potential to file: hh_v.dat -->
         <OutputFile id="of0" fileName="hh_v.dat">
             <OutputColumn id="v" quantity="hhpop[0]/v"/> 
-        </OutputFile>  
-    
+        </OutputFile>
+        
+        <!-- for plotting results in JupyterNotebook -->
+        <OutputFile id="of1" fileName="hh_forJupyterNotebook.dat">
+            <OutputColumn id="v" quantity="hhpop[0]/v"/> 
+			<OutputColumn id="m" quantity="hhpop[0]/bioPhys1/membraneProperties/naChans/naChan/m/q"/> 
+			<OutputColumn id="h" quantity="hhpop[0]/bioPhys1/membraneProperties/naChans/naChan/h/q"/> 
+			<OutputColumn id="n" quantity="hhpop[0]/bioPhys1/membraneProperties/kChans/kChan/n/q"/> 
+			<OutputColumn id="I_na" quantity="hhpop[0]/bioPhys1/membraneProperties/naChans/iDensity"/>
+            <OutputColumn id="I_k"  quantity="hhpop[0]/bioPhys1/membraneProperties/kChans/iDensity"/>
+            <OutputColumn id="I_l"  quantity="hhpop[0]/bioPhys1/membraneProperties/leak/iDensity"/>
+			<OutputColumn id="I_inj1" quantity="hhpop[0]/pulseGen1/i"/>
+            <OutputColumn id="I_inj2" quantity="hhpop[0]/pulseGen2/i"/>
+        </OutputFile>
         
     </Simulation>
 

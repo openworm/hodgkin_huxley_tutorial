@@ -8,8 +8,8 @@
     <include href="hhcell.cell.nml"/> <!-- Include the cell definition -->
 
     <!-- Short small current pulse input & short larger current pulse input -->
-    <pulseGenerator id="pulseGen1" delay="100ms" duration="100ms" amplitude="0.10nA"/>
-    <pulseGenerator id="pulseGen2" delay="300ms" duration="100ms" amplitude="0.35nA"/>
+    <pulseGenerator id="pulseGen1" delay="25.0ms" duration="100.0ms" amplitude="0.1nA"/>
+    <pulseGenerator id="pulseGen2" delay="300ms" duration="100ms" amplitude="0.0nA"/>
 
     <network id="HHCellNetwork">
 

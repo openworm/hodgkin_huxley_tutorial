@@ -14,7 +14,8 @@ default_pot_L        = -54.387
 default_t0           = 0
 default_tn           = 150
 default_deltat       = 0.01
-default_amplitude    = 10
+#default_amplitude    = 10   #Python version
+default_amplitude    = 0.1   #NeuroML version
 default_width        = 100
 default_translation  = 25
 
@@ -49,25 +50,16 @@ def highlight_slider():
             l.style.handle_color = 'white'
         else:
             l.style.handle_color = 'orange'
-    """
-    if slider_width.value == default_width:
-        slider_amplitude.style.handle_color = 'white'
-        slider_width.style.handle_color = 'white'
-        slider_translation.style.handle_color = 'white'
-    else:
-        slider_amplitude.style.handle_color = 'orange'
-        slider_width.style.handle_color = 'orange'
-        slider_translation.style.handle_color = 'orange'
-    """
-
+    
 #defining the widgets
 #Header or texts as HTMLMath to include symbols
 header_capacitance = ipywidgets.HTMLMath(value=r"<b> Membrane Capacitance, \(\mu{F}/cm^2\)</b>")
 header_conductance = ipywidgets.HTMLMath(value=r"<b> Maximum Conductances, \(mS/cm^2\)</b>")
 header_potential   = ipywidgets.HTMLMath(value=r"<b> Nernst Reverasal Potentials, \(mV\)</b>")
 header_simTime     = ipywidgets.HTMLMath(value=r"<b> Simulation Time, \(ms\)</b>")
-header_injCurrent  = ipywidgets.HTMLMath(value=r"<b> Injection Current, \(\mu{A}/cm^2\)</b>")
-injCurrent_note    = ipywidgets.HTML(value=f"<i>*For injection current duration = 0, the model uses default pulse signal from tutorial</i>")
+#header_injCurrent  = ipywidgets.HTMLMath(value=r"<b> Injection Current, \(\mu{A}/cm^2\)</b>")    #Python version
+header_injCurrent  = ipywidgets.HTMLMath(value=r"<b> Injection Current, \(nA\)</b>")              #NeuroML version
+#injCurrent_note    = ipywidgets.HTML(value=f"<i>*For injection current duration = 0, the model uses default pulse signal from tutorial</i>")
 
 #slider widgets
 slider_capacitance = ipywidgets.FloatSlider(value=default_capacitance,min=0,max=3,step=0.1,description='Capacitance',readout=False,continuous_update=False)
@@ -120,6 +112,9 @@ showValue_togglebtn.observe(showDefault)
 defalultValues = ipywidgets.HTMLMath(value=r"\(C = 1.0\)<br>\(G_{Na} = 120, G_{K} =  36, G_{L} =  0.3\)<br>\(V_{Na} =  50, V_{K} = -77, G_{L} = -54.387\)")
 defalultValues.layout.display = 'none'
 
+#define run button and connect to fucntion call
+run_button = ipywidgets.Button(description="Run NeuroML",button_style='success',tooltip='Execute NeuroML Model with above inputs and plot results') #NeuroML version
+
 #layout widgets in column using HBox
 h1=ipywidgets.HBox([header_capacitance])
 h2=ipywidgets.HBox([slider_capacitance, textBox_capacitance])
@@ -130,10 +125,10 @@ h6=ipywidgets.HBox([slider_pot_Na,textBox_pot_Na,slider_pot_K,textBox_pot_K,slid
 h7=ipywidgets.HBox([header_simTime])
 h8=ipywidgets.HBox([time_start,time_end,time_step])
 h9=ipywidgets.HBox([header_injCurrent])
-h10=ipywidgets.HBox([injCurrent_note])
+#h10=ipywidgets.HBox([injCurrent_note])
 h11=ipywidgets.HBox([slider_amplitude,textBox_amplitude,slider_width,textBox_width,slider_translation,textBox_translation])
 h12=ipywidgets.HBox([reset_button,showValue_togglebtn])
 h13=ipywidgets.HBox([defalultValues])
 
 #layout vertically all the HBox defined above 
-modelInputs=ipywidgets.VBox([h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13])
+modelInputs=ipywidgets.VBox([h1,h2,h3,h4,h5,h6,h7,h8,h9,h11,h12,h13])
