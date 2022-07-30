@@ -50,10 +50,12 @@ class nml2jupyter():
         tempFile=open(filename + ".temp","w")   #temporary file
         
         pattern1=r'(pulseGenerator id="pulseGen1" delay="[\s]*)([-+]?(?:\d*[.])?\d+)([\s]*ms" duration="[\s]*)([-+]?(?:\d*[.])?\d+)([\s]*ms" amplitude="[\s]*)([-+]?(?:\d*[.])?\d+)([\s]*nA")'
+        pattern2=r'(pulseGenerator id="pulseGen2" delay="[\s]*)([-+]?(?:\d*[.])?\d+)([\s]*ms" duration="[\s]*)([-+]?(?:\d*[.])?\d+)([\s]*ms" amplitude="[\s]*)([-+]?(?:\d*[.])?\d+)([\s]*nA")'
         with open(filename) as file:
             lines = file.readlines()
             for line in lines:
                 line=re.sub(pattern1,r'\g<1>%s\g<3>%s\g<5>%s\g<7>' %(I_inj_trans,I_inj_width,I_inj_max),line)
+                line=re.sub(pattern2,r'\g<1>%s\g<3>%s\g<5>%s\g<7>' %(300,100,0.0),line)   #switching off second pulse
                 tempFile.write(line)
         tempFile.close()
         os.rename(filename + ".temp", filename)
