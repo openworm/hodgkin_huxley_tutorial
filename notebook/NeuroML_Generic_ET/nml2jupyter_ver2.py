@@ -13,26 +13,31 @@ class nml2jupyter():
         self.path2source      = path2source
         self.fname_LEMS       = fname_LEMS
         self.filelist         = []
-        #self.fname_cellNML    = fname_cellNML
-        #self.fname_netNML     = fname_netNML
-        #self.fname_NML_output = fname_NML_output
         
+    #function to get list of  filenames from LEMS and all subsequent files
+    def getFileList(self,filename,filelist_local):
+        
+        filelist_local.append(filename)              #add current file to filelist
+        pathfilename=os.path.join(self.path2source, filename)
+        root = ET.parse(pathfilename).getroot()
+        
+        #parse current file for tag names 'include' and append included files in filelist
+        for child in root:
+            tag_name=child.tag.split("}")[-1]        #spliting to remove namespace, if any
+            if(tag_name.lower()=='include'):         #case insensitive search for keyword include
+                for key, val in child.attrib.items():
+                    if val.endswith('.nml') and val not in filelist_local:           #looking for filenames ending with .nml
+                            filelist_local=self.getFileList(val,filelist_local)
+        return filelist_local
+    
     #function to parse NeuroML files
     def parseNML(self):
         
-        tree=[]          #for all element trees (including LEMS**.xml)
-        #filelist=[]      #for all the filenames included in LEMS simulation file
+        #get all the filenames
+        self.filelist=self.getFileList(self.fname_LEMS,[])
         
-        filename=os.path.join(self.path2source, self.fname_LEMS)
-        #tree.append(ET.parse(filename))
-        root = ET.parse(filename).getroot()
-        
-        self.filelist.append(self.fname_LEMS)
-        #find all nml files included in the simulation
-        for f in root.findall('./{*}*/[@file]'):
-            if f.attrib['file'].endswith('.nml'):
-                self.filelist.append(f.attrib['file'])
- 
+        #get tree for each of the .nml files
+        tree=[]
         for file in self.filelist:
             filename=os.path.join(self.path2source, file)
             tree.append(ET.parse(filename))
@@ -43,44 +48,61 @@ class nml2jupyter():
         
         return tree
     
-    def findLevel(self,elem,level):
-        if (len(elem.findall('./{*}*'))):
-            level+=1
-            for subelem in elem.findall('./{*}*'):
-                print('\033[0;{}m'.format(30+level) + ' |---'*level + str(subelem.tag.split("}")[-1]) + str(subelem.attrib))
-                self.findLevel(subelem,level)
+    #function to cerate accordion widgets for given root of the xml/nml file
+    def createAccordions(self,root):
+        
+        subwidget_list=[]  #list of subwidgets inside the accordion
+        tags=[]            #tags from xml file to be used as accordion tittle
+        
+        #iterate through each child element to create subwidgets
+        for child in root:
+            
+            tag_name=child.tag.split("}")[-1]        #spliting to remove namespace, if any
+            tags.append(tag_name)
+            textBox_list = []
+            
+            #iterate through each attribute of the child element
+            for key, val in child.attrib.items():
+                    textBox_key   = ipywidgets.Text(value=key,disabled=True,layout=ipywidgets.Layout(width='10%'))
+                    textBox_value = ipywidgets.Text(value=val,layout=ipywidgets.Layout(width='40%'))
+                    textBox_list.append(ipywidgets.HBox([textBox_key, textBox_value]))
+            
+            #for notes tag display a textarea and show text as attributes will be empty
+            if tag_name=='notes':
+                textBox_list.append(ipywidgets.Textarea(value=child.text,layout=ipywidgets.Layout(width='50%')))
+            
+            #check if grand child exist
+            if child:
+                #if grand child exist then recursive call to self with root <---> child
+                child_accord=self.createAccordions(child)
+                textBox_list.append(child_accord)  #append the chlild accordion to parent
+
+            subwidget_list.append(ipywidgets.VBox(textBox_list)) #append sub widgets to the current accordion
+
+        #create accordion widget for the captured subwidgets
+        accordion = ipywidgets.Accordion(children=subwidget_list, selected_index=None)
+        #set title using tags (xml namespace ignored)
+        for i in range(len(tags)):
+            accordion.set_title(i, tags[i])
+            
+        return accordion
         
     def generateDashboard(self,trees):
        
-        out=[]
+        tab_list=[]          #creating empty tab list
         for tree in trees:
-            out.append(ipywidgets.Output())
-            with out[-1]:          #last element of out
-                root = tree.getroot()
-                self.findLevel(root, -1)                  
+            root = tree.getroot()
+            tab_list.append(self.createAccordions(root))        #add accordions to the tab list
+        
+        #create a nested tab with accordions
         
         tab_nest = ipywidgets.Tab()
-        #create tab headers
-        idx=0
-        for x in out:
-            tab_nest.set_title (idx, self.filelist[idx])
-            idx+=1    
-        
-        #add aditional tab for results
-        #tab_nest.set_title (idx, 'Result')
-        #file = open("nml_result.PNG", "rb")
-        #image = file.read()
-        #out.append(ipywidgets.Output(layout=ipywidgets.Layout(width='100%',
-        #                                   height='auto',
-        #                                   max_height='1000px',
-        #                                   overflow='hidden scroll',)))
+        #create tab headers from filenames
+        for i in range(len(tab_list)):
+            tab_nest.set_title (i, self.filelist[i])
         
         #set content to tabs
-        tab_nest.children = out
-        ######################################
-        
-        ######################################
-        #display the tab
+        tab_nest.children = tab_list
         display(tab_nest)
         
     #function to update existing NeuroML file based on widget inputs
