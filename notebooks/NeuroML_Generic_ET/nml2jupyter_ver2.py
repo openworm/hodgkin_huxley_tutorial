@@ -209,6 +209,7 @@ class nml2jupyter():
         for key in self.nmlOutput.keys():
                 if key == "t":
                     continue
+                plt.ioff()                 #suppress plot console window (plot only at display call)
                 fig=plt.figure(figsize=(8,2))
                 fig.canvas.header_visible = False
 

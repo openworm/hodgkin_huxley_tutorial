@@ -25,11 +25,6 @@ buttons=ipywidgets.HBox([update_button,validate_button, run_button])
 #define plot button
 plot_button = ipywidgets.Button(description="Plot Output",button_style='success',tooltip='Plot outputs recorded in LEMS file')
 
-#Validate NML output as valid/invalid filelist
-fileCheckStatus_wd=ipywidgets.Valid(value=False,description='Valid!')
-
-
-
 
 
 
