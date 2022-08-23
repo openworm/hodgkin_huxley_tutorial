@@ -29,8 +29,12 @@ class nml2jupyter():
             tag_name=child.tag.split("}")[-1]        #spliting to remove namespace, if any
             if(tag_name.lower()=='include'):         #case insensitive search for keyword include
                 for key, val in child.attrib.items():
-                    if val.endswith('.nml') and val not in filelist_local:           #looking for filenames ending with .nml
+                    if val.endswith(('.nml','.xml')) and val not in filelist_local:           #looking for filenames ending with .nml or .xml
+                        if os.path.exists(os.path.join(self.path2source,val)):                #include only of the file exists in given model source directory
                             filelist_local=self.getFileList(val,filelist_local)
+                        else:
+                            print('Skipping file : ' + val + '  <- not in source directory')
+                            continue
         return filelist_local
     
     #function to parse NeuroML files
