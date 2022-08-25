@@ -104,12 +104,14 @@ class nml2jupyter():
             tab_list.append(self.createAccordions(root))        #add accordions to the tab list
         #create a nested tab with accordions
         tab_nest = ipywidgets.Tab()
+
+        #set content to tabs
+        tab_nest.children = tab_list
+
         #create tab headers from filenames
         for i in range(len(tab_list)):
             tab_nest.set_title (i, self.filelist[i])
-        
-        #set content to tabs
-        tab_nest.children = tab_list
+            
         display(tab_nest)
         
     #function to update root of nml file from widget inputs
