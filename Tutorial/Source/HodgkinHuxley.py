@@ -1,4 +1,3 @@
-from this import d
 import scipy as sp
 import numpy as np
 import pylab as plt
