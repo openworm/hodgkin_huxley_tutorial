@@ -2,6 +2,7 @@ import scipy as sp
 import numpy as np
 import pylab as plt
 from scipy.integrate import odeint
+import sys
 
 class HodgkinHuxley():
     """Full Hodgkin-Huxley Model implemented in Python"""
@@ -45,6 +46,28 @@ class HodgkinHuxley():
         
         self.I_inj_trans = I_inj_trans
         """ strart time of injection pulse or tranlation about time axis """
+
+        #vclamp parameters
+        self.run_mode =[]
+        """default is current clamp"""
+
+        self.delay=10 
+        """Delay before switching from conditioningVoltage to testingVoltage, in ms"""
+        
+        self.duration=30
+        """Duration to hold at testingVoltage, in ms"""
+
+        self.conditioningVoltage=-63.77
+        """Target voltage before time delay, in mV""" 
+
+        self.testingVoltage=10
+        """Target voltage between times delay and delay + duration, in mV"""
+
+        self.returnVoltage=-63.77
+        """Target voltage after time duration, in mV""" 
+
+        self.simpleSeriesResistance=1e7
+        """Current will be calculated by the difference in voltage between the target and parent, divided by this value, in mOhm"""
 
     def alpha_m(self, V):
         """Channel gating kinetics. Functions of membrane voltage"""
@@ -123,6 +146,31 @@ class HodgkinHuxley():
         else:
             return self.I_inj_max*(t>self.I_inj_trans) - self.I_inj_max*(t>self.I_inj_trans+self.I_inj_width)
 
+    def I_inj_vclamp(self,t,v):
+        """
+        External Current (vclamp)
+
+        |  :param t: time
+        |  :return: injector current for voltage clamp
+        |
+        """
+        if   t > (self.delay + self.duration):
+            current_A = (self.returnVoltage - v) / self.simpleSeriesResistance
+        elif t >= self.delay:
+            current_A = (self.testingVoltage - v) / self.simpleSeriesResistance
+        elif t < self.delay:
+            current_A = (self.conditioningVoltage - v) / self.simpleSeriesResistance
+        else:
+            print('Problem in injection current calculation for voltage clamp...')
+            return 0
+
+        #convert current to current density (uA/cm^2)
+        current_uA = current_A*10**6        #convert to ampere to micro ampere
+        surface_area = 1000*10**-8          #surface area of 1000 um^2 converted to cm^2
+        current_density = current_uA/surface_area
+        
+        return current_density
+
     @staticmethod
     def dALLdt(X, t, self):
         """
@@ -133,8 +181,11 @@ class HodgkinHuxley():
         |  :return: calculate membrane potential & activation variables
         """
         V, m, h, n = X
+        if self.run_mode=='vclamp':
+            dVdt = (self.I_inj_vclamp(t,V) - self.I_Na(V, m, h) - self.I_K(V, n) - self.I_L(V)) / self.C_m
+        else:
+            dVdt = (self.I_inj(t) - self.I_Na(V, m, h) - self.I_K(V, n) - self.I_L(V)) / self.C_m
 
-        dVdt = (self.I_inj(t) - self.I_Na(V, m, h) - self.I_K(V, n) - self.I_L(V)) / self.C_m
         dmdt = self.alpha_m(V)*(1.0-m) - self.beta_m(V)*m
         dhdt = self.alpha_h(V)*(1.0-h) - self.beta_h(V)*h
         dndt = self.alpha_n(V)*(1.0-n) - self.beta_n(V)*n
@@ -144,6 +195,22 @@ class HodgkinHuxley():
         """
         Main demo for the Hodgkin Huxley neuron model
         """
+        num_args = len(sys.argv)
+        if (num_args > 2):
+            print()
+            print("*** Error:  Only one argument is accpected (-vclamp/-iclamp)  ***")
+            print()
+            sys.exit(1)
+
+        if (num_args==1 or sys.argv[1]=='-iclamp'):          #default mode
+            self.run_mode='iclamp'
+        elif (sys.argv[1]=='-vclamp'):
+            self.run_mode='vclamp'
+            if __name__ == '__main__':                  #update default time array for python script (notebook can be controlled through widgets)
+                self.t = np.arange(0, 50, 0.0001)
+        else:
+            print("*** Error:  Unexpected argument (use -vclamp or -iclamp )  ***")
+            sys.exit(1)
 
         X = odeint(self.dALLdt, [-65, 0.05, 0.6, 0.32], self.t, args=(self,))
         V = X[:,0]
@@ -166,7 +233,12 @@ class HodgkinHuxley():
         ax1 = plt.subplot(4,1,1)
         plt.xlim([np.min(self.t),np.max(self.t)])  #for all subplots
         plt.title('Hodgkin-Huxley Neuron')
-        i_inj_values = [self.I_inj(t) for t in self.t]
+
+        if (self.run_mode=='vclamp'):
+            i_inj_values = [self.I_inj_vclamp(t,v) for t,v in zip(self.t,V)]
+        else:
+            i_inj_values = [self.I_inj(t) for t in self.t]
+        
         plt.plot(self.t, i_inj_values, 'k')
         plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')      
 
