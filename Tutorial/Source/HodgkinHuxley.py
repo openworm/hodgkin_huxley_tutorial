@@ -10,7 +10,7 @@ class HodgkinHuxley():
     """ __init__ uses optional arguments """
     """ when no argument is passed default values are used """
     
-    def __init__(self, C_m=1, g_Na=120, g_K=36, g_L=0.3, E_Na=50, E_K=-77, E_L=-54.387, t_0=0, t_n=450, delta_t=0.01, I_inj_max=0, I_inj_width=0, I_inj_trans=0):
+    def __init__(self, C_m=1, g_Na=120, g_K=36, g_L=0.3, E_Na=50, E_K=-77, E_L=-54.387, t_0=0, t_n=450, delta_t=0.01, I_inj_max=0, I_inj_width=0, I_inj_trans=0, vc_delay=10, vc_duration=30, vc_condVoltage=-63.77, vc_testVoltage=10, vc_returnVoltage=-63.77, runMode='iclamp'):
         
         self.C_m  = C_m                              
         """ membrane capacitance, in uF/cm^2 """
@@ -48,25 +48,25 @@ class HodgkinHuxley():
         """ strart time of injection pulse or tranlation about time axis """
 
         #vclamp parameters
-        self.run_mode =[]
+        self.run_mode = runMode
         """default is current clamp"""
 
-        self.delay=10 
+        self.delay = vc_delay 
         """Delay before switching from conditioningVoltage to testingVoltage, in ms"""
         
-        self.duration=30
+        self.duration = vc_duration
         """Duration to hold at testingVoltage, in ms"""
 
-        self.conditioningVoltage=-63.77
+        self.conditioningVoltage = vc_condVoltage
         """Target voltage before time delay, in mV""" 
 
-        self.testingVoltage=10
+        self.testingVoltage = vc_testVoltage
         """Target voltage between times delay and delay + duration, in mV"""
 
-        self.returnVoltage=-63.77
+        self.returnVoltage = vc_returnVoltage
         """Target voltage after time duration, in mV""" 
 
-        self.simpleSeriesResistance=1e7
+        self.simpleSeriesResistance = 1e7
         """Current will be calculated by the difference in voltage between the target and parent, divided by this value, in mOhm"""
 
     def alpha_m(self, V):
@@ -195,22 +195,22 @@ class HodgkinHuxley():
         """
         Main demo for the Hodgkin Huxley neuron model
         """
-        num_args = len(sys.argv)
-        if (num_args > 2):
-            print()
-            print("*** Error:  Only one argument is accpected (-vclamp/-iclamp)  ***")
-            print()
-            sys.exit(1)
+        if __name__ == '__main__':
+            num_args = len(sys.argv)
+            if (num_args > 2):
+                print()
+                print("*** Error:  Only one argument is accpected (-vclamp/-iclamp)  ***")
+                print()
+                sys.exit(1)
 
-        if (num_args==1 or sys.argv[1]=='-iclamp'):          #default mode
-            self.run_mode='iclamp'
-        elif (sys.argv[1]=='-vclamp'):
-            self.run_mode='vclamp'
-            if __name__ == '__main__':                  #update default time array for python script (notebook can be controlled through widgets)
-                self.t = np.arange(0, 50, 0.0001)
-        else:
-            print("*** Error:  Unexpected argument (use -vclamp or -iclamp )  ***")
-            sys.exit(1)
+            if (num_args==1 or sys.argv[1]=='-iclamp'):     #default mode
+                self.run_mode='iclamp'
+            elif (sys.argv[1]=='-vclamp'):
+                self.run_mode='vclamp'
+                self.t = np.arange(0, 50, 0.0001)           #update default time array for python script (notebook can be controlled through widgets)
+            else:
+                print("*** Error:  Unexpected argument (use -vclamp or -iclamp )  ***")
+                sys.exit(1)
 
         X = odeint(self.dALLdt, [-65, 0.05, 0.6, 0.32], self.t, args=(self,))
         V = X[:,0]
@@ -222,13 +222,15 @@ class HodgkinHuxley():
         il = self.I_L(V)
         
         #increase figure and font size for display in jupyter notebook
-        if __name__ != '__main__':        
-            plt.rcParams['figure.figsize'] = [12, 8]
-            plt.rcParams['font.size'] = 15
-            plt.rcParams['legend.fontsize'] = 12
-            plt.rcParams['legend.loc'] = "upper right"
             
         fig=plt.figure()
+        
+        if __name__ != '__main__':        
+            plt.rcParams['figure.figsize'] = [8, 6]
+            #plt.rcParams['font.size'] = 15
+            #plt.rcParams['legend.fontsize'] = 12
+            plt.rcParams['legend.loc'] = "upper right"
+            fig.canvas.header_visible = False
         
         ax1 = plt.subplot(4,1,1)
         plt.xlim([np.min(self.t),np.max(self.t)])  #for all subplots
