@@ -165,7 +165,7 @@ class HodgkinHuxley():
             return 0
 
         #convert current to current density (uA/cm^2)
-        current_uA = current_A*10**6        #convert to ampere to micro ampere
+        current_uA = current_A*10**6        #convert ampere to micro ampere
         surface_area = 1000*10**-8          #surface area of 1000 um^2 converted to cm^2
         current_density = current_uA/surface_area
         
@@ -212,7 +212,7 @@ class HodgkinHuxley():
                 print("*** Error:  Unexpected argument (use -vclamp or -iclamp )  ***")
                 sys.exit(1)
 
-        X = odeint(self.dALLdt, [-65, 0.05, 0.6, 0.32], self.t, args=(self,))
+        X = odeint(self.dALLdt, [-64.99584, 0.05296, 0.59590, 0.31773], self.t, args=(self,))
         V = X[:,0]
         m = X[:,1]
         h = X[:,2]
@@ -240,9 +240,10 @@ class HodgkinHuxley():
             i_inj_values = [self.I_inj_vclamp(t,v) for t,v in zip(self.t,V)]
         else:
             i_inj_values = [self.I_inj(t) for t in self.t]
-        
+
         plt.plot(self.t, i_inj_values, 'k')
-        plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')      
+        plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')
+        if (self.run_mode=='vclamp'): plt.ylim(-2000,3000)      
 
         plt.subplot(4,1,2, sharex = ax1)
         plt.plot(self.t, ina, 'c', label='$I_{Na}$')

@@ -27,6 +27,8 @@ default_duration      = 30
 default_condVoltage   = -63.77
 default_testVoltage   = 10
 default_returnVoltage = -63.77
+default_tn_vclamp     = 50
+default_deltat_vclamp = 0.0001
 
 #function to reset input values to default on button click
 def resetTodefault(_):
@@ -66,10 +68,15 @@ def runModeChange(c):
         runMode_iclamp.layout.display = ''
         runMode_vclamp.layout.display = 'none'
         runMode = 'iclamp'
+        time_step.value = default_deltat
+        time_end.value  = default_tn
+        
     else:
         runMode_iclamp.layout.display = 'none'
         runMode_vclamp.layout.display = ''
         runMode = 'vclamp'
+        time_end.value = default_tn_vclamp
+        time_step.value = default_deltat_vclamp
     
 #function to change slider handle colour when move from default
 def highlight_slider():
