@@ -24,9 +24,9 @@ default_translation  = 25
 #voltage clamp default values
 default_delay         = 10
 default_duration      = 30
-default_condVoltage   = -63.77
+default_condVoltage   = -65
 default_testVoltage   = 10
-default_returnVoltage = -63.77
+default_returnVoltage = -65
 default_tn_vclamp     = 50
 default_deltat_vclamp = 0.0001
 
