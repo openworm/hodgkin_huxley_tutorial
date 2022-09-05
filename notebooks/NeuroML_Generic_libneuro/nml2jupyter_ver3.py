@@ -41,6 +41,141 @@ class nml2jupyter():
             masterTab.set_title(i,masterTab_titles[i])
         display(masterTab)
 
+    def exploreMembers(self,parent):
+        for member in parent.get_members():
+            attr=getattr(parent,member.get_name())
+            #explore only if its non-empty (active member)
+            if attr or attr==0:      #accept 0 values for int/float
+                #found a list then loop over---------------------------------------
+                if isinstance(attr,list):
+                    print(member.get_name())
+                    for a in attr:
+                        self.exploreMembers(a)
+                #found the string print it ---------------------------------------
+                else:
+                    if isinstance(attr,str) or isinstance(attr,int) or isinstance(attr,float):
+                        print(member.get_name(),'=',attr)
+                    else:
+                        print(member.get_name())
+                        self.exploreMembers(attr)
+                    #try:
+                    #    exploreMembers2(attr)
+                    #    print(member.get_name())
+                    #except AttributeError:
+                    #    print(member.get_name(),'=',attr)
+
+    #function to cerate accordion widgets for given root of the xml/nml file
+    def createAccordions(self,parent):
+        
+        subwidget_list=[]  #list of subwidgets inside the accordion
+        titles=[]          # accordion tittle
+
+        for member in parent.get_members():
+            attr=getattr(parent,member.get_name())
+            #explore only if its non-empty (active member)
+            if attr or attr==0:      #accept 0 values for int/float
+                textBox_list = []
+                #found a list then loop over---------------------------------------
+                if isinstance(attr,list):
+                    titles.append(member.get_name())
+                    for a in attr:
+                        #self.exploreMembers(a)
+                        child_accord=self.createAccordions(a)
+                        textBox_list.append(child_accord)  #append the chlild accordion to parent
+                #found the string print it ---------------------------------------
+                else:
+                    if isinstance(attr,str) or isinstance(attr,int) or isinstance(attr,float):
+                        #print(member.get_name(),'=',attr)
+                        titles.append(member.get_name())
+                        textBox_key   = ipywidgets.Text(value=member.get_name(),disabled=True,layout=ipywidgets.Layout(width='10%'))
+                        textBox_value = ipywidgets.Text(value=str(attr),layout=ipywidgets.Layout(width='40%'))
+                        textBox_list.append(ipywidgets.HBox([textBox_key, textBox_value]))
+                    else:
+                        titles.append(member.get_name())
+                        #self.exploreMembers(attr)
+                        child_accord=self.createAccordions(attr)
+                        textBox_list.append(child_accord)  #append the chlild accordion to parent
+                subwidget_list.append(ipywidgets.VBox(textBox_list))
+
+        #create accordion widget for the captured subwidgets
+        accordion = ipywidgets.Accordion(children=subwidget_list, selected_index=None)
+        #set title 
+        for i in range(len(titles)):
+            accordion.set_title(i, titles[i])
+        return accordion
+        
+        subwidget_list=[]  #list of subwidgets inside the accordion
+        tags=[]            #tags from xml file to be used as accordion tittle
+        
+        #iterate through each child element to create subwidgets
+        for child in root:
+            
+            tag_name=child.tag.split("}")[-1]        #spliting to remove namespace, if any
+            tags.append(tag_name)
+            textBox_list = []
+            
+            #iterate through each attribute of the child element
+            for key, val in child.attrib.items():
+                    textBox_key   = ipywidgets.Text(value=key,disabled=True,layout=ipywidgets.Layout(width='10%'))
+                    textBox_value = ipywidgets.Text(value=val,layout=ipywidgets.Layout(width='40%'))
+                    textBox_list.append(ipywidgets.HBox([textBox_key, textBox_value]))
+                    self.textBox_value_list.append(textBox_value)        #keeping track of textbox widget with values
+                    
+            #for notes tag display a textarea and show text as attributes will be empty
+            if tag_name=='notes':
+                textArea_text = ipywidgets.Textarea(value=child.text,layout=ipywidgets.Layout(width='50%'))
+                textBox_list.append(textArea_text)
+                self.textBox_value_list.append(textArea_text)        #keeping track of textbox widget with values
+            
+            #check if grand child exist
+            if child:
+                #if grand child exist then recursive call to self with root <---> child
+                child_accord=self.createAccordions(child)
+                textBox_list.append(child_accord)  #append the chlild accordion to parent
+
+            subwidget_list.append(ipywidgets.VBox(textBox_list)) #append sub widgets to the current accordion
+
+        #create accordion widget for the captured subwidgets
+        accordion = ipywidgets.Accordion(children=subwidget_list, selected_index=None)
+        #set title using tags (xml namespace ignored)
+        for i in range(len(tags)):
+            accordion.set_title(i, tags[i])
+            
+        return accordion
+
+    def createTabs(self,nml_doc):
+        parent=nml_doc.info(True,return_format='dict')
+        
+        masterTab=ipywidgets.Tab()
+        masterTab_titles=[]
+        masterTab_child=[]
+        
+        for key,values in parent.items():
+            if not values: continue    #skip empty elements
+            #print('----------------')
+            #print(key)
+            subTab=ipywidgets.Tab()
+            subTab_child=[]
+            subTab_titles=[]
+            for val in values:
+                #print('----------------')
+                #self.exploreMembers(val)
+                subTab_child.append(self.createAccordions(val))
+                try:
+                    subTab_titles.append(val.id)
+                except:
+                    subTab_titles.append('No ID')
+            subTab.children=subTab_child
+            for i in range(len(subTab_titles)):
+                subTab.set_title(i,subTab_titles[i])
+            masterTab_child.append(subTab)
+            masterTab_titles.append(key)
+            
+        masterTab.children=masterTab_child
+        for i in range(len(masterTab_titles)):
+            masterTab.set_title(i,masterTab_titles[i])
+        display(masterTab)
+
 
     def summary_mod(self, nml_doc, show_includes=True, show_non_network=True):
         """Get a pretty-printed summary of the complete NeuroMLDocument.
