@@ -10,7 +10,7 @@ class HodgkinHuxley():
     """ __init__ uses optional arguments """
     """ when no argument is passed default values are used """
     
-    def __init__(self, C_m=1, g_Na=120, g_K=36, g_L=0.3, E_Na=50, E_K=-77, E_L=-54.387, t_0=0, t_n=450, delta_t=0.01, I_inj_max=0, I_inj_width=0, I_inj_trans=0, vc_delay=10, vc_duration=30, vc_condVoltage=-63.77, vc_testVoltage=10, vc_returnVoltage=-63.77, runMode='iclamp'):
+    def __init__(self, C_m=1, g_Na=120, g_K=36, g_L=0.3, E_Na=50, E_K=-77, E_L=-54.387, t_0=0, t_n=450, delta_t=0.01, I_inj_max=0, I_inj_width=0, I_inj_trans=0, vc_delay=10, vc_duration=30, vc_condVoltage=-65, vc_testVoltage=10, vc_returnVoltage=-65, runMode='iclamp'):
         
         self.C_m  = C_m                              
         """ membrane capacitance, in uF/cm^2 """
@@ -165,7 +165,7 @@ class HodgkinHuxley():
             return 0
 
         #convert current to current density (uA/cm^2)
-        current_uA = current_A*10**6        #convert to ampere to micro ampere
+        current_uA = current_A*10**6        #convert ampere to micro ampere
         surface_area = 1000*10**-8          #surface area of 1000 um^2 converted to cm^2
         current_density = current_uA/surface_area
         
@@ -212,7 +212,7 @@ class HodgkinHuxley():
                 print("*** Error:  Unexpected argument (use -vclamp or -iclamp )  ***")
                 sys.exit(1)
 
-        X = odeint(self.dALLdt, [-65, 0.05, 0.6, 0.32], self.t, args=(self,))
+        X = odeint(self.dALLdt, [-64.99584, 0.05296, 0.59590, 0.31773], self.t, args=(self,))
         V = X[:,0]
         m = X[:,1]
         h = X[:,2]
@@ -240,9 +240,10 @@ class HodgkinHuxley():
             i_inj_values = [self.I_inj_vclamp(t,v) for t,v in zip(self.t,V)]
         else:
             i_inj_values = [self.I_inj(t) for t in self.t]
-        
+
         plt.plot(self.t, i_inj_values, 'k')
-        plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')      
+        plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')
+        if (self.run_mode=='vclamp'): plt.ylim(-2000,3000)      
 
         plt.subplot(4,1,2, sharex = ax1)
         plt.plot(self.t, ina, 'c', label='$I_{Na}$')
