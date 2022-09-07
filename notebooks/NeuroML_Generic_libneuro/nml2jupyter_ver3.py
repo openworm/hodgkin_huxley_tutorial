@@ -65,8 +65,8 @@ class nml2jupyter():
                 emptyKeys.append(key)
                 continue
             if isinstance(values,str) or isinstance(values,int) or isinstance(values,float):
-                textBox_key   = ipywidgets.Text(value=key,disabled=True,layout=ipywidgets.Layout(width='10%'))
-                textBox_value = ipywidgets.Text(value=str(values),layout=ipywidgets.Layout(width='40%'))
+                textBox_key   = ipywidgets.Text(value=key,disabled=True,layout=ipywidgets.Layout(width='20%'))
+                textBox_value = ipywidgets.Text(value=str(values),layout=ipywidgets.Layout(width='50%'))
                 textBoxList.append(ipywidgets.HBox([textBox_key, textBox_value]))
         
         #remove empty keys from dicitonary (to reduce iteration in 2nd loop)
@@ -80,8 +80,8 @@ class nml2jupyter():
             if isinstance(values,list):
                 for idx, val in enumerate(values):
                     if isinstance(val,str) or isinstance(val,int) or isinstance(val,float): 
-                        textBox_key   = ipywidgets.Text(value=key,disabled=True,layout=ipywidgets.Layout(width='10%'))
-                        textBox_value = ipywidgets.Text(value=str(val),layout=ipywidgets.Layout(width='40%'))
+                        textBox_key   = ipywidgets.Text(value=key,disabled=True,layout=ipywidgets.Layout(width='20%'))
+                        textBox_value = ipywidgets.Text(value=str(val),layout=ipywidgets.Layout(width='50%'))
                         textBoxList.append(ipywidgets.HBox([textBox_key, textBox_value]))
                     else:
                         child_accord=self.createAccordions(val,key)
@@ -102,7 +102,7 @@ class nml2jupyter():
         masterTab=ipywidgets.Tab()
         masterTab_titles=[]
         masterTab_child=[]
-        
+        '''
         for key,values in parent.items():
             if values is None or (isinstance(values, list) and len(values) == 0): continue   #skip empty elements
             subTab=ipywidgets.Tab()
@@ -110,10 +110,8 @@ class nml2jupyter():
             subTab_titles=[]
             if type(values) is not list: continue
             for val in values:
-                #print('----------------')
-                #self.exploreMembers(val)
-                #subTab_child.append(self.createAccordions(val))
-                subTab_child.append(ipywidgets.Text(value='dummy'))
+                subTab_child.append(self.createAccordions(val,key))
+                #subTab_child.append(ipywidgets.Text(value='dummy'))
                 try:
                     subTab_titles.append(val.id)
                 except:
@@ -123,14 +121,22 @@ class nml2jupyter():
                 subTab.set_title(i,subTab_titles[i])
             masterTab_child.append(subTab)
             masterTab_titles.append(key)
+        '''    
+        for key,values in parent.items():
+            if values is None or (isinstance(values, list) and len(values) == 0): continue   #skip empty elements
             
+            sub_child=[]
+            if type(values) is not list: continue
+            for val in values:
+                sub_child.append(self.createAccordions(val,key))
+            
+            masterTab_child.append(ipywidgets.VBox(sub_child))
+            masterTab_titles.append(key)
+
         masterTab.children=masterTab_child
         for i in range(len(masterTab_titles)):
             masterTab.set_title(i,masterTab_titles[i])
         display(masterTab)
-        recursiveDict = self.nestedDict(nml_doc)
-        display(self.createAccordNestedDict(recursiveDict))
-
 
     def summary_mod(self, nml_doc, show_includes=True, show_non_network=True):
         """Get a pretty-printed summary of the complete NeuroMLDocument.
