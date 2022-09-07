@@ -1,3 +1,4 @@
+from venv import create
 import pylab as plt
 import numpy as np
 import os
@@ -16,7 +17,7 @@ class nml2jupyter():
     
     def loadnml(self):
         pathfilename=os.path.join(self.path2source, self.fname_net)
-        nml_doc= read_neuroml2_file(pathfilename, include_includes=True)
+        nml_doc= read_neuroml2_file(pathfilename, include_includes=True,already_included=[])
         return nml_doc
 
     def createGUI(self,actMemDict):
@@ -41,106 +42,58 @@ class nml2jupyter():
             masterTab.set_title(i,masterTab_titles[i])
         display(masterTab)
 
-    def exploreMembers(self,parent):
-        for member in parent.get_members():
-            attr=getattr(parent,member.get_name())
-            #explore only if its non-empty (active member)
-            if attr or attr==0:      #accept 0 values for int/float
-                #found a list then loop over---------------------------------------
-                if isinstance(attr,list):
-                    print(member.get_name())
-                    for a in attr:
-                        self.exploreMembers(a)
-                #found the string print it ---------------------------------------
-                else:
-                    if isinstance(attr,str) or isinstance(attr,int) or isinstance(attr,float):
-                        print(member.get_name(),'=',attr)
+    def createAccordions(self,nmlObj,title):
+        
+        mydict=nmlObj.info(True,return_format='dict')
+        emptyKeys=[]
+        subwidget_list=[]
+        textBoxList=[]
+        
+        #Two loops to keep text boxes on top and accordion on bottom
+        #Need to find alternate way to avoid looping twice
+        
+        #Loop 1 
+        #create text box widgets for values of dictionary of type str, int or float
+        #make a list of empty keys
+        for key,values in mydict.items():
+            # check if the member is set to None
+            # if it's a container (list), it will not be set to None, it
+            # will be empty, []
+            # if it's a scalar, it will be set to None or to a non
+            # container value
+            if values is None or (isinstance(values, list) and len(values) == 0): 
+                emptyKeys.append(key)
+                continue
+            if isinstance(values,str) or isinstance(values,int) or isinstance(values,float):
+                textBox_key   = ipywidgets.Text(value=key,disabled=True,layout=ipywidgets.Layout(width='10%'))
+                textBox_value = ipywidgets.Text(value=str(values),layout=ipywidgets.Layout(width='40%'))
+                textBoxList.append(ipywidgets.HBox([textBox_key, textBox_value]))
+        
+        #remove empty keys from dicitonary (to reduce iteration in 2nd loop)
+        for key in emptyKeys:
+            mydict.pop(key)
+        
+        #Loop 2
+        #create sub-accordions for list of values
+        for key,values in mydict.items():
+            if isinstance(values,str) or isinstance(values,int) or isinstance(values,float): continue
+            if isinstance(values,list):
+                for idx, val in enumerate(values):
+                    if isinstance(val,str) or isinstance(val,int) or isinstance(val,float): 
+                        textBox_key   = ipywidgets.Text(value=key,disabled=True,layout=ipywidgets.Layout(width='10%'))
+                        textBox_value = ipywidgets.Text(value=str(val),layout=ipywidgets.Layout(width='40%'))
+                        textBoxList.append(ipywidgets.HBox([textBox_key, textBox_value]))
                     else:
-                        print(member.get_name())
-                        self.exploreMembers(attr)
-                    #try:
-                    #    exploreMembers2(attr)
-                    #    print(member.get_name())
-                    #except AttributeError:
-                    #    print(member.get_name(),'=',attr)
-
-    #function to cerate accordion widgets for given root of the xml/nml file
-    def createAccordions(self,parent):
+                        child_accord=self.createAccordions(val,key)
+                        textBoxList.append(child_accord)
+            else:
+                child_accord=self.createAccordions(values,key)
+                textBoxList.append(child_accord)
         
-        subwidget_list=[]  #list of subwidgets inside the accordion
-        titles=[]          # accordion tittle
-
-        for member in parent.get_members():
-            attr=getattr(parent,member.get_name())
-            #explore only if its non-empty (active member)
-            if attr or attr==0:      #accept 0 values for int/float
-                textBox_list = []
-                #found a list then loop over---------------------------------------
-                if isinstance(attr,list):
-                    titles.append(member.get_name())
-                    for a in attr:
-                        #self.exploreMembers(a)
-                        child_accord=self.createAccordions(a)
-                        textBox_list.append(child_accord)  #append the chlild accordion to parent
-                #found the string print it ---------------------------------------
-                else:
-                    if isinstance(attr,str) or isinstance(attr,int) or isinstance(attr,float):
-                        #print(member.get_name(),'=',attr)
-                        titles.append(member.get_name())
-                        textBox_key   = ipywidgets.Text(value=member.get_name(),disabled=True,layout=ipywidgets.Layout(width='10%'))
-                        textBox_value = ipywidgets.Text(value=str(attr),layout=ipywidgets.Layout(width='40%'))
-                        textBox_list.append(ipywidgets.HBox([textBox_key, textBox_value]))
-                    else:
-                        titles.append(member.get_name())
-                        #self.exploreMembers(attr)
-                        child_accord=self.createAccordions(attr)
-                        textBox_list.append(child_accord)  #append the chlild accordion to parent
-                subwidget_list.append(ipywidgets.VBox(textBox_list))
-
-        #create accordion widget for the captured subwidgets
+        subwidget_list.append(ipywidgets.VBox(textBoxList))
         accordion = ipywidgets.Accordion(children=subwidget_list, selected_index=None)
-        #set title 
-        for i in range(len(titles)):
-            accordion.set_title(i, titles[i])
-        return accordion
+        accordion.set_title(0, title)
         
-        subwidget_list=[]  #list of subwidgets inside the accordion
-        tags=[]            #tags from xml file to be used as accordion tittle
-        
-        #iterate through each child element to create subwidgets
-        for child in root:
-            
-            tag_name=child.tag.split("}")[-1]        #spliting to remove namespace, if any
-            tags.append(tag_name)
-            textBox_list = []
-            
-            #iterate through each attribute of the child element
-            for key, val in child.attrib.items():
-                    textBox_key   = ipywidgets.Text(value=key,disabled=True,layout=ipywidgets.Layout(width='10%'))
-                    textBox_value = ipywidgets.Text(value=val,layout=ipywidgets.Layout(width='40%'))
-                    textBox_list.append(ipywidgets.HBox([textBox_key, textBox_value]))
-                    self.textBox_value_list.append(textBox_value)        #keeping track of textbox widget with values
-                    
-            #for notes tag display a textarea and show text as attributes will be empty
-            if tag_name=='notes':
-                textArea_text = ipywidgets.Textarea(value=child.text,layout=ipywidgets.Layout(width='50%'))
-                textBox_list.append(textArea_text)
-                self.textBox_value_list.append(textArea_text)        #keeping track of textbox widget with values
-            
-            #check if grand child exist
-            if child:
-                #if grand child exist then recursive call to self with root <---> child
-                child_accord=self.createAccordions(child)
-                textBox_list.append(child_accord)  #append the chlild accordion to parent
-
-            subwidget_list.append(ipywidgets.VBox(textBox_list)) #append sub widgets to the current accordion
-
-        #create accordion widget for the captured subwidgets
-        accordion = ipywidgets.Accordion(children=subwidget_list, selected_index=None)
-        #set title using tags (xml namespace ignored)
-        for i in range(len(tags)):
-            accordion.set_title(i, tags[i])
-            
         return accordion
 
     def createTabs(self,nml_doc):
@@ -151,16 +104,16 @@ class nml2jupyter():
         masterTab_child=[]
         
         for key,values in parent.items():
-            if not values: continue    #skip empty elements
-            #print('----------------')
-            #print(key)
+            if values is None or (isinstance(values, list) and len(values) == 0): continue   #skip empty elements
             subTab=ipywidgets.Tab()
             subTab_child=[]
             subTab_titles=[]
+            if type(values) is not list: continue
             for val in values:
                 #print('----------------')
                 #self.exploreMembers(val)
-                subTab_child.append(self.createAccordions(val))
+                #subTab_child.append(self.createAccordions(val))
+                subTab_child.append(ipywidgets.Text(value='dummy'))
                 try:
                     subTab_titles.append(val.id)
                 except:
@@ -175,6 +128,8 @@ class nml2jupyter():
         for i in range(len(masterTab_titles)):
             masterTab.set_title(i,masterTab_titles[i])
         display(masterTab)
+        recursiveDict = self.nestedDict(nml_doc)
+        display(self.createAccordNestedDict(recursiveDict))
 
 
     def summary_mod(self, nml_doc, show_includes=True, show_non_network=True):
