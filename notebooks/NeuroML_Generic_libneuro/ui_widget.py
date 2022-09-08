@@ -12,7 +12,7 @@ header = ipywidgets.HTML(value="<font size='+2'><i>Enter Path to NeuroML Model a
 loader = ipywidgets.interactive(loadpath, sourcePath=sourcePath_tb, LEMS_file=LEMS_file_tb, net_file=network_file_tb)
 
 #define run button
-update_button = ipywidgets.Button(description="Update Model",button_style='info',tooltip='Update NeuroML file with current widget inputs')
+update_button = ipywidgets.Button(description="Update Model",button_style='',tooltip='Update NeuroML file with current widget inputs',disabled=True)
 
 #define run button
 run_button = ipywidgets.Button(description="Run NeuroML",button_style='info',tooltip='Execute NeuroML Model with saved inputs')
