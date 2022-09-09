@@ -5,6 +5,7 @@ import ui_widget
 import ipywidgets
 from pyneuroml import pynml
 from neuroml.loaders import read_neuroml2_file
+import neuroml.writers as writers
 
 #python helper class for updating NeuroML files and running it from Jupyter Notebook
 class nml2jupyter():
@@ -14,12 +15,19 @@ class nml2jupyter():
         self.path2source   = path2source
         self.fname_LEMS    = fname_LEMS
         self.fname_net     = fname_net
+        self.nml_file      = 'NeuroMLProject.nml'
     
     #Function to load neuroml file in python object
     def loadnml(self):
         pathfilename=os.path.join(self.path2source, self.fname_net)
         nml_doc= read_neuroml2_file(pathfilename, include_includes=True,already_included=[])
         return nml_doc
+
+    #function to write NeuroML file based on widget inputs
+    def writeNMLinputFile(self,nml_doc):
+        writers.NeuroMLWriter.write(nml_doc, self.nml_file)
+        display("Written in NeuroML2 format to : " + self.nml_file)
+                
 
     #Fuction to create accordions for given neuroml object
     def createAccordions(self,nmlObj,title):
@@ -102,7 +110,7 @@ class nml2jupyter():
         return accordion
 
     #Function to create GUI by nesting accordions with first level of neruoml object as Tabs
-    def createGUI(self,nml_doc):
+    def generateDashboard(self,nml_doc):
         parent=nml_doc.info(True,return_format='dict')
         
         masterTab=ipywidgets.Tab()
@@ -130,10 +138,11 @@ class nml2jupyter():
         masterTab.children=masterTab_child
         for i in range(len(masterTab_titles)):
             masterTab.set_title(i,masterTab_titles[i])
+
         display(masterTab)
 
     #function to setup full dashboard/gui
-    def loadGUI(self):
+    def loadGUI(self,nml_doc):
         
         #function to run NeuroML with given inputs
         def runNMLmodel(b):
@@ -153,21 +162,19 @@ class nml2jupyter():
             out_log.clear_output()
             out_validStatus.clear_output()
             with out_log:
-                display('Validating NeuroML Input Files...')
-                for file in self.filelist:
-                    if(file.endswith('.nml')):
-                        pathfilename=os.path.join(self.path2source, file)
-                        checkStatus=pynml.validate_neuroml2(pathfilename)
-                        #shell_cmd=['pynml', pathfilename,'-validate']
-                        #subprocess.run(shell_cmd)
-                        if checkStatus==True:
-                            valid_widget=ipywidgets.Valid(value=True,description='')
-                            with out_validStatus:
-                                display(ipywidgets.HBox([ipywidgets.HTML(value=file,disabled=True),valid_widget]))
-                        else:
-                            valid_widget=ipywidgets.Valid(value=False,description='')
-                            with out_validStatus:
-                                display(ipywidgets.HBox([ipywidgets.HTML(value=file,disabled=True),valid_widget]))
+                display('Validating NeuroML Input File...')
+                #pathfilename=os.path.join(self.path2source, self.nml_file)
+                checkStatus=pynml.validate_neuroml2(self.nml_file)
+                #shell_cmd=['pynml', pathfilename,'-validate']
+                #subprocess.run(shell_cmd)
+                if checkStatus==True:
+                    valid_widget=ipywidgets.Valid(value=True,description='')
+                    with out_validStatus:
+                        display(ipywidgets.HBox([ipywidgets.HTML(value=self.nml_file,disabled=True),valid_widget]))
+                else:
+                    valid_widget=ipywidgets.Valid(value=False,description='')
+                    with out_validStatus:
+                        display(ipywidgets.HBox([ipywidgets.HTML(value=self.nml_file,disabled=True),valid_widget]))
                 display('Completed !!!')
                         
         #function to display plot in notebook
@@ -182,10 +189,11 @@ class nml2jupyter():
             out_plot.clear_output()
             out_validStatus.clear_output()
             with out_log:
-                display('Updating NeuroML Files from GUI inputs...')
+                #display('Updating NeuroML Files from GUI inputs...')
+                display('Writing NeuroML python model to file ')
                 #display(type(self.filelist),len(self.filelist))
                 #display(type(self.trees),len(self.trees))
-                self.writeNMLinputFile()
+                self.writeNMLinputFile(nml_doc)
                 display('Completed !!!')
                         
         #output windows
