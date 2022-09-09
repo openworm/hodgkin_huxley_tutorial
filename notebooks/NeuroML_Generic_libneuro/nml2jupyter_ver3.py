@@ -1,92 +1,160 @@
 import pylab as plt
 import numpy as np
 import os
-import re
 import ipywidgets
-import xml.etree.ElementTree as ET
+from pyneuroml import pynml
+from neuroml.loaders import read_neuroml2_file
 
 #python helper class for updating NeuroML files and running it from Jupyter Notebook
 class nml2jupyter():
     
-    def __init__(self, path2source, fname_LEMS):
+    def __init__(self, path2source, fname_LEMS, fname_net):
         
-        self.path2source      = path2source
-        self.fname_LEMS       = fname_LEMS
-        self.filelist         = []
-        #self.fname_cellNML    = fname_cellNML
-        #self.fname_netNML     = fname_netNML
-        #self.fname_NML_output = fname_NML_output
-        
-    #function to parse NeuroML files
-    def parseNML(self):
-        
-        tree=[]          #for all element trees (including LEMS**.xml)
-        #filelist=[]      #for all the filenames included in LEMS simulation file
-        
-        filename=os.path.join(self.path2source, self.fname_LEMS)
-        #tree.append(ET.parse(filename))
-        root = ET.parse(filename).getroot()
-        
-        self.filelist.append(self.fname_LEMS)
-        #find all nml files included in the simulation
-        for f in root.findall('./{*}*/[@file]'):
-            if f.attrib['file'].endswith('.nml'):
-                self.filelist.append(f.attrib['file'])
- 
-        for file in self.filelist:
-            filename=os.path.join(self.path2source, file)
-            tree.append(ET.parse(filename))
-            
-        #registering namespace as blank space (some user tag can also be used)
-        ET.register_namespace("","http://www.neuroml.org/schema/neuroml2")
-        #ns = {"xmlns":"http://www.neuroml.org/schema/neuroml2"}
-        
-        return tree
+        self.path2source   = path2source
+        self.fname_LEMS    = fname_LEMS
+        self.fname_net     = fname_net
     
-    def findLevel(self,elem,level):
-        if (len(elem.findall('./{*}*'))):
-            level+=1
-            for subelem in elem.findall('./{*}*'):
-                print('\033[0;{}m'.format(30+level) + ' |---'*level + str(subelem.tag.split("}")[-1]) + str(subelem.attrib))
-                self.findLevel(subelem,level)
-        
-    def generateDashboard(self,trees):
-       
-        out=[]
-        for tree in trees:
-            out.append(ipywidgets.Output())
-            with out[-1]:          #last element of out
-                root = tree.getroot()
-                self.findLevel(root, -1)                  
-        
-        tab_nest = ipywidgets.Tab()
-        #create tab headers
-        idx=0
-        for x in out:
-            tab_nest.set_title (idx, self.filelist[idx])
-            idx+=1    
-        
-        #add aditional tab for results
-        #tab_nest.set_title (idx, 'Result')
-        #file = open("nml_result.PNG", "rb")
-        #image = file.read()
-        #out.append(ipywidgets.Output(layout=ipywidgets.Layout(width='100%',
-        #                                   height='auto',
-        #                                   max_height='1000px',
-        #                                   overflow='hidden scroll',)))
-        
-        #set content to tabs
-        tab_nest.children = out
-        ######################################
-        
-        ######################################
-        #display the tab
-        display(tab_nest)
-        
-    #function to update existing NeuroML file based on widget inputs
-    def writeNMLinputFile(self,C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, t_0, t_n, delta_t, I_inj_max, I_inj_width, I_inj_trans):
-        print('will do later')
-        
+    def loadnml(self):
+        pathfilename=os.path.join(self.path2source, self.fname_net)
+        nml_doc= read_neuroml2_file(pathfilename, include_includes=True)
+        return nml_doc
+
+    def createGUI(self,actMemDict):
+
+        masterTab=ipywidgets.Tab()
+        masterTab_titles=[]
+        masterTab_child=[]
+
+        for key,values in actMemDict.items():
+            subTab=ipywidgets.Tab()
+            child=[]
+            for i in range(len(values)):
+                child.append(ipywidgets.Text(value='member details here'))
+            subTab.children=child
+            for i in range(len(values)):
+                subTab.set_title(i,values[i])
+            masterTab_child.append(subTab)
+            masterTab_titles.append(key)
+
+        masterTab.children=masterTab_child
+        for i in range(len(masterTab_titles)):
+            masterTab.set_title(i,masterTab_titles[i])
+        display(masterTab)
+
+
+    def summary_mod(self, nml_doc, show_includes=True, show_non_network=True):
+        """Get a pretty-printed summary of the complete NeuroMLDocument.
+        This includes information on the various Components included in the
+        NeuroMLDocument: networks, cells, projections, synapses, and so on.
+        """
+        import inspect
+        info = "*******************************************************\n"
+        info+="* NeuroMLDocument: "+nml_doc.id+"\n*\n"
+        post = ""
+        membs = inspect.getmembers(nml_doc)
+        activeMemb={}
+        for memb in membs:
+            if isinstance(memb[1], list) and len(memb[1])>0 and not memb[0].endswith('_') and not memb[0] == 'networks':
+                if (memb[0] == 'includes' and show_includes) or (not memb[0] == 'includes' and show_non_network):
+                    post = "*\n"
+                    info+="*  "+str(memb[1][0].__class__.__name__)+": "
+                    listed = []
+                    for entry in memb[1]:
+                        if hasattr(entry,'id'):
+                            listed.append(str(entry.id))
+                        elif hasattr(entry,'name'):
+                            listed.append(str(entry.name))
+                        elif hasattr(entry,'href'):
+                            listed.append(str(entry.href))
+                        elif hasattr(entry,'tag'):
+                            listed.append(str(entry.tag)+" = "+str(entry.value))
+                    info+= str(sorted(listed))+"\n"
+                    activeMemb[memb[1][0].__class__.__name__]=listed
+        info+= post
+        for network in nml_doc.networks:
+            info+="*  Network: "+network.id
+            if network.temperature:
+                info+=" (temperature: "+network.temperature+")"
+            info+="\n*\n"
+            tot_pop =0
+            tot_cells = 0
+            pop_info = ""
+            for pop in sorted(network.populations, key=lambda x: x.id):
+                pop_info+="*     "+str(pop)+"\n"
+                tot_pop+=1
+                tot_cells+=pop.get_size()
+                if len(pop.instances)>0:
+                    loc = pop.instances[0].location
+                    pop_info+="*       Locations: ["+str(loc)+", ...]\n"
+                if len(pop.properties)>0:
+                    pop_info+="*       Properties: "
+                    for p in pop.properties:
+                        pop_info+=(str(p.tag)+'='+str(p.value)+'; ')
+                    pop_info+="\n"
+            info+="*   "+str(tot_cells)+" cells in "+str(tot_pop)+" populations \n"+pop_info+"*\n"
+            tot_proj =0
+            tot_conns = 0
+            proj_info = ""
+            for proj in sorted(network.projections, key=lambda x: x.id):
+                proj_info+="*     "+str(proj)+"\n"
+                tot_proj+=1
+                tot_conns+=len(proj.connections)
+                tot_conns+=len(proj.connection_wds)
+                if len(proj.connections)>0:
+                    proj_info+="*       "+str(len(proj.connections))+" connections: [("+str(proj.connections[0])+"), ...]\n"
+                if len(proj.connection_wds)>0:
+                    proj_info+="*       "+str(len(proj.connection_wds))+" connections (wd): [("+str(proj.connection_wds[0])+"), ...]\n"
+            for proj in sorted(network.electrical_projections, key=lambda x: x.id):
+                proj_info+="*     Electrical projection: "+proj.id+" from "+proj.presynaptic_population+" to "+proj.postsynaptic_population+"\n"
+                tot_proj+=1
+                tot_conns+=len(proj.electrical_connections)
+                tot_conns+=len(proj.electrical_connection_instances)
+                tot_conns+=len(proj.electrical_connection_instance_ws)
+                if len(proj.electrical_connections)>0:
+                    proj_info+="*       "+str(len(proj.electrical_connections))+" connections: [("+str(proj.electrical_connections[0])+"), ...]\n"
+                if len(proj.electrical_connection_instances)>0:
+                    proj_info+="*       "+str(len(proj.electrical_connection_instances))+" connections: [("+str(proj.electrical_connection_instances[0])+"), ...]\n"
+                if len(proj.electrical_connection_instance_ws)>0:
+                    proj_info+="*       "+str(len(proj.electrical_connection_instance_ws))+" connections: [("+str(proj.electrical_connection_instance_ws[0])+"), ...]\n"
+            for proj in sorted(network.continuous_projections, key=lambda x: x.id):
+                proj_info+="*     Continuous projection: "+proj.id+" from "+proj.presynaptic_population+" to "+proj.postsynaptic_population+"\n"
+                tot_proj+=1
+                tot_conns+=len(proj.continuous_connections)
+                tot_conns+=len(proj.continuous_connection_instances)
+                tot_conns+=len(proj.continuous_connection_instance_ws)
+                if len(proj.continuous_connections)>0:
+                    proj_info+="*       "+str(len(proj.continuous_connections))+" connections: [("+str(proj.continuous_connections[0])+"), ...]\n"
+                if len(proj.continuous_connection_instances)>0:
+                    proj_info+="*       "+str(len(proj.continuous_connection_instances))+" connections: [("+str(proj.continuous_connection_instances[0])+"), ...]\n"
+                if len(proj.continuous_connection_instance_ws)>0:
+                    proj_info+="*       "+str(len(proj.continuous_connection_instance_ws))+" connections (w): [("+str(proj.continuous_connection_instance_ws[0])+"), ...]\n"
+            info+="*   "+str(tot_conns)+" connections in "+str(tot_proj)+" projections \n"+proj_info+"*\n"
+            if len(network.synaptic_connections)>0:
+                info+="*   "+str(len(network.synaptic_connections))+" explicit synaptic connections (outside of projections)\n"
+                for sc in network.synaptic_connections:
+                    info+="*     "+str(sc)+"\n"
+                info+="*\n"
+            tot_input_lists = 0
+            tot_inputs = 0
+            input_info = ""
+            for il in sorted(network.input_lists, key=lambda x: x.id):
+                input_info+="*     "+str(il)+"\n"
+                tot_input_lists += 1
+                if len(il.input)>0:
+                    input_info+="*       "+str(len(il.input))+" inputs: [("+str(il.input[0])+"), ...]\n"
+                    tot_inputs+=len(il.input)
+                if len(il.input_ws)>0:
+                    input_info+="*       "+str(len(il.input_ws))+" inputs: [("+str(il.input_ws[0])+"), ...]\n"
+                    tot_inputs+=len(il.input_ws)
+            info+="*   "+str(tot_inputs)+" inputs in "+str(tot_input_lists)+" input lists \n"+input_info+"*\n"
+            if len(network.explicit_inputs)>0:
+                info+="*   "+str(len(network.explicit_inputs))+" explicit inputs (outside of input lists)\n"
+                for el in network.explicit_inputs:
+                    info+="*     "+str(el)+"\n"
+                info+="*\n"
+        info+="*******************************************************"
+        return info,activeMemb
+
     #function to plot data generated by NeuroML
     def plotData(self,fname_NML_output):
 
