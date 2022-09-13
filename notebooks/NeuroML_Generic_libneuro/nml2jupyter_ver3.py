@@ -48,14 +48,14 @@ class nml2jupyter():
             # will be empty, []
             # if it's a scalar, it will be set to None or to a non
             # container value
-            if values is None or (isinstance(values, list) and len(values) == 0): 
+            if values['members'] is None or (isinstance(values['members'], list) and len(values['members']) == 0): 
                 emptyKeys.append(key)
                 continue
-            if isinstance(values,str) or isinstance(values,int) or isinstance(values,float):
+            if isinstance(values['members'],str) or isinstance(values['members'],int) or isinstance(values['members'],float):
                 textBox_key   = ipywidgets.Text(value=key,disabled=True,layout=ipywidgets.Layout(width='20%'))
-                textBox_value = ipywidgets.Text(value=str(values),layout=ipywidgets.Layout(width='50%'))
+                textBox_value = ipywidgets.Text(value=str(values['members']),layout=ipywidgets.Layout(width='50%'))
                 textBoxList.append(ipywidgets.HBox([textBox_key, textBox_value]))
-                if (key=='id'): title_id=values
+                if (key=='id'): title_id=values['members']
         
         #remove empty keys from dicitonary (to reduce iteration in 2nd loop)
         for key in emptyKeys:
@@ -64,19 +64,19 @@ class nml2jupyter():
         #Loop 2
         #create sub-accordions for list of values
         for key,values in mydict.items():
-            if isinstance(values,str) or isinstance(values,int) or isinstance(values,float): continue
-            if isinstance(values,list):
-                for idx, val in enumerate(values):
+            if isinstance(values['members'],str) or isinstance(values['members'],int) or isinstance(values['members'],float): continue
+            if isinstance(values['members'],list):
+                for idx, val in enumerate(values['members']):
                     if isinstance(val,str) or isinstance(val,int) or isinstance(val,float): 
                         textBox_key   = ipywidgets.Text(value=key,disabled=True,layout=ipywidgets.Layout(width='20%'))
                         textBox_value = ipywidgets.Text(value=str(val),layout=ipywidgets.Layout(width='50%'))
                         textBoxList.append(ipywidgets.HBox([textBox_key, textBox_value]))
-                        if (key=='id'): title_id=values
+                        if (key=='id'): title_id=values['members']
                     else:
                         child_accord=self.createAccordions(val,key)
                         textBoxList.append(child_accord)
             else:
-                child_accord=self.createAccordions(values,key)
+                child_accord=self.createAccordions(values['members'],key)
                 textBoxList.append(child_accord)
         
         subwidget_list.append(ipywidgets.VBox(textBoxList))
@@ -127,16 +127,16 @@ class nml2jupyter():
         masterTab_child.append(lemsTab)
         masterTab_titles.append('LEMS')
         for key,values in parent.items():
-            if values is None or (isinstance(values, list) and len(values) == 0): continue   #skip empty elements
+            if values['members'] is None or (isinstance(values['members'], list) and len(values['members']) == 0): continue   #skip empty elements
             
             sub_child=[]
-            if isinstance(values,list):
-                for val in values:
+            if isinstance(values['members'],list):
+                for val in values['members']:
                     sub_child.append(self.createAccordions(val,key))
-            elif isinstance(values,str) or isinstance(values,int) or isinstance(values,float): 
-                sub_child.append(ipywidgets.Text(value=str(values)))
+            elif isinstance(values['members'],str) or isinstance(values['members'],int) or isinstance(values['members'],float): 
+                sub_child.append(ipywidgets.Text(value=str(values['members'])))
             else:
-                sub_child.append(self.createAccordions(values,key))
+                sub_child.append(self.createAccordions(values['members'],key))
             
             masterTab_child.append(ipywidgets.VBox(sub_child))
             masterTab_titles.append(key)
