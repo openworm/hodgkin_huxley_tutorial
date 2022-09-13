@@ -55,6 +55,7 @@ class nml2jupyter():
                 textBox_key   = ipywidgets.Text(value=key,disabled=True,layout=ipywidgets.Layout(width='20%'))
                 textBox_value = ipywidgets.Text(value=str(values),layout=ipywidgets.Layout(width='50%'))
                 textBoxList.append(ipywidgets.HBox([textBox_key, textBox_value]))
+                if (key=='id'): title_id=values
         
         #remove empty keys from dicitonary (to reduce iteration in 2nd loop)
         for key in emptyKeys:
@@ -70,6 +71,7 @@ class nml2jupyter():
                         textBox_key   = ipywidgets.Text(value=key,disabled=True,layout=ipywidgets.Layout(width='20%'))
                         textBox_value = ipywidgets.Text(value=str(val),layout=ipywidgets.Layout(width='50%'))
                         textBoxList.append(ipywidgets.HBox([textBox_key, textBox_value]))
+                        if (key=='id'): title_id=values
                     else:
                         child_accord=self.createAccordions(val,key)
                         textBoxList.append(child_accord)
@@ -79,7 +81,11 @@ class nml2jupyter():
         
         subwidget_list.append(ipywidgets.VBox(textBoxList))
         accordion = ipywidgets.Accordion(children=subwidget_list, selected_index=None)
-        accordion.set_title(0, title)
+        try: 
+            title_with_id = title + ' (' + title_id + ') '
+            accordion.set_title(0, title_with_id)
+        except:
+            accordion.set_title(0, title)
         
         return accordion
 
