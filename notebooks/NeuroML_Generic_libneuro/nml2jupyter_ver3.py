@@ -116,7 +116,7 @@ class nml2jupyter():
         return accordion
 
     #Function to create GUI by nesting accordions with first level of neruoml object as Tabs
-    def generateDashboard(self,nml_doc):
+    def createTabWithAccordions(self,nml_doc):
         parent=nml_doc.info(True,return_format='dict')
         
         masterTab=ipywidgets.Tab()
