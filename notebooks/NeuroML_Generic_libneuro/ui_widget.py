@@ -4,7 +4,7 @@ import ipywidgets
 def loadpath(sourcePath, LEMS_file, net_file):
     return sourcePath, LEMS_file, net_file
 
-sourcePath_tb  = ipywidgets.Text(value='../../Tutorial/Source/',placeholder='Path to NeuroML Source Dirctory',description='Path:',disabled=False,layout=ipywidgets.Layout(width='80%'))
+sourcePath_tb  = ipywidgets.Text(value='../../Tutorial/Source/',placeholder='Path to NeuroML Source Directory',description='Path:',disabled=False,layout=ipywidgets.Layout(width='80%'))
 LEMS_file_tb   = ipywidgets.Text(value='LEMS_HH_Simulation.xml',placeholder='LEMS Filename',description='LEMS:',disabled=False,layout=ipywidgets.Layout(width='80%'))
 network_file_tb   = ipywidgets.Text(value='HHCellNetwork.net.nml',placeholder='Network Filename',description='Network:',disabled=False,layout=ipywidgets.Layout(width='80%'))
 

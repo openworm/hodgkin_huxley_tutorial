@@ -1,9 +1,11 @@
+import os
 import pylab as plt
 import numpy as np
-import os
+import ui_widget
 import ipywidgets
 from pyneuroml import pynml
 from neuroml.loaders import read_neuroml2_file
+import neuroml.writers as writers
 
 #python helper class for updating NeuroML files and running it from Jupyter Notebook
 class nml2jupyter():
@@ -13,199 +15,226 @@ class nml2jupyter():
         self.path2source   = path2source
         self.fname_LEMS    = fname_LEMS
         self.fname_net     = fname_net
+        self.nml_file      = 'NeuroMLProject.nml'
     
+    #Function to load neuroml file in python object
     def loadnml(self):
         pathfilename=os.path.join(self.path2source, self.fname_net)
-        nml_doc= read_neuroml2_file(pathfilename, include_includes=True)
+        nml_doc= read_neuroml2_file(pathfilename, include_includes=True,already_included=[])
         return nml_doc
 
-    def createGUI(self,actMemDict):
+    #function to write NeuroML file based on widget inputs
+    def writeNMLinputFile(self,nml_doc):
+        writers.NeuroMLWriter.write(nml_doc, self.nml_file)
+        display("Written in NeuroML2 format to : " + self.nml_file)
+                
 
+    #Fuction to create accordions for given neuroml object
+    def createAccordions(self,nmlObj,title):
+        mydict=nmlObj.info(True,return_format='dict')
+        emptyKeys=[]
+        subwidget_list=[]
+        textBoxList=[]
+        
+        #Two loops to keep text boxes on top and accordion on bottom
+        #Need to find alternate way to avoid looping twice
+        
+        #Loop 1 
+        #create text box widgets for values of dictionary of type str, int or float
+        #make a list of empty keys
+        for key,values in mydict.items():
+            # check if the member is set to None
+            # if it's a container (list), it will not be set to None, it
+            # will be empty, []
+            # if it's a scalar, it will be set to None or to a non
+            # container value
+            if values['members'] is None or (isinstance(values['members'], list) and len(values['members']) == 0): 
+                emptyKeys.append(key)
+                continue
+            if isinstance(values['members'],str) or isinstance(values['members'],int) or isinstance(values['members'],float):
+                textBox_key   = ipywidgets.Text(value=key,disabled=True,layout=ipywidgets.Layout(width='20%'))
+                textBox_value = ipywidgets.Text(value=str(values['members']),layout=ipywidgets.Layout(width='50%'))
+                textBoxList.append(ipywidgets.HBox([textBox_key, textBox_value]))
+                if (key=='id'): title_id=values['members']
+        
+        #remove empty keys from dicitonary (to reduce iteration in 2nd loop)
+        for key in emptyKeys:
+            mydict.pop(key)
+        
+        #Loop 2
+        #create sub-accordions for list of values
+        for key,values in mydict.items():
+            if isinstance(values['members'],str) or isinstance(values['members'],int) or isinstance(values['members'],float): continue
+            if isinstance(values['members'],list):
+                for idx, val in enumerate(values['members']):
+                    if isinstance(val,str) or isinstance(val,int) or isinstance(val,float): 
+                        textBox_key   = ipywidgets.Text(value=key,disabled=True,layout=ipywidgets.Layout(width='20%'))
+                        textBox_value = ipywidgets.Text(value=str(val),layout=ipywidgets.Layout(width='50%'))
+                        textBoxList.append(ipywidgets.HBox([textBox_key, textBox_value]))
+                        if (key=='id'): title_id=values['members']
+                    else:
+                        child_accord=self.createAccordions(val,key)
+                        textBoxList.append(child_accord)
+            else:
+                child_accord=self.createAccordions(values['members'],key)
+                textBoxList.append(child_accord)
+        
+        subwidget_list.append(ipywidgets.VBox(textBoxList))
+        accordion = ipywidgets.Accordion(children=subwidget_list, selected_index=None)
+        try: 
+            title_with_id = title + ' (' + title_id + ') '
+            accordion.set_title(0, title_with_id)
+        except:
+            accordion.set_title(0, title)
+        
+        return accordion
+
+    #Function to load LEMS life in python object then get component list to create accordions   
+    def createAccordionsLEMS(self):
+        pathfilename=os.path.join(self.path2source,self.fname_LEMS)
+        lems_doc=pynml.read_lems_file(pathfilename)
+        mydict=lems_doc.get_component_list()
+        accordList=[]
+        component=['id', 'type', 'parameters', 'parent_id']
+        for key,values in mydict.items():
+            textBoxList=[]
+            for attr in component:
+                val = getattr(mydict[key],attr)
+                if isinstance(val,dict):
+                    for k,v in val.items():
+                        textBox_key   = ipywidgets.Text(value=k,disabled=True,layout=ipywidgets.Layout(width='20%'))
+                        textBox_value = ipywidgets.Text(value=v,layout=ipywidgets.Layout(width='50%'))
+                        textBoxList.append(ipywidgets.HBox([textBox_key, textBox_value]))
+                    continue
+                textBox_key   = ipywidgets.Text(value=attr,disabled=True,layout=ipywidgets.Layout(width='20%'))
+                textBox_value = ipywidgets.Text(value=val,layout=ipywidgets.Layout(width='50%'))
+                textBoxList.append(ipywidgets.HBox([textBox_key, textBox_value]))
+            accordList.append(ipywidgets.VBox(textBoxList))
+        accordion = ipywidgets.Accordion(children=accordList, selected_index=None)
+        for i,key in enumerate(mydict.keys()):
+            accordion.set_title(i,key)
+        return accordion
+
+    #Function to create GUI by nesting accordions with first level of neruoml object as Tabs
+    def createTabWithAccordions(self,nml_doc):
+        parent=nml_doc.info(True,return_format='dict')
+        
         masterTab=ipywidgets.Tab()
         masterTab_titles=[]
         masterTab_child=[]
-
-        for key,values in actMemDict.items():
-            subTab=ipywidgets.Tab()
-            child=[]
-            for i in range(len(values)):
-                child.append(ipywidgets.Text(value='member details here'))
-            subTab.children=child
-            for i in range(len(values)):
-                subTab.set_title(i,values[i])
-            masterTab_child.append(subTab)
+        #create LEMS tab for simulation parameters (using get_component_list) 
+        lemsTab=self.createAccordionsLEMS()
+        masterTab_child.append(lemsTab)
+        masterTab_titles.append('LEMS')
+        for key,values in parent.items():
+            if values['members'] is None or (isinstance(values['members'], list) and len(values['members']) == 0): continue   #skip empty elements
+            
+            sub_child=[]
+            if isinstance(values['members'],list):
+                for val in values['members']:
+                    sub_child.append(self.createAccordions(val,key))
+            elif isinstance(values['members'],str) or isinstance(values['members'],int) or isinstance(values['members'],float): 
+                sub_child.append(ipywidgets.Text(value=str(values['members'])))
+            else:
+                sub_child.append(self.createAccordions(values['members'],key))
+            
+            masterTab_child.append(ipywidgets.VBox(sub_child))
             masterTab_titles.append(key)
 
         masterTab.children=masterTab_child
         for i in range(len(masterTab_titles)):
             masterTab.set_title(i,masterTab_titles[i])
+
         display(masterTab)
 
-
-    def summary_mod(self, nml_doc, show_includes=True, show_non_network=True):
-        """Get a pretty-printed summary of the complete NeuroMLDocument.
-        This includes information on the various Components included in the
-        NeuroMLDocument: networks, cells, projections, synapses, and so on.
-        """
-        import inspect
-        info = "*******************************************************\n"
-        info+="* NeuroMLDocument: "+nml_doc.id+"\n*\n"
-        post = ""
-        membs = inspect.getmembers(nml_doc)
-        activeMemb={}
-        for memb in membs:
-            if isinstance(memb[1], list) and len(memb[1])>0 and not memb[0].endswith('_') and not memb[0] == 'networks':
-                if (memb[0] == 'includes' and show_includes) or (not memb[0] == 'includes' and show_non_network):
-                    post = "*\n"
-                    info+="*  "+str(memb[1][0].__class__.__name__)+": "
-                    listed = []
-                    for entry in memb[1]:
-                        if hasattr(entry,'id'):
-                            listed.append(str(entry.id))
-                        elif hasattr(entry,'name'):
-                            listed.append(str(entry.name))
-                        elif hasattr(entry,'href'):
-                            listed.append(str(entry.href))
-                        elif hasattr(entry,'tag'):
-                            listed.append(str(entry.tag)+" = "+str(entry.value))
-                    info+= str(sorted(listed))+"\n"
-                    activeMemb[memb[1][0].__class__.__name__]=listed
-        info+= post
-        for network in nml_doc.networks:
-            info+="*  Network: "+network.id
-            if network.temperature:
-                info+=" (temperature: "+network.temperature+")"
-            info+="\n*\n"
-            tot_pop =0
-            tot_cells = 0
-            pop_info = ""
-            for pop in sorted(network.populations, key=lambda x: x.id):
-                pop_info+="*     "+str(pop)+"\n"
-                tot_pop+=1
-                tot_cells+=pop.get_size()
-                if len(pop.instances)>0:
-                    loc = pop.instances[0].location
-                    pop_info+="*       Locations: ["+str(loc)+", ...]\n"
-                if len(pop.properties)>0:
-                    pop_info+="*       Properties: "
-                    for p in pop.properties:
-                        pop_info+=(str(p.tag)+'='+str(p.value)+'; ')
-                    pop_info+="\n"
-            info+="*   "+str(tot_cells)+" cells in "+str(tot_pop)+" populations \n"+pop_info+"*\n"
-            tot_proj =0
-            tot_conns = 0
-            proj_info = ""
-            for proj in sorted(network.projections, key=lambda x: x.id):
-                proj_info+="*     "+str(proj)+"\n"
-                tot_proj+=1
-                tot_conns+=len(proj.connections)
-                tot_conns+=len(proj.connection_wds)
-                if len(proj.connections)>0:
-                    proj_info+="*       "+str(len(proj.connections))+" connections: [("+str(proj.connections[0])+"), ...]\n"
-                if len(proj.connection_wds)>0:
-                    proj_info+="*       "+str(len(proj.connection_wds))+" connections (wd): [("+str(proj.connection_wds[0])+"), ...]\n"
-            for proj in sorted(network.electrical_projections, key=lambda x: x.id):
-                proj_info+="*     Electrical projection: "+proj.id+" from "+proj.presynaptic_population+" to "+proj.postsynaptic_population+"\n"
-                tot_proj+=1
-                tot_conns+=len(proj.electrical_connections)
-                tot_conns+=len(proj.electrical_connection_instances)
-                tot_conns+=len(proj.electrical_connection_instance_ws)
-                if len(proj.electrical_connections)>0:
-                    proj_info+="*       "+str(len(proj.electrical_connections))+" connections: [("+str(proj.electrical_connections[0])+"), ...]\n"
-                if len(proj.electrical_connection_instances)>0:
-                    proj_info+="*       "+str(len(proj.electrical_connection_instances))+" connections: [("+str(proj.electrical_connection_instances[0])+"), ...]\n"
-                if len(proj.electrical_connection_instance_ws)>0:
-                    proj_info+="*       "+str(len(proj.electrical_connection_instance_ws))+" connections: [("+str(proj.electrical_connection_instance_ws[0])+"), ...]\n"
-            for proj in sorted(network.continuous_projections, key=lambda x: x.id):
-                proj_info+="*     Continuous projection: "+proj.id+" from "+proj.presynaptic_population+" to "+proj.postsynaptic_population+"\n"
-                tot_proj+=1
-                tot_conns+=len(proj.continuous_connections)
-                tot_conns+=len(proj.continuous_connection_instances)
-                tot_conns+=len(proj.continuous_connection_instance_ws)
-                if len(proj.continuous_connections)>0:
-                    proj_info+="*       "+str(len(proj.continuous_connections))+" connections: [("+str(proj.continuous_connections[0])+"), ...]\n"
-                if len(proj.continuous_connection_instances)>0:
-                    proj_info+="*       "+str(len(proj.continuous_connection_instances))+" connections: [("+str(proj.continuous_connection_instances[0])+"), ...]\n"
-                if len(proj.continuous_connection_instance_ws)>0:
-                    proj_info+="*       "+str(len(proj.continuous_connection_instance_ws))+" connections (w): [("+str(proj.continuous_connection_instance_ws[0])+"), ...]\n"
-            info+="*   "+str(tot_conns)+" connections in "+str(tot_proj)+" projections \n"+proj_info+"*\n"
-            if len(network.synaptic_connections)>0:
-                info+="*   "+str(len(network.synaptic_connections))+" explicit synaptic connections (outside of projections)\n"
-                for sc in network.synaptic_connections:
-                    info+="*     "+str(sc)+"\n"
-                info+="*\n"
-            tot_input_lists = 0
-            tot_inputs = 0
-            input_info = ""
-            for il in sorted(network.input_lists, key=lambda x: x.id):
-                input_info+="*     "+str(il)+"\n"
-                tot_input_lists += 1
-                if len(il.input)>0:
-                    input_info+="*       "+str(len(il.input))+" inputs: [("+str(il.input[0])+"), ...]\n"
-                    tot_inputs+=len(il.input)
-                if len(il.input_ws)>0:
-                    input_info+="*       "+str(len(il.input_ws))+" inputs: [("+str(il.input_ws[0])+"), ...]\n"
-                    tot_inputs+=len(il.input_ws)
-            info+="*   "+str(tot_inputs)+" inputs in "+str(tot_input_lists)+" input lists \n"+input_info+"*\n"
-            if len(network.explicit_inputs)>0:
-                info+="*   "+str(len(network.explicit_inputs))+" explicit inputs (outside of input lists)\n"
-                for el in network.explicit_inputs:
-                    info+="*     "+str(el)+"\n"
-                info+="*\n"
-        info+="*******************************************************"
-        return info,activeMemb
-
+    #function to setup full dashboard/gui
+    def loadGUI(self,nml_doc):
+        
+        #function to run NeuroML with given inputs
+        def runNMLmodel(b):
+            out_log.clear_output()
+            out_plot.clear_output()
+            out_validStatus.clear_output()
+            with out_log:
+                display('Running NeuroML Model...')
+                LEMS_file=os.path.join(self.path2source, self.fname_LEMS)
+                self.nmlOutput = pynml.run_lems_with_jneuroml(LEMS_file, nogui=True, load_saved_data=True)
+                #shell_cmd=['pynml', LEMS, LEMSoption]
+                #subprocess.run(shell_cmd)
+                display('Completed !!!')
+        
+        #function to validate NeuroML model
+        def validateNMLmodel(b):
+            out_log.clear_output()
+            out_validStatus.clear_output()
+            with out_log:
+                display('Validating NeuroML Input File...')
+                #pathfilename=os.path.join(self.path2source, self.nml_file)
+                checkStatus=pynml.validate_neuroml2(self.nml_file)
+                #shell_cmd=['pynml', pathfilename,'-validate']
+                #subprocess.run(shell_cmd)
+                if checkStatus==True:
+                    valid_widget=ipywidgets.Valid(value=True,description='')
+                    with out_validStatus:
+                        display(ipywidgets.HBox([ipywidgets.HTML(value=self.nml_file,disabled=True),valid_widget]))
+                else:
+                    valid_widget=ipywidgets.Valid(value=False,description='')
+                    with out_validStatus:
+                        display(ipywidgets.HBox([ipywidgets.HTML(value=self.nml_file,disabled=True),valid_widget]))
+                display('Completed !!!')
+                        
+        #function to display plot in notebook
+        def plotOutput(b):
+            out_plot.clear_output()
+            with out_plot:
+                self.plotData()
+        
+        #function to update NeuroML files from widget inputs
+        def updateNMLfiles(b):
+            out_log.clear_output()
+            out_plot.clear_output()
+            out_validStatus.clear_output()
+            with out_log:
+                #display('Updating NeuroML Files from GUI inputs...')
+                display('Writing NeuroML python model to file ')
+                #display(type(self.filelist),len(self.filelist))
+                #display(type(self.trees),len(self.trees))
+                self.writeNMLinputFile(nml_doc)
+                display('Completed !!!')
+                        
+        #output windows
+        out_log  = ipywidgets.Output(layout={'border': '1px solid'}) #for displaying output log from NeuroMl execution
+        out_plot = ipywidgets.Output()                              #for displaying plots
+        out_validStatus = ipywidgets.Output()                       #for displaying valid widgets after running validate button
+        
+        ui_widget.run_button.on_click(runNMLmodel)
+        ui_widget.validate_button.on_click(validateNMLmodel)
+        ui_widget.plot_button.on_click(plotOutput)
+        ui_widget.update_button.on_click(updateNMLfiles)
+        
+        display(ui_widget.buttons,out_validStatus,out_log,ui_widget.plot_button,out_plot)
+    
     #function to plot data generated by NeuroML
-    def plotData(self,fname_NML_output):
+    def plotData(self):
+        plt.close('all')
+        for key in self.nmlOutput.keys():
+                if key == "t":
+                    continue
+                plt.ioff()                 #suppress plot console window (plot only at display call)
+                fig=plt.figure(figsize=(8,2))
+                fig.canvas.header_visible = False
 
-        #read data file and import columns as array using numpy
-        data = np.loadtxt(fname_NML_output)
-        t=data[:,0]*1000    #convert to ms
-        V=data[:,1]*1000    #convert to mV
-        m=data[:,2]
-        h=data[:,3]
-        n=data[:,4]
-        ina=data[:,5]
-        ik=data[:,6]
-        il=data[:,7]
-        i_inj1=data[:,8]*10**9 #convert to nA
-        i_inj2=data[:,9]*10**9 #convert to nA
+                htmlBox_tittle    = ipywidgets.HTML(value='<b><p style="text-align:center">{}</p></b>'.format(key),layout=ipywidgets.Layout(border='solid 1px black',width='60%'))
+                plt.xlabel("Time (ms)")
+                plt.ylabel("")
+                plt.grid(True,linestyle="--")
 
-        plt.rcParams['figure.figsize'] = [12, 8]
-        plt.rcParams['font.size'] = 15
-        plt.rcParams['legend.fontsize'] = 12
-        plt.rcParams['legend.loc'] = "upper right"
+                #plt.xlim(min(self.nmlOutput["t"]),max(self.nmlOutput["t"]))
+                #plt.ylim(min(self.nmlOutput[key]),max(self.nmlOutput[key]))
 
-        fig=plt.figure()
+                plt.plot(self.nmlOutput["t"], self.nmlOutput[key], linewidth=1)
 
-        ax1 = plt.subplot(4,1,1)
-        plt.xlim([np.min(t),np.max(t)])  #for all subplots
-        plt.title('Hodgkin-Huxley Neuron')
-        #i_inj_values = [self.I_inj(t) for t in t]
-        plt.plot(t, i_inj1, 'k')
-        plt.plot(t, i_inj2, 'b')
-        plt.ylabel('$I_{inj}$ (nA)')      
+                plotBox=ipywidgets.VBox([htmlBox_tittle,fig.canvas])
 
-        plt.subplot(4,1,2, sharex = ax1)
-        plt.plot(t, ina, 'c', label='$I_{Na}$')
-        plt.plot(t, ik, 'y', label='$I_{K}$')
-        plt.plot(t, il, 'm', label='$I_{L}$')
-        plt.ylabel('Current')
-        plt.legend()
-
-        plt.subplot(4,1,3, sharex = ax1)
-        plt.plot(t, m, 'r', label='m')
-        plt.plot(t, h, 'g', label='h')
-        plt.plot(t, n, 'b', label='n')
-        plt.ylabel('Gating Value')
-        plt.legend()
-
-        plt.subplot(4,1,4, sharex = ax1)
-        plt.plot(t, V, 'k')
-        plt.ylabel('V (mV)')
-        plt.xlabel('t (ms)')
-        #plt.ylim(-1, 40)
-
-        plt.tight_layout()
-        plt.show()
+                display(plotBox)
 #end of class
