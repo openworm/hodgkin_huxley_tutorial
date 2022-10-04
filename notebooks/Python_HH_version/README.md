@@ -6,7 +6,7 @@ This is an interactive web notebook using [Jupyter technologies](https://jupyter
 
 This notebook was developed as part of [Google Summer of Code 2022 by Rahul Sonkar](notebooks/GSoC_2022_Submission/GSoC_Documentation.md).
 
-## Running the model
+## Running the notebook
 
 ### Option 1) Using Open Source Brain version 2
 

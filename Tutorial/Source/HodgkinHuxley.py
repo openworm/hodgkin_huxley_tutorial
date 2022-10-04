@@ -10,18 +10,18 @@ class HodgkinHuxley():
     """ __init__ uses optional arguments """
     """ when no argument is passed default values are used """
 
-    def __init__(self, C_m=1, g_Na=120, g_K=36, g_L=0.3, E_Na=50, E_K=-77, E_L=-54.387, t_0=0, t_n=450, delta_t=0.01, I_inj_max=0, I_inj_width=0, I_inj_trans=0, vc_delay=10, vc_duration=30, vc_condVoltage=-65, vc_testVoltage=10, vc_returnVoltage=-65, runMode='iclamp'):
+    def __init__(self, C_m=1, gmax_Na=120, gmax_K=36, gmax_L=0.3, E_Na=50, E_K=-77, E_L=-54.387, t_0=0, t_n=450, delta_t=0.01, I_inj_max=0, I_inj_width=0, I_inj_trans=0, vc_delay=10, vc_duration=30, vc_condVoltage=-65, vc_testVoltage=10, vc_returnVoltage=-65, runMode='iclamp'):
 
         self.C_m  = C_m
         """ membrane capacitance, in uF/cm^2 """
 
-        self.g_Na = g_Na
+        self.gmax_Na = gmax_Na
         """ Sodium (Na) maximum conductances, in mS/cm^2 """
 
-        self.g_K  = g_K
+        self.gmax_K  = gmax_K
         """ Postassium (K) maximum conductances, in mS/cm^2 """
 
-        self.g_L  = g_L
+        self.gmax_L  = gmax_L
         """ Leak maximum conductances, in mS/cm^2 """
 
         self.E_Na = E_Na
@@ -93,6 +93,17 @@ class HodgkinHuxley():
         """Channel gating kinetics. Functions of membrane voltage"""
         return 0.125*np.exp(-(V+65) / 80.0)
 
+    def g_Na(self, m, h):
+        """
+        Conductance density (in mS/cm^2)
+        Sodium (Na = element name)
+
+        |  :param m:
+        |  :param h:
+        |  :return:
+        """
+        return self.gmax_Na * m**3 * h
+
     def I_Na(self, V, m, h):
         """
         Membrane current (in uA/cm^2)
@@ -103,7 +114,7 @@ class HodgkinHuxley():
         |  :param h:
         |  :return:
         """
-        return self.g_Na * m**3 * h * (V - self.E_Na)
+        return self.g_Na(m, h) * (V - self.E_Na)
 
     def I_K(self, V, n):
         """
@@ -114,7 +125,7 @@ class HodgkinHuxley():
         |  :param h:
         |  :return:
         """
-        return self.g_K  * n**4 * (V - self.E_K)
+        return self.gmax_K  * n**4 * (V - self.E_K)
     #  Leak
     def I_L(self, V):
         """
@@ -125,7 +136,7 @@ class HodgkinHuxley():
         |  :param h:
         |  :return:
         """
-        return self.g_L * (V - self.E_L)
+        return self.gmax_L * (V - self.E_L)
 
     def I_inj(self, t):
         """
@@ -196,21 +207,15 @@ class HodgkinHuxley():
         Main demo for the Hodgkin Huxley neuron model
         """
         if __name__ == '__main__':
-            num_args = len(sys.argv)
-            if (num_args > 2):
-                print()
-                print("*** Error:  Only one argument is accpected (-vclamp/-iclamp)  ***")
-                print()
-                sys.exit(1)
 
-            if (num_args==1 or sys.argv[1]=='-iclamp'):     #default mode
+            self.run_mode='iclamp'
+
+            if '-iclamp' in sys.argv:     #default mode
                 self.run_mode='iclamp'
-            elif (sys.argv[1]=='-vclamp'):
+            elif '-vclamp' in sys.argv:
                 self.run_mode='vclamp'
                 self.t = np.arange(0, 50, 0.0001)           #update default time array for python script (notebook can be controlled through widgets)
-            else:
-                print("*** Error:  Unexpected argument (use -vclamp or -iclamp )  ***")
-                sys.exit(1)
+
 
         X = odeint(self.dALLdt, [-64.99584, 0.05296, 0.59590, 0.31773], self.t, args=(self,))
         V = X[:,0]
@@ -221,52 +226,58 @@ class HodgkinHuxley():
         ik = self.I_K(V, n)
         il = self.I_L(V)
 
-        #increase figure and font size for display in jupyter notebook
+        # Save some of the data to file
+        with open('hh_py_v.dat','w') as f:
+            for ti in range(len(self.t)):
+                f.write('%s\t%s\n'%(self.t[ti],V[ti]))
 
-        fig=plt.figure()
+        if not '-nogui' in sys.argv:
+            #increase figure and font size for display in jupyter notebook
 
-        if __name__ != '__main__':
-            plt.rcParams['figure.figsize'] = [8, 6]
-            #plt.rcParams['font.size'] = 15
-            #plt.rcParams['legend.fontsize'] = 12
-            plt.rcParams['legend.loc'] = "upper right"
-            fig.canvas.header_visible = False
+            fig=plt.figure()
 
-        ax1 = plt.subplot(4,1,1)
-        plt.xlim([np.min(self.t),np.max(self.t)])  #for all subplots
-        plt.title('Hodgkin-Huxley Neuron')
+            if __name__ != '__main__':
+                plt.rcParams['figure.figsize'] = [8, 6]
+                #plt.rcParams['font.size'] = 15
+                #plt.rcParams['legend.fontsize'] = 12
+                plt.rcParams['legend.loc'] = "upper right"
+                fig.canvas.header_visible = False
 
-        if (self.run_mode=='vclamp'):
-            i_inj_values = [self.I_inj_vclamp(t,v) for t,v in zip(self.t,V)]
-        else:
-            i_inj_values = [self.I_inj(t) for t in self.t]
+            ax1 = plt.subplot(4,1,1)
+            plt.xlim([np.min(self.t),np.max(self.t)])  #for all subplots
+            plt.title('Hodgkin-Huxley Neuron')
 
-        plt.plot(self.t, i_inj_values, 'k')
-        plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')
-        if (self.run_mode=='vclamp'): plt.ylim(-2000,3000)
+            if (self.run_mode=='vclamp'):
+                i_inj_values = [self.I_inj_vclamp(t,v) for t,v in zip(self.t,V)]
+            else:
+                i_inj_values = [self.I_inj(t) for t in self.t]
 
-        plt.subplot(4,1,2, sharex = ax1)
-        plt.plot(self.t, ina, 'c', label='$I_{Na}$')
-        plt.plot(self.t, ik, 'y', label='$I_{K}$')
-        plt.plot(self.t, il, 'm', label='$I_{L}$')
-        plt.ylabel('Current')
-        plt.legend()
+            plt.plot(self.t, i_inj_values, 'k')
+            plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')
+            if (self.run_mode=='vclamp'): plt.ylim(-2000,3000)
 
-        plt.subplot(4,1,3, sharex = ax1)
-        plt.plot(self.t, m, 'r', label='m')
-        plt.plot(self.t, h, 'g', label='h')
-        plt.plot(self.t, n, 'b', label='n')
-        plt.ylabel('Gating Variable')
-        plt.legend()
+            plt.subplot(4,1,2, sharex = ax1)
+            plt.plot(self.t, ina, 'c', label='$I_{Na}$')
+            plt.plot(self.t, ik, 'y', label='$I_{K}$')
+            plt.plot(self.t, il, 'm', label='$I_{L}$')
+            plt.ylabel('Current')
+            plt.legend()
 
-        plt.subplot(4,1,4, sharex = ax1)
-        plt.plot(self.t, V, 'k')
-        plt.ylabel('V (mV)')
-        plt.xlabel('t (ms)')
-        #plt.ylim(-1, 40)
+            plt.subplot(4,1,3, sharex = ax1)
+            plt.plot(self.t, m, 'r', label='m')
+            plt.plot(self.t, h, 'g', label='h')
+            plt.plot(self.t, n, 'b', label='n')
+            plt.ylabel('Gating Variable')
+            plt.legend()
 
-        plt.tight_layout()
-        plt.show()
+            plt.subplot(4,1,4, sharex = ax1)
+            plt.plot(self.t, V, 'k')
+            plt.ylabel('V (mV)')
+            plt.xlabel('t (ms)')
+            #plt.ylim(-1, 40)
+
+            plt.tight_layout()
+            plt.show()
 
 if __name__ == '__main__':
     runner = HodgkinHuxley()

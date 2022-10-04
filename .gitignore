@@ -36,3 +36,4 @@ Tutorial/Source/*json
 *code.gen.*
 *_eden.py
 **/.ipynb_checkpoints/
+/Tutorial/Source/HHCellNetwork.net.nml__flattened.xml
