@@ -9,41 +9,41 @@ class HodgkinHuxley():
 
     """ __init__ uses optional arguments """
     """ when no argument is passed default values are used """
-    
+
     def __init__(self, C_m=1, g_Na=120, g_K=36, g_L=0.3, E_Na=50, E_K=-77, E_L=-54.387, t_0=0, t_n=450, delta_t=0.01, I_inj_max=0, I_inj_width=0, I_inj_trans=0, vc_delay=10, vc_duration=30, vc_condVoltage=-65, vc_testVoltage=10, vc_returnVoltage=-65, runMode='iclamp'):
-        
-        self.C_m  = C_m                              
+
+        self.C_m  = C_m
         """ membrane capacitance, in uF/cm^2 """
-        
-        self.g_Na = g_Na                             
+
+        self.g_Na = g_Na
         """ Sodium (Na) maximum conductances, in mS/cm^2 """
-        
-        self.g_K  = g_K                              
+
+        self.g_K  = g_K
         """ Postassium (K) maximum conductances, in mS/cm^2 """
-        
-        self.g_L  = g_L                              
+
+        self.g_L  = g_L
         """ Leak maximum conductances, in mS/cm^2 """
-        
-        self.E_Na = E_Na                             
+
+        self.E_Na = E_Na
         """ Sodium (Na) Nernst reversal potentials, in mV """
-        
-        self.E_K  = E_K                              
+
+        self.E_K  = E_K
         """ Postassium (K) Nernst reversal potentials, in mV """
-        
-        self.E_L  = E_L                              
+
+        self.E_L  = E_L
         """ Leak Nernst reversal potentials, in mV """
-        
-        self.t    = np.arange(t_0, t_n, delta_t)     
+
+        self.t    = np.arange(t_0, t_n, delta_t)
         """ The time to integrate over """
-        
+
         """ Advanced input - injection current (single rectangular pulse only) """
-        
+
         self.I_inj_max   = I_inj_max
         """ maximum value or amplitude of injection pulse """
-        
+
         self.I_inj_width = I_inj_width
         """ duration or width of injection pulse """
-        
+
         self.I_inj_trans = I_inj_trans
         """ strart time of injection pulse or tranlation about time axis """
 
@@ -51,20 +51,20 @@ class HodgkinHuxley():
         self.run_mode = runMode
         """default is current clamp"""
 
-        self.delay = vc_delay 
+        self.delay = vc_delay
         """Delay before switching from conditioningVoltage to testingVoltage, in ms"""
-        
+
         self.duration = vc_duration
         """Duration to hold at testingVoltage, in ms"""
 
         self.conditioningVoltage = vc_condVoltage
-        """Target voltage before time delay, in mV""" 
+        """Target voltage before time delay, in mV"""
 
         self.testingVoltage = vc_testVoltage
         """Target voltage between times delay and delay + duration, in mV"""
 
         self.returnVoltage = vc_returnVoltage
-        """Target voltage after time duration, in mV""" 
+        """Target voltage after time duration, in mV"""
 
         self.simpleSeriesResistance = 1e7
         """Current will be calculated by the difference in voltage between the target and parent, divided by this value, in mOhm"""
@@ -137,11 +137,11 @@ class HodgkinHuxley():
         |           step up to 35 uA/cm^2 at t>300
         |           step down to 0 uA/cm^2 at t>400
         """
-        
+
         """ running standalone python script """
-        if __name__ == '__main__':     
+        if __name__ == '__main__':
             return 10*(t>100) - 10*(t>200) + 35*(t>300) - 35*(t>400)
-        
+
         #""" running jupyterLab notebook """
         else:
             return self.I_inj_max*(t>self.I_inj_trans) - self.I_inj_max*(t>self.I_inj_trans+self.I_inj_width)
@@ -168,7 +168,7 @@ class HodgkinHuxley():
         current_uA = current_A*10**6        #convert ampere to micro ampere
         surface_area = 1000*10**-8          #surface area of 1000 um^2 converted to cm^2
         current_density = current_uA/surface_area
-        
+
         return current_density
 
     @staticmethod
@@ -220,18 +220,18 @@ class HodgkinHuxley():
         ina = self.I_Na(V, m, h)
         ik = self.I_K(V, n)
         il = self.I_L(V)
-        
+
         #increase figure and font size for display in jupyter notebook
-            
+
         fig=plt.figure()
-        
-        if __name__ != '__main__':        
+
+        if __name__ != '__main__':
             plt.rcParams['figure.figsize'] = [8, 6]
             #plt.rcParams['font.size'] = 15
             #plt.rcParams['legend.fontsize'] = 12
             plt.rcParams['legend.loc'] = "upper right"
             fig.canvas.header_visible = False
-        
+
         ax1 = plt.subplot(4,1,1)
         plt.xlim([np.min(self.t),np.max(self.t)])  #for all subplots
         plt.title('Hodgkin-Huxley Neuron')
@@ -243,7 +243,7 @@ class HodgkinHuxley():
 
         plt.plot(self.t, i_inj_values, 'k')
         plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')
-        if (self.run_mode=='vclamp'): plt.ylim(-2000,3000)      
+        if (self.run_mode=='vclamp'): plt.ylim(-2000,3000)
 
         plt.subplot(4,1,2, sharex = ax1)
         plt.plot(self.t, ina, 'c', label='$I_{Na}$')
@@ -256,7 +256,7 @@ class HodgkinHuxley():
         plt.plot(self.t, m, 'r', label='m')
         plt.plot(self.t, h, 'g', label='h')
         plt.plot(self.t, n, 'b', label='n')
-        plt.ylabel('Gating Value')
+        plt.ylabel('Gating Variable')
         plt.legend()
 
         plt.subplot(4,1,4, sharex = ax1)

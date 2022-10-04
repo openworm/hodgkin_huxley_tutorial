@@ -70,14 +70,14 @@ def runModeChange(c):
         runMode = 'iclamp'
         time_step.value = default_deltat
         time_end.value  = default_tn
-        
+
     else:
         runMode_iclamp.layout.display = 'none'
         runMode_vclamp.layout.display = ''
         runMode = 'vclamp'
         time_end.value = default_tn_vclamp
         time_step.value = default_deltat_vclamp
-    
+
 #function to change slider handle colour when move from default
 def highlight_slider():
     inputList    = [slider_capacitance, slider_cond_Na, slider_cond_K, slider_cond_L, slider_pot_Na, slider_pot_K, slider_pot_L, slider_amplitude, slider_width, slider_translation,
@@ -89,12 +89,12 @@ def highlight_slider():
             l.style.handle_color = 'white'
         else:
             l.style.handle_color = 'orange'
-    
+
 #defining the widgets
 #Header or texts as HTMLMath to include symbols
 header_capacitance = ipywidgets.HTMLMath(value=r"<b> Membrane Capacitance, \(\mu{F}/cm^2\)</b>")
 header_conductance = ipywidgets.HTMLMath(value=r"<b> Maximum Conductances, \(mS/cm^2\)</b>")
-header_potential   = ipywidgets.HTMLMath(value=r"<b> Nernst Reverasal Potentials, \(mV\)</b>")
+header_potential   = ipywidgets.HTMLMath(value=r"<b> Reversal Potentials, \(mV\)</b>")
 header_simTime     = ipywidgets.HTMLMath(value=r"<b> Simulation Time, \(ms\)</b>")
 header_injCurrent  = ipywidgets.HTMLMath(value=r"<b> Injection Current, \(\mu{A}/cm^2\)</b>")
 header_runMode     = ipywidgets.HTML(value=r"<b>Select Run Mode</b>")
@@ -203,5 +203,5 @@ runMode_vclamp.layout.display = 'none'
 #reset and defalult value buttons in single row
 button_row=ipywidgets.HBox([reset_button,showValue_togglebtn])
 
-#layout vertically all the widgets defined above 
+#layout vertically all the widgets defined above
 modelInputs=ipywidgets.VBox([h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,runMode_iclamp,runMode_vclamp,button_row,defalultValues])
