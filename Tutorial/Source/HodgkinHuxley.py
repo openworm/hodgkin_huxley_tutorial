@@ -116,16 +116,28 @@ class HodgkinHuxley():
         """
         return self.g_Na(m, h) * (V - self.E_Na)
 
+
+    def g_K(self, n):
+        """
+        Conductance density (in mS/cm^2)
+        Potassium (K = element name)
+
+        |  :param n:
+        |  :return:
+        """
+        return self.gmax_K  * n**4
+
     def I_K(self, V, n):
         """
         Membrane current (in uA/cm^2)
         Potassium (K = element name)
 
         |  :param V:
-        |  :param h:
+        |  :param n:
         |  :return:
         """
-        return self.gmax_K  * n**4 * (V - self.E_K)
+        return self.g_K(n) * (V - self.E_K)
+
     #  Leak
     def I_L(self, V):
         """
@@ -225,6 +237,8 @@ class HodgkinHuxley():
         ina = self.I_Na(V, m, h)
         ik = self.I_K(V, n)
         il = self.I_L(V)
+        gna = self.g_Na(m, h)
+        gk = self.g_K(n)
 
         # Save some of the data to file
         with open('hh_py_v.dat','w') as f:
@@ -243,7 +257,7 @@ class HodgkinHuxley():
                 plt.rcParams['legend.loc'] = "upper right"
                 fig.canvas.header_visible = False
 
-            ax1 = plt.subplot(4,1,1)
+            ax1 = plt.subplot(5,1,1)
             plt.xlim([np.min(self.t),np.max(self.t)])  #for all subplots
             plt.title('Hodgkin-Huxley Neuron')
 
@@ -256,21 +270,28 @@ class HodgkinHuxley():
             plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')
             if (self.run_mode=='vclamp'): plt.ylim(-2000,3000)
 
-            plt.subplot(4,1,2, sharex = ax1)
-            plt.plot(self.t, ina, 'c', label='$I_{Na}$')
-            plt.plot(self.t, ik, 'y', label='$I_{K}$')
-            plt.plot(self.t, il, 'm', label='$I_{L}$')
-            plt.ylabel('Current')
-            plt.legend()
 
-            plt.subplot(4,1,3, sharex = ax1)
+            plt.subplot(5,1,2, sharex = ax1)
             plt.plot(self.t, m, 'r', label='m')
             plt.plot(self.t, h, 'g', label='h')
             plt.plot(self.t, n, 'b', label='n')
             plt.ylabel('Gating Variable')
             plt.legend()
 
-            plt.subplot(4,1,4, sharex = ax1)
+            plt.subplot(5,1,3, sharex = ax1)
+            plt.plot(self.t, gna, 'c', label='$g_{Na}$')
+            plt.plot(self.t, gk, 'y', label='$g_{K}$')
+            plt.ylabel('Cond dens')
+            plt.legend()
+
+            plt.subplot(5,1,4, sharex = ax1)
+            plt.plot(self.t, ina, 'c', label='$I_{Na}$')
+            plt.plot(self.t, ik, 'y', label='$I_{K}$')
+            plt.plot(self.t, il, 'm', label='$I_{L}$')
+            plt.ylabel('Currents')
+            plt.legend()
+
+            plt.subplot(5,1,5, sharex = ax1)
             plt.plot(self.t, V, 'k')
             plt.ylabel('V (mV)')
             plt.xlabel('t (ms)')
