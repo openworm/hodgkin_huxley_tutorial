@@ -1,8 +1,8 @@
 ## Hodgkin Huxley Tutorials
 
-This repository contains the code for 3 related tutorials on the Hodgkin Huxley model
+This repository contains the code for a number of related tutorials on the Hodgkin Huxley model
 
-### Tutorial 1: HH model in Python and NeuroML
+### Tutorial 1A: HH model in Python and NeuroML
 
 *Target audience: those who want to learn how to implement the HH model*
 
@@ -11,6 +11,16 @@ This tutorial contains a side-by-side comparison of Python code that runs the [H
 This was originally created by [@joebowen](https://github.com/joebowen) on behalf of the [OpenWorm project](http://www.openworm.org).  
 
 The latest version of the tutorial is visible [online at ReadTheDocs](http://hodgkin-huxley-tutorial.readthedocs.org/en/latest/).
+
+### Tutorial 1B: Interactive introduction to the HH model in a Jupyter notebook
+
+*Target audience: those who want to simulate the HH model using an interactive Python based web notebook*
+
+This interactive [Jupyter notebook](https://jupyter.org/) can be used to run the Python version of the HH model from above, change the parameters of the model and display the dynamical properties of variables, without the need to write any code.
+
+<p align="center"><kbd><img src="notebooks/HH_Jupyter.png"/></kbd></p>
+
+Full details can be found [here](notebooks/Python_HH_version/README.md). This work was carried out as part of [Google Summer of Code 2022 by Rahul Sonkar](notebooks/GSoC_2022_Submission/GSoC_Documentation.md).
 
 ### Tutorial 2: Interactive introduction to the HH model on Open Source Brain
 
@@ -28,17 +38,6 @@ See also http://www.opensourcebrain.org/projects/hodgkin-huxley-tutorial.
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1493456.svg)](https://doi.org/10.5281/zenodo.1493456)
 
-
-### Tutorial 3: Interactive introduction to the HH model in a Jupyter notebook
-
-*Target audience: those who want to simulate the HH model using an interactive Python based web notebook*
-
-This interactive [Jupyter notebook](https://jupyter.org/) can be used to run the HH model, change the parameters of the model and display the dynamical properties of variables.
-
-<p align="center"><kbd><img src="notebooks/HH_Jupyter.png"/></kbd></p>
-
-
-Full details can be found [here](notebooks/Python_HH_version/README.md). This work was carried out as part of [Google Summer of Code 2022 by Rahul Sonkar](notebooks/GSoC_2022_Submission/GSoC_Documentation.md).
 
 
 ### Reusing this model
