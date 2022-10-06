@@ -1,0 +1,19 @@
+# Script for running automated tests on OSB using Travis-CI, see https://github.com/OpenSourceBrain/osb-model-validation
+
+# Note: this is not really running with Brian2, it's just a way to get a general Python script tested on OMV...
+
+target: ../HodgkinHuxley.py
+engine: Brian2
+mep: .test.mep
+experiments:
+  Current clamp:
+    observables:
+      spike times:
+        file:
+          path: ../hh_py_v.dat
+          columns: [0,1]
+          scaling: [1, 1]
+        spike detection:
+          method: threshold
+          threshold: 0
+        tolerance: 0.001681202059472487

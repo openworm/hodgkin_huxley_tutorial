@@ -15,14 +15,14 @@ default_pot_Na       = 50
 default_pot_K        = -77
 default_pot_L        = -54.387
 default_t0           = 0
-default_tn           = 150
+default_tn           = 50
 default_deltat       = 0.01
 default_amplitude    = 10
-default_width        = 100
-default_translation  = 25
+default_width        = 25
+default_translation  = 5
 
 #voltage clamp default values
-default_delay         = 10
+default_delay         = 5
 default_duration      = 30
 default_condVoltage   = -65
 default_testVoltage   = 10
@@ -63,6 +63,7 @@ def showDefault(response):
         defalultValues.layout.display = 'none'
 
 def runModeChange(c):
+
     global runMode
     if runMode_togglebtns.value=='Current Clamp':
         runMode_iclamp.layout.display = ''
@@ -174,8 +175,8 @@ defalultValues = ipywidgets.HTMLMath(value=r"\(C = 1.0\)<br>\(G_{Na} = 120, G_{K
 defalultValues.layout.display = 'none'
 
 #define toggle buttons for iclamp/vclamp run mode
-runMode_togglebtns = ipywidgets.ToggleButtons(options=['Current Clamp', 'Voltage Clamp'],description='',button_style='', # 'success', 'info', 'warning', 'danger' or ''
-                                             tooltips=['Simulate with given injection current', 'Simulate with fixed voltage input'])
+runMode_togglebtns = ipywidgets.ToggleButtons(options=['Current Clamp', 'Voltage Clamp'],description='',button_style='',
+                                             tooltips=['Simulate using an injected square current pulse', 'Simulate in voltage clamp mode - inject varying current to force specific voltage profile'])
 runMode_togglebtns.observe(runModeChange,'value')
 
 #layout widgets in column using HBox
@@ -205,3 +206,32 @@ button_row=ipywidgets.HBox([reset_button,showValue_togglebtn])
 
 #layout vertically all the widgets defined above
 modelInputs=ipywidgets.VBox([h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,runMode_iclamp,runMode_vclamp,button_row,defalultValues])
+
+# Main method to create interactive widget
+def launch_interactive_widget():
+
+    import ipywidgets
+    from importlib.machinery import SourceFileLoader
+
+    # imports the module from the given path
+    HHmodel = SourceFileLoader("HodgkinHuxley.py","../../Tutorial/Source/HodgkinHuxley.py").load_module()
+
+    #function to call python script as a module
+    def runHH(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, t_0, t_n, delta_t, I_inj_max, I_inj_width, I_inj_trans, vc_delay, vc_duration, vc_condVoltage, vc_testVoltage, vc_returnVoltage, runMode):
+
+        highlight_slider()
+        runner = HHmodel.HodgkinHuxley(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, t_0, t_n, delta_t, I_inj_max, I_inj_width, I_inj_trans, vc_delay, vc_duration, vc_condVoltage, vc_testVoltage, vc_returnVoltage, runMode)
+        runner.Main()
+
+    #create plot area widget and interact with HHmodel
+    wid_plotArea=ipywidgets.interactive_output(runHH,{'C_m':slider_capacitance,
+                                            'g_Na':slider_cond_Na, 'g_K':slider_cond_K, 'g_L':slider_cond_L,
+                                            'E_Na':slider_pot_Na, 'E_K':slider_pot_K, 'E_L':slider_pot_L,
+                                            't_0':time_start, 't_n':time_end, 'delta_t':time_step,
+                                            'I_inj_max':slider_amplitude,'I_inj_width':slider_width,'I_inj_trans':slider_translation,
+                                            'vc_delay':slider_delay,'vc_duration':slider_duration,'vc_condVoltage':slider_condVoltage,
+                                            'vc_testVoltage':slider_testVoltage,'vc_returnVoltage':slider_returnVoltage,
+                                            'runMode':runMode_togglebtns})
+
+    #display the widgets and plot area
+    display(modelInputs,wid_plotArea)
