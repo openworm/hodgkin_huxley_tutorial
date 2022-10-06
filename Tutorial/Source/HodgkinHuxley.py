@@ -204,7 +204,7 @@ class HodgkinHuxley():
         |  :return: calculate membrane potential & activation variables
         """
         V, m, h, n = X
-        if self.run_mode=='vclamp':
+        if self.is_vclamp():
             dVdt = (self.I_inj_vclamp(t,V) - self.I_Na(V, m, h) - self.I_K(V, n) - self.I_L(V)) / self.C_m
         else:
             dVdt = (self.I_inj(t) - self.I_Na(V, m, h) - self.I_K(V, n) - self.I_L(V)) / self.C_m
@@ -213,6 +213,9 @@ class HodgkinHuxley():
         dhdt = self.alpha_h(V)*(1.0-h) - self.beta_h(V)*h
         dndt = self.alpha_n(V)*(1.0-n) - self.beta_n(V)*n
         return dVdt, dmdt, dhdt, dndt
+
+    def is_vclamp(self):
+        return self.run_mode=='vclamp' or self.run_mode=='Voltage Clamp'
 
     def Main(self):
         """
@@ -248,27 +251,31 @@ class HodgkinHuxley():
         if not '-nogui' in sys.argv:
             #increase figure and font size for display in jupyter notebook
 
-            fig=plt.figure()
 
             if __name__ != '__main__':
-                plt.rcParams['figure.figsize'] = [8, 6]
+                plt.rcParams['figure.figsize'] = [7, 7]
                 #plt.rcParams['font.size'] = 15
                 #plt.rcParams['legend.fontsize'] = 12
                 plt.rcParams['legend.loc'] = "upper right"
-                fig.canvas.header_visible = False
+                #
+            else:
+                plt.rcParams['figure.figsize'] = [10, 7]
+
+            fig=plt.figure()
+            fig.canvas.header_visible = False
 
             ax1 = plt.subplot(5,1,1)
             plt.xlim([np.min(self.t),np.max(self.t)])  #for all subplots
-            plt.title('Hodgkin-Huxley Neuron')
+            plt.title('Simulation of Hodgkin Huxley model neuron')
 
-            if (self.run_mode=='vclamp'):
+            if self.is_vclamp():
                 i_inj_values = [self.I_inj_vclamp(t,v) for t,v in zip(self.t,V)]
             else:
                 i_inj_values = [self.I_inj(t) for t in self.t]
 
             plt.plot(self.t, i_inj_values, 'k')
             plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')
-            if (self.run_mode=='vclamp'): plt.ylim(-2000,3000)
+            if self.is_vclamp(): plt.ylim(-2000,3000)
 
 
             plt.subplot(5,1,2, sharex = ax1)
@@ -281,14 +288,14 @@ class HodgkinHuxley():
             plt.subplot(5,1,3, sharex = ax1)
             plt.plot(self.t, gna, 'c', label='$g_{Na}$')
             plt.plot(self.t, gk, 'y', label='$g_{K}$')
-            plt.ylabel('Cond dens')
+            plt.ylabel('Cond. dens')
             plt.legend()
 
             plt.subplot(5,1,4, sharex = ax1)
             plt.plot(self.t, ina, 'c', label='$I_{Na}$')
             plt.plot(self.t, ik, 'y', label='$I_{K}$')
             plt.plot(self.t, il, 'm', label='$I_{L}$')
-            plt.ylabel('Currents')
+            plt.ylabel('Current')
             plt.legend()
 
             plt.subplot(5,1,5, sharex = ax1)
@@ -298,6 +305,8 @@ class HodgkinHuxley():
             #plt.ylim(-1, 40)
 
             plt.tight_layout()
+
+
             plt.show()
 
 if __name__ == '__main__':

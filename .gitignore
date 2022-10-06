@@ -37,3 +37,4 @@ Tutorial/Source/*json
 *_eden.py
 **/.ipynb_checkpoints/
 /Tutorial/Source/HHCellNetwork.net.nml__flattened.xml
+/notebooks/Python_HH_version/hh_py_v.dat
