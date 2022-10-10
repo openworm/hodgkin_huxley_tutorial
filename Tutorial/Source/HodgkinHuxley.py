@@ -229,7 +229,9 @@ class HodgkinHuxley():
                 self.run_mode='iclamp'
             elif '-vclamp' in sys.argv:
                 self.run_mode='vclamp'
-                self.t = np.arange(0, 50, 0.0001)           #update default time array for python script (notebook can be controlled through widgets)
+
+        if self.is_vclamp():
+            self.t = np.arange(0, 50, 0.001)           #update default time array for python script (notebook can be controlled through widgets)
 
 
         X = odeint(self.dALLdt, [-64.99584, 0.05296, 0.59590, 0.31773], self.t, args=(self,))
@@ -261,6 +263,7 @@ class HodgkinHuxley():
             else:
                 plt.rcParams['figure.figsize'] = [10, 7]
 
+            plt.close()
             fig=plt.figure()
             fig.canvas.header_visible = False
 
