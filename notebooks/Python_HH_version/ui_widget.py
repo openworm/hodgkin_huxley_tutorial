@@ -13,22 +13,22 @@ default_cond_K       = 36
 default_cond_L       = 0.3
 default_pot_Na       = 50
 default_pot_K        = -77
-default_pot_L        = -54.387
+default_pot_L        = -54.3
 default_t0           = 0
 default_tn           = 50
 default_deltat       = 0.01
-default_amplitude    = 10
-default_width        = 25
-default_translation  = 5
+default_ic_amplitude = 10
+default_ic_duration  = 25
+default_ic_delay     = 5
 
 #voltage clamp default values
-default_delay         = 5
-default_duration      = 30
+default_vc_delay         = 10
+default_vc_duration      = 30
 default_condVoltage   = -65
 default_testVoltage   = 10
 default_returnVoltage = -65
 default_tn_vclamp     = 50
-default_deltat_vclamp = 0.0001
+default_deltat_vclamp = 0.001
 
 #function to reset input values to default on button click
 def resetTodefault(_):
@@ -42,13 +42,13 @@ def resetTodefault(_):
     time_start.value         = default_t0
     time_end.value           = default_tn
     time_step.value          = default_deltat
-    slider_amplitude.value   = default_amplitude
-    slider_width.value       = default_width
-    slider_translation.value = default_translation
+    slider_amplitude.value   = default_ic_amplitude
+    slider_width.value       = default_ic_duration
+    slider_translation.value = default_ic_delay
 
     #voltage clamp
-    slider_delay.value         = default_delay
-    slider_duration.value      = default_duration
+    slider_delay.value         = default_vc_delay
+    slider_duration.value      = default_vc_duration
     slider_condVoltage.value   = default_condVoltage
     slider_testVoltage.value   = default_testVoltage
     slider_returnVoltage.value = default_returnVoltage
@@ -83,8 +83,8 @@ def runModeChange(c):
 def highlight_slider():
     inputList    = [slider_capacitance, slider_cond_Na, slider_cond_K, slider_cond_L, slider_pot_Na, slider_pot_K, slider_pot_L, slider_amplitude, slider_width, slider_translation,
                     slider_delay, slider_duration, slider_condVoltage, slider_testVoltage, slider_returnVoltage]
-    inputDefault = [default_capacitance, default_cond_Na, default_cond_K, default_cond_L, default_pot_Na, default_pot_K, default_pot_L, default_amplitude, default_width, default_translation,
-                    default_delay, default_duration, default_condVoltage, default_testVoltage, default_returnVoltage]
+    inputDefault = [default_capacitance, default_cond_Na, default_cond_K, default_cond_L, default_pot_Na, default_pot_K, default_pot_L, default_ic_amplitude, default_ic_duration, default_ic_delay,
+                    default_vc_delay, default_vc_duration, default_condVoltage, default_testVoltage, default_returnVoltage]
     for l, d in zip(inputList,inputDefault):
         if l.value == d:
             l.style.handle_color = 'white'
@@ -110,16 +110,16 @@ slider_cond_L      = ipywidgets.FloatSlider(value=default_cond_L,min=0,max=1,ste
 slider_pot_Na      = ipywidgets.FloatSlider(value=default_pot_Na,min=-100,max=100,step=0.1,description='Sodium',readout=False,continuous_update=False)
 slider_pot_K       = ipywidgets.FloatSlider(value=default_pot_K,min=-100,max=100,step=0.1,description='Potassium',readout=False,continuous_update=False)
 slider_pot_L       = ipywidgets.FloatSlider(value=default_pot_L,min=-100,max=100,step=0.1,description='Leak',readout=False,continuous_update=False)
-slider_amplitude   = ipywidgets.FloatSlider(value=default_amplitude,min=-20,max=200,step=0.1,description='Amplitude',readout=False,continuous_update=False)
-slider_width       = ipywidgets.FloatSlider(value=default_width,min=0,max=500,step=0.1,description='Duration',readout=False,continuous_update=False)
-slider_translation = ipywidgets.FloatSlider(value=default_translation,min=0,max=250,step=0.1,description='Time Delay',readout=False,continuous_update=False)
+slider_amplitude   = ipywidgets.FloatSlider(value=default_ic_amplitude,min=-20,max=200,step=0.1,description='Amplitude',readout=False,continuous_update=False)
+slider_width       = ipywidgets.FloatSlider(value=default_ic_duration,min=0,max=500,step=0.1,description='Duration',readout=False,continuous_update=False)
+slider_translation = ipywidgets.FloatSlider(value=default_ic_delay,min=0,max=250,step=0.1,description='Time Delay',readout=False,continuous_update=False)
 
 #vclamp sliders
-slider_delay            = ipywidgets.FloatSlider(value=default_delay         ,min=0,max=250,step=0.1,description='Time Delay',readout=False,continuous_update=False)
-slider_duration         = ipywidgets.FloatSlider(value=default_duration      ,min=0,max=500,step=0.1,description='Duration',readout=False,continuous_update=False)
-slider_condVoltage      = ipywidgets.FloatSlider(value=default_condVoltage   ,min=-100,max=100,step=0.1,description='Conditioning',readout=False,continuous_update=False)
-slider_testVoltage      = ipywidgets.FloatSlider(value=default_testVoltage   ,min=-100,max=100,step=0.1,description='Testing',readout=False,continuous_update=False)
-slider_returnVoltage    = ipywidgets.FloatSlider(value=default_returnVoltage ,min=-100,max=100,step=0.1,description='Returning',readout=False,continuous_update=False)
+slider_delay            = ipywidgets.FloatSlider(value=default_vc_delay         ,min=0,max=250,step=0.1,description='Time Delay',readout=False,continuous_update=False)
+slider_duration         = ipywidgets.FloatSlider(value=default_vc_duration      ,min=0,max=500,step=0.1,description='Duration',readout=False,continuous_update=False)
+slider_condVoltage      = ipywidgets.FloatSlider(value=default_condVoltage   ,min=-120,max=100,step=1,description='Conditioning',readout=False,continuous_update=False)
+slider_testVoltage      = ipywidgets.FloatSlider(value=default_testVoltage   ,min=-120,max=100,step=1,description='Testing',readout=False,continuous_update=False)
+slider_returnVoltage    = ipywidgets.FloatSlider(value=default_returnVoltage ,min=-120,max=100,step=1,description='Returning',readout=False,continuous_update=False)
 
 #text box widgets
 time_start         = ipywidgets.FloatText(value=default_t0,description='Start Time',disabled=True)
@@ -134,13 +134,13 @@ textBox_cond_L      = ipywidgets.FloatText(value=default_cond_L,step=0.1,layout=
 textBox_pot_Na      = ipywidgets.FloatText(value=default_pot_Na,step=1,layout=ipywidgets.Layout(width='10%'))
 textBox_pot_K       = ipywidgets.FloatText(value=default_pot_K,step=1,layout=ipywidgets.Layout(width='10%'))
 textBox_pot_L       = ipywidgets.FloatText(value=default_pot_L,step=1,layout=ipywidgets.Layout(width='10%'))
-textBox_amplitude   = ipywidgets.FloatText(value=default_amplitude,step=1,layout=ipywidgets.Layout(width='10%'))
-textBox_width       = ipywidgets.FloatText(value=default_width,step=1,layout=ipywidgets.Layout(width='10%'))
-textBox_translation = ipywidgets.FloatText(value=default_translation,step=1,layout=ipywidgets.Layout(width='10%'))
+textBox_amplitude   = ipywidgets.FloatText(value=default_ic_amplitude,step=1,layout=ipywidgets.Layout(width='10%'))
+textBox_width       = ipywidgets.FloatText(value=default_ic_duration,step=1,layout=ipywidgets.Layout(width='10%'))
+textBox_translation = ipywidgets.FloatText(value=default_ic_delay,step=1,layout=ipywidgets.Layout(width='10%'))
 
 #voltage clamp textboxes to link with sliders
-textBox_delay         = ipywidgets.FloatText(value=default_delay,step=1,layout=ipywidgets.Layout(width='10%'))
-textBox_duration      = ipywidgets.FloatText(value=default_duration,step=1,layout=ipywidgets.Layout(width='10%'))
+textBox_delay         = ipywidgets.FloatText(value=default_vc_delay,step=1,layout=ipywidgets.Layout(width='10%'))
+textBox_duration      = ipywidgets.FloatText(value=default_vc_duration,step=1,layout=ipywidgets.Layout(width='10%'))
 textBox_condVoltage   = ipywidgets.FloatText(value=default_condVoltage,step=1,layout=ipywidgets.Layout(width='10%'))
 textBox_testVoltage   = ipywidgets.FloatText(value=default_testVoltage,step=1,layout=ipywidgets.Layout(width='10%'))
 textBox_returnVoltage = ipywidgets.FloatText(value=default_returnVoltage,step=1,layout=ipywidgets.Layout(width='10%'))

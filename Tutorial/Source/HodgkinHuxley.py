@@ -10,7 +10,11 @@ class HodgkinHuxley():
     """ __init__ uses optional arguments """
     """ when no argument is passed default values are used """
 
-    def __init__(self, C_m=1, gmax_Na=120, gmax_K=36, gmax_L=0.3, E_Na=50, E_K=-77, E_L=-54.387, t_0=0, t_n=450, delta_t=0.01, I_inj_max=0, I_inj_width=0, I_inj_trans=0, vc_delay=10, vc_duration=30, vc_condVoltage=-65, vc_testVoltage=10, vc_returnVoltage=-65, runMode='iclamp'):
+    def __init__(self, C_m=1, gmax_Na=120, gmax_K=36, gmax_L=0.3, E_Na=50,
+                 E_K=-77, E_L=-54.387, t_0=0, t_n=450, delta_t=0.01,
+                 I_inj_amplitude=0, I_inj_duration=0, I_inj_delay=0,
+                 vc_delay=10, vc_duration=30, vc_condVoltage=-65,
+                 vc_testVoltage=10, vc_returnVoltage=-65, runMode='iclamp'):
 
         self.C_m  = C_m
         """ membrane capacitance, in uF/cm^2 """
@@ -38,14 +42,14 @@ class HodgkinHuxley():
 
         """ Advanced input - injection current (single rectangular pulse only) """
 
-        self.I_inj_max   = I_inj_max
+        self.I_inj_amplitude   = I_inj_amplitude
         """ maximum value or amplitude of injection pulse """
 
-        self.I_inj_width = I_inj_width
+        self.I_inj_duration = I_inj_duration
         """ duration or width of injection pulse """
 
-        self.I_inj_trans = I_inj_trans
-        """ strart time of injection pulse or tranlation about time axis """
+        self.I_inj_delay = I_inj_delay
+        """ start time of injection pulse """
 
         #vclamp parameters
         self.run_mode = runMode
@@ -167,7 +171,7 @@ class HodgkinHuxley():
 
         #""" running jupyterLab notebook """
         else:
-            return self.I_inj_max*(t>self.I_inj_trans) - self.I_inj_max*(t>self.I_inj_trans+self.I_inj_width)
+            return self.I_inj_amplitude*(t>self.I_inj_delay) - self.I_inj_amplitude*(t>self.I_inj_delay+self.I_inj_duration)
 
     def I_inj_vclamp(self,t,v):
         """
