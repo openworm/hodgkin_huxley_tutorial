@@ -221,7 +221,7 @@ class HodgkinHuxley():
     def is_vclamp(self):
         return self.run_mode=='vclamp' or self.run_mode=='Voltage Clamp'
 
-    def Main(self):
+    def Main(self, init_values=[-64.99584, 0.05296, 0.59590, 0.31773]):
         """
         Main demo for the Hodgkin Huxley neuron model
         """
@@ -237,8 +237,8 @@ class HodgkinHuxley():
         if self.is_vclamp():
             self.t = np.arange(0, 50, 0.001)           #update default time array for python script (notebook can be controlled through widgets)
 
-
-        X = odeint(self.dALLdt, [-64.99584, 0.05296, 0.59590, 0.31773], self.t, args=(self,))
+        # init_values are the steady state values for v,m,h,n at zero current injection
+        X = odeint(self.dALLdt, init_values, self.t, args=(self,))
         V = X[:,0]
         m = X[:,1]
         h = X[:,2]
@@ -309,6 +309,7 @@ class HodgkinHuxley():
             plt.plot(self.t, V, 'k')
             plt.ylabel('V (mV)')
             plt.xlabel('t (ms)')
+            if not self.is_vclamp(): plt.ylim(-85,60)
             #plt.ylim(-1, 40)
 
             plt.tight_layout()
