@@ -97,7 +97,7 @@ header_capacitance = ipywidgets.HTMLMath(value=r"<b> Membrane Capacitance, \(\mu
 header_conductance = ipywidgets.HTMLMath(value=r"<b> Maximum Conductances, \(mS/cm^2\)</b>")
 header_potential   = ipywidgets.HTMLMath(value=r"<b> Reversal Potentials, \(mV\)</b>")
 header_simTime     = ipywidgets.HTMLMath(value=r"<b> Simulation Time, \(ms\)</b>")
-header_injCurrent  = ipywidgets.HTMLMath(value=r"<b> Injection Current, \(\mu{A}/cm^2\)</b>")
+header_injCurrent  = ipywidgets.HTMLMath(value=r"<b> Injection Current, \(\mu{A}/cm^2\) (or \(pA\) if cell has area 100 \(\mu{m}^2\))</b>")
 header_runMode     = ipywidgets.HTML(value=r"<b>Select Run Mode</b>")
 header_vclamp_time = ipywidgets.HTMLMath(value=r"<b> Time, \(ms\)</b>")
 header_vclamp_volt = ipywidgets.HTMLMath(value=r"<b> Voltage, \(mV\)</b>")
