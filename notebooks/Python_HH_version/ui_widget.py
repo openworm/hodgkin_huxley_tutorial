@@ -226,12 +226,12 @@ def launch_interactive_widget():
 
     #create plot area widget and interact with HHmodel
     wid_plotArea=ipywidgets.interactive_output(runHH,{'C_m':slider_capacitance,
-                                            'g_Na':slider_cond_Na, 'g_K':slider_cond_K, 'g_L':slider_cond_L,
-                                            'E_Na':slider_E_Na, 'E_K':slider_E_K, 'E_L':slider_E_L,
+                                            'g_Na':textBox_cond_Na, 'g_K':textBox_cond_K, 'g_L':textBox_cond_L,
+                                            'E_Na':textBox_E_Na, 'E_K':textBox_E_K, 'E_L':textBox_E_L,
                                             't_0':time_start, 't_n':time_end, 'delta_t':time_step,
-                                            'I_inj_max':slider_amplitude,'I_inj_width':slider_width,'I_inj_trans':slider_translation,
-                                            'vc_delay':slider_delay,'vc_duration':slider_duration,'vc_condVoltage':slider_condVoltage,
-                                            'vc_testVoltage':slider_testVoltage,'vc_returnVoltage':slider_returnVoltage,
+                                            'I_inj_max':textBox_amplitude,'I_inj_width':textBox_width,'I_inj_trans':textBox_translation,
+                                            'vc_delay':textBox_delay,'vc_duration':textBox_duration,'vc_condVoltage':textBox_condVoltage,
+                                            'vc_testVoltage':textBox_testVoltage,'vc_returnVoltage':textBox_returnVoltage,
                                             'runMode':runMode_togglebtns})
 
     #display the widgets and plot area
