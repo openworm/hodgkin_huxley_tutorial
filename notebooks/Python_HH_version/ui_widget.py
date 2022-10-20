@@ -206,11 +206,11 @@ button_row=ipywidgets.HBox([reset_button,showValue_togglebtn])
 
 #plot selectors
 header_plotting = ipywidgets.HTMLMath(value=r"<b> Select plots</b>")
-injected_current_plot_value = ipywidgets.Checkbox(value=True, description="Current injection plot", disabled=False,)
+injected_current_plot_value = ipywidgets.Checkbox(value=True, description="Current injection", disabled=False,)
 gating_plot_value = ipywidgets.Checkbox(value=True, description="Gating variables", disabled=False,)
-cond_dens_plot_value = ipywidgets.Checkbox(value=True, description="Conductance density", disabled=False,)
-current_plot_value = ipywidgets.Checkbox(value=True, description="Current", disabled=False,)
-memb_pot_plot_value = ipywidgets.Checkbox(value=True, description="Memb pot", disabled=False,)
+cond_dens_plot_value = ipywidgets.Checkbox(value=True, description="Conductance densities", disabled=False,)
+current_plot_value = ipywidgets.Checkbox(value=True, description="Current densities", disabled=False,)
+memb_pot_plot_value = ipywidgets.Checkbox(value=True, description="Membrane potential", disabled=False,)
 plot_selection_row=ipywidgets.VBox([header_plotting, ipywidgets.HBox([injected_current_plot_value, gating_plot_value, cond_dens_plot_value]), ipywidgets.HBox([current_plot_value, memb_pot_plot_value])])
 
 #layout vertically all the widgets defined above

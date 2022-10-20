@@ -325,7 +325,7 @@ class HodgkinHuxley():
                     plt.title('Simulation of Hodgkin Huxley model neuron')
                 plt.plot(self.t, gna, 'c', label='$g_{Na}$')
                 plt.plot(self.t, gk, 'y', label='$g_{K}$')
-                plt.ylabel('Cond. dens')
+                plt.ylabel('Cond. dens ($mS/cm^2$)')
                 plt.legend()
                 self.plot_count += 1
 
@@ -338,7 +338,7 @@ class HodgkinHuxley():
                 plt.plot(self.t, ina, 'c', label='$I_{Na}$')
                 plt.plot(self.t, ik, 'y', label='$I_{K}$')
                 plt.plot(self.t, il, 'm', label='$I_{L}$')
-                plt.ylabel('Current')
+                plt.ylabel('Current ($\\mu{A}/cm^2$)')
                 plt.legend()
                 self.plot_count += 1
 
@@ -349,7 +349,7 @@ class HodgkinHuxley():
                     ax1 = plt.subplot(self.num_plots,1,self.plot_count + 1)
                     plt.title('Simulation of Hodgkin Huxley model neuron')
                 plt.plot(self.t, V, 'k')
-                plt.ylabel('V (mV)')
+                plt.ylabel('$V_{m}$ (mV)')
                 plt.xlabel('t (ms)')
                 if not self.is_vclamp(): plt.ylim(-85,60)
                 #plt.ylim(-1, 40)
