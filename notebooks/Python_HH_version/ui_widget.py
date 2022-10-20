@@ -204,8 +204,17 @@ runMode_vclamp.layout.display = 'none'
 #reset and defalult value buttons in single row
 button_row=ipywidgets.HBox([reset_button,showValue_togglebtn])
 
+#plot selectors
+header_plotting = ipywidgets.HTMLMath(value=r"<b> Select plots</b>")
+injected_current_plot_value = ipywidgets.Checkbox(value=True, description="Current injection", disabled=False,)
+gating_plot_value = ipywidgets.Checkbox(value=True, description="Gating variables", disabled=False,)
+cond_dens_plot_value = ipywidgets.Checkbox(value=True, description="Conductance densities", disabled=False,)
+current_plot_value = ipywidgets.Checkbox(value=True, description="Current densities", disabled=False,)
+memb_pot_plot_value = ipywidgets.Checkbox(value=True, description="Membrane potential", disabled=False,)
+plot_selection_row=ipywidgets.VBox([header_plotting, ipywidgets.HBox([injected_current_plot_value, gating_plot_value, cond_dens_plot_value]), ipywidgets.HBox([current_plot_value, memb_pot_plot_value])])
+
 #layout vertically all the widgets defined above
-modelInputs=ipywidgets.VBox([h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,runMode_iclamp,runMode_vclamp,button_row,defalultValues])
+modelInputs=ipywidgets.VBox([h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,runMode_iclamp,runMode_vclamp,button_row,defalultValues,plot_selection_row])
 
 # Main method to create interactive widget
 def launch_interactive_widget():
@@ -217,22 +226,39 @@ def launch_interactive_widget():
     HHmodel = SourceFileLoader("HodgkinHuxley.py","../../Tutorial/Source/HodgkinHuxley.py").load_module()
 
     #function to call python script as a module
-    def runHH(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, t_0, t_n, delta_t, I_inj_max, I_inj_width, I_inj_trans, vc_delay, vc_duration, vc_condVoltage, vc_testVoltage, vc_returnVoltage, runMode):
+    def runHH(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, t_0, t_n, delta_t,
+              I_inj_max, I_inj_width, I_inj_trans, vc_delay, vc_duration,
+              vc_condVoltage, vc_testVoltage, vc_returnVoltage, runMode,
+              injected_current_plot, gating_plot, cond_dens_plot, current_plot, memb_pot_plot):
 
         highlight_slider()
-        runner = HHmodel.HodgkinHuxley(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, t_0, t_n, delta_t, I_inj_max, I_inj_width, I_inj_trans, vc_delay, vc_duration, vc_condVoltage, vc_testVoltage, vc_returnVoltage, runMode)
+        runner = HHmodel.HodgkinHuxley(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L,
+                                       t_0, t_n, delta_t, I_inj_max,
+                                       I_inj_width, I_inj_trans, vc_delay,
+                                       vc_duration, vc_condVoltage,
+                                       vc_testVoltage, vc_returnVoltage,
+                                       runMode,
+                                       injected_current_plot=injected_current_plot,
+                                       gating_plot=gating_plot,
+                                       cond_dens_plot=cond_dens_plot,
+                                       current_plot=current_plot,
+                                       memb_pot_plot=memb_pot_plot)
         # init_values are the steady state values for v,m,h,n at zero current injection
         runner.Main(init_values=[-63.8, 0.0609, 0.5538, 0.3361])
 
     #create plot area widget and interact with HHmodel
     wid_plotArea=ipywidgets.interactive_output(runHH,{'C_m':slider_capacitance,
-                                            'g_Na':slider_cond_Na, 'g_K':slider_cond_K, 'g_L':slider_cond_L,
-                                            'E_Na':slider_E_Na, 'E_K':slider_E_K, 'E_L':slider_E_L,
+                                            'g_Na':textBox_cond_Na, 'g_K':textBox_cond_K, 'g_L':textBox_cond_L,
+                                            'E_Na':textBox_E_Na, 'E_K':textBox_E_K, 'E_L':textBox_E_L,
                                             't_0':time_start, 't_n':time_end, 'delta_t':time_step,
-                                            'I_inj_max':slider_amplitude,'I_inj_width':slider_width,'I_inj_trans':slider_translation,
-                                            'vc_delay':slider_delay,'vc_duration':slider_duration,'vc_condVoltage':slider_condVoltage,
-                                            'vc_testVoltage':slider_testVoltage,'vc_returnVoltage':slider_returnVoltage,
-                                            'runMode':runMode_togglebtns})
+                                            'I_inj_max':textBox_amplitude,'I_inj_width':textBox_width,'I_inj_trans':textBox_translation,
+                                            'vc_delay':textBox_delay,'vc_duration':textBox_duration,'vc_condVoltage':textBox_condVoltage,
+                                            'vc_testVoltage':textBox_testVoltage,'vc_returnVoltage':textBox_returnVoltage,
+                                            'runMode':runMode_togglebtns, 'injected_current_plot': injected_current_plot_value,
+                                                      'gating_plot':gating_plot_value,
+                                                      'cond_dens_plot':cond_dens_plot_value,
+                                                      'current_plot':current_plot_value,
+                                                      'memb_pot_plot':memb_pot_plot_value})
 
     #display the widgets and plot area
     display(modelInputs,wid_plotArea)

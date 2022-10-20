@@ -14,7 +14,9 @@ class HodgkinHuxley():
                  E_K=-77, E_L=-54.387, t_0=0, t_n=450, delta_t=0.01,
                  I_inj_amplitude=0, I_inj_duration=0, I_inj_delay=0,
                  vc_delay=10, vc_duration=30, vc_condVoltage=-65,
-                 vc_testVoltage=10, vc_returnVoltage=-65, runMode='iclamp'):
+                 vc_testVoltage=10, vc_returnVoltage=-65, runMode='iclamp',
+                 injected_current_plot=True, gating_plot=True, cond_dens_plot=True,
+                 current_plot=True, memb_pot_plot=True):
 
         self.C_m  = C_m
         """ membrane capacitance, in uF/cm^2 """
@@ -72,6 +74,19 @@ class HodgkinHuxley():
 
         self.simpleSeriesResistance = 1e7
         """Current will be calculated by the difference in voltage between the target and parent, divided by this value, in mOhm"""
+
+        # plotting conditionals
+        self.injected_current_plot = injected_current_plot
+        self.gating_plot = gating_plot
+        self.cond_dens_plot = cond_dens_plot
+        self.current_plot = current_plot
+        self.memb_pot_plot = memb_pot_plot
+
+        self.num_plots = (int(self.injected_current_plot) +
+                          int(self.gating_plot) + int(self.cond_dens_plot) +
+                          int(self.current_plot) + int(self.memb_pot_plot))
+
+        self.plot_count = 0
 
     def alpha_m(self, V):
         """Channel gating kinetics. Functions of membrane voltage"""
@@ -268,53 +283,79 @@ class HodgkinHuxley():
                 plt.rcParams['figure.figsize'] = [10, 7]
 
             plt.close()
-            fig=plt.figure()
+
+            fig=plt.figure(figsize=(7, self.num_plots * 2))
             fig.canvas.header_visible = False
-
-            ax1 = plt.subplot(5,1,1)
             plt.xlim([np.min(self.t),np.max(self.t)])  #for all subplots
-            plt.title('Simulation of Hodgkin Huxley model neuron')
 
-            if self.is_vclamp():
-                i_inj_values = [self.I_inj_vclamp(t,v) for t,v in zip(self.t,V)]
-            else:
-                i_inj_values = [self.I_inj(t) for t in self.t]
+            if self.injected_current_plot:
+                ax1 = plt.subplot(self.num_plots,1,self.plot_count + 1)
+                plt.title('Simulation of Hodgkin Huxley model neuron')
+                if self.is_vclamp():
+                    i_inj_values = [self.I_inj_vclamp(t,v) for t,v in zip(self.t,V)]
+                else:
+                    i_inj_values = [self.I_inj(t) for t in self.t]
 
-            plt.plot(self.t, i_inj_values, 'k')
-            plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')
-            if self.is_vclamp(): plt.ylim(-2000,3000)
+                if self.is_vclamp(): plt.ylim(-2000,3000)
+
+                plt.plot(self.t, i_inj_values, 'k')
+                plt.ylabel('$I_{inj}$ ($\\mu{A}/cm^2$)')
+
+                self.plot_count += 1
 
 
-            plt.subplot(5,1,2, sharex = ax1)
-            plt.plot(self.t, m, 'r', label='m')
-            plt.plot(self.t, h, 'g', label='h')
-            plt.plot(self.t, n, 'b', label='n')
-            plt.ylabel('Gating Variable')
-            plt.legend()
+            if self.gating_plot:
+                try:
+                    plt.subplot(self.num_plots,1,self.plot_count+1, sharex = ax1)
+                except NameError:
+                    ax1 = plt.subplot(self.num_plots,1,self.plot_count + 1)
+                    plt.title('Simulation of Hodgkin Huxley model neuron')
+                plt.plot(self.t, m, 'r', label='m')
+                plt.plot(self.t, h, 'g', label='h')
+                plt.plot(self.t, n, 'b', label='n')
+                plt.ylabel('Gating Variable')
+                plt.legend()
+                self.plot_count += 1
 
-            plt.subplot(5,1,3, sharex = ax1)
-            plt.plot(self.t, gna, 'c', label='$g_{Na}$')
-            plt.plot(self.t, gk, 'y', label='$g_{K}$')
-            plt.ylabel('Cond. dens')
-            plt.legend()
+            if self.cond_dens_plot:
+                try:
+                    plt.subplot(self.num_plots,1,self.plot_count+1, sharex = ax1)
+                except NameError:
+                    ax1 = plt.subplot(self.num_plots,1,self.plot_count + 1)
+                    plt.title('Simulation of Hodgkin Huxley model neuron')
+                plt.plot(self.t, gna, 'c', label='$g_{Na}$')
+                plt.plot(self.t, gk, 'y', label='$g_{K}$')
+                plt.ylabel('Cond. dens ($mS/cm^2$)')
+                plt.legend()
+                self.plot_count += 1
 
-            plt.subplot(5,1,4, sharex = ax1)
-            plt.plot(self.t, ina, 'c', label='$I_{Na}$')
-            plt.plot(self.t, ik, 'y', label='$I_{K}$')
-            plt.plot(self.t, il, 'm', label='$I_{L}$')
-            plt.ylabel('Current')
-            plt.legend()
+            if self.current_plot:
+                try:
+                    plt.subplot(self.num_plots,1,self.plot_count+1, sharex = ax1)
+                except NameError:
+                    ax1 = plt.subplot(self.num_plots,1,self.plot_count + 1)
+                    plt.title('Simulation of Hodgkin Huxley model neuron')
+                plt.plot(self.t, ina, 'c', label='$I_{Na}$')
+                plt.plot(self.t, ik, 'y', label='$I_{K}$')
+                plt.plot(self.t, il, 'm', label='$I_{L}$')
+                plt.ylabel('Current ($\\mu{A}/cm^2$)')
+                plt.legend()
+                self.plot_count += 1
 
-            plt.subplot(5,1,5, sharex = ax1)
-            plt.plot(self.t, V, 'k')
-            plt.ylabel('V (mV)')
-            plt.xlabel('t (ms)')
-            if not self.is_vclamp(): plt.ylim(-85,60)
-            #plt.ylim(-1, 40)
+            if self.memb_pot_plot:
+                try:
+                    plt.subplot(self.num_plots,1,self.plot_count+1, sharex = ax1)
+                except NameError:
+                    ax1 = plt.subplot(self.num_plots,1,self.plot_count + 1)
+                    plt.title('Simulation of Hodgkin Huxley model neuron')
+                plt.plot(self.t, V, 'k')
+                plt.ylabel('$V_{m}$ (mV)')
+                plt.xlabel('t (ms)')
+                if not self.is_vclamp(): plt.ylim(-85,60)
+                #plt.ylim(-1, 40)
+                self.plot_count += 1
 
             plt.tight_layout()
-
-
             plt.show()
 
 if __name__ == '__main__':
