@@ -51,7 +51,16 @@
             <OutputColumn id="v" quantity="hhpop[0]/v"/> 
         </OutputFile>  
     
-        
+        <OutputFile id="of1" fileName="hh_forJupyterNotebook.dat">
+            <OutputColumn id="v" quantity="hhpop[0]/v" /> 
+			<OutputColumn id="m" quantity="hhpop[0]/bioPhys1/membraneProperties/naChans/naChan/m/q" /> 
+			<OutputColumn id="h" quantity="hhpop[0]/bioPhys1/membraneProperties/naChans/naChan/h/q" /> 
+			<OutputColumn id="n" quantity="hhpop[0]/bioPhys1/membraneProperties/kChans/kChan/n/q" /> 
+			<OutputColumn id="I_na" quantity="hhpop[0]/bioPhys1/membraneProperties/naChans/iDensity" />
+            <OutputColumn id="I_k" quantity="hhpop[0]/bioPhys1/membraneProperties/kChans/iDensity" />
+            <OutputColumn id="I_l" quantity="hhpop[0]/bioPhys1/membraneProperties/leak/iDensity" />
+			<OutputColumn id="I_vClamp" quantity="hhpop[0]/vClamp/i" />
+        </OutputFile>    
     </Simulation>
 
 

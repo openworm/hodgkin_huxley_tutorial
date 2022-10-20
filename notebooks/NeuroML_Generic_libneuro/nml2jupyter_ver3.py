@@ -1,143 +1,240 @@
+import os
 import pylab as plt
 import numpy as np
-import os
-import re
+import ui_widget
 import ipywidgets
-import xml.etree.ElementTree as ET
+from pyneuroml import pynml
+from neuroml.loaders import read_neuroml2_file
+import neuroml.writers as writers
 
 #python helper class for updating NeuroML files and running it from Jupyter Notebook
 class nml2jupyter():
     
-    def __init__(self, path2source, fname_LEMS):
+    def __init__(self, path2source, fname_LEMS, fname_net):
         
-        self.path2source      = path2source
-        self.fname_LEMS       = fname_LEMS
-        self.filelist         = []
-        #self.fname_cellNML    = fname_cellNML
-        #self.fname_netNML     = fname_netNML
-        #self.fname_NML_output = fname_NML_output
-        
-    #function to parse NeuroML files
-    def parseNML(self):
-        
-        tree=[]          #for all element trees (including LEMS**.xml)
-        #filelist=[]      #for all the filenames included in LEMS simulation file
-        
-        filename=os.path.join(self.path2source, self.fname_LEMS)
-        #tree.append(ET.parse(filename))
-        root = ET.parse(filename).getroot()
-        
-        self.filelist.append(self.fname_LEMS)
-        #find all nml files included in the simulation
-        for f in root.findall('./{*}*/[@file]'):
-            if f.attrib['file'].endswith('.nml'):
-                self.filelist.append(f.attrib['file'])
- 
-        for file in self.filelist:
-            filename=os.path.join(self.path2source, file)
-            tree.append(ET.parse(filename))
-            
-        #registering namespace as blank space (some user tag can also be used)
-        ET.register_namespace("","http://www.neuroml.org/schema/neuroml2")
-        #ns = {"xmlns":"http://www.neuroml.org/schema/neuroml2"}
-        
-        return tree
+        self.path2source   = path2source
+        self.fname_LEMS    = fname_LEMS
+        self.fname_net     = fname_net
+        self.nml_file      = 'NeuroMLProject.nml'
     
-    def findLevel(self,elem,level):
-        if (len(elem.findall('./{*}*'))):
-            level+=1
-            for subelem in elem.findall('./{*}*'):
-                print('\033[0;{}m'.format(30+level) + ' |---'*level + str(subelem.tag.split("}")[-1]) + str(subelem.attrib))
-                self.findLevel(subelem,level)
+    #Function to load neuroml file in python object
+    def loadnml(self):
+        pathfilename=os.path.join(self.path2source, self.fname_net)
+        nml_doc= read_neuroml2_file(pathfilename, include_includes=True,already_included=[])
+        return nml_doc
+
+    #function to write NeuroML file based on widget inputs
+    def writeNMLinputFile(self,nml_doc):
+        writers.NeuroMLWriter.write(nml_doc, self.nml_file)
+        display("Written in NeuroML2 format to : " + self.nml_file)
+                
+
+    #Fuction to create accordions for given neuroml object
+    def createAccordions(self,nmlObj,title):
+        mydict=nmlObj.info(True,return_format='dict')
+        emptyKeys=[]
+        subwidget_list=[]
+        textBoxList=[]
         
-    def generateDashboard(self,trees):
-       
-        out=[]
-        for tree in trees:
-            out.append(ipywidgets.Output())
-            with out[-1]:          #last element of out
-                root = tree.getroot()
-                self.findLevel(root, -1)                  
+        #Two loops to keep text boxes on top and accordion on bottom
+        #Need to find alternate way to avoid looping twice
         
-        tab_nest = ipywidgets.Tab()
-        #create tab headers
-        idx=0
-        for x in out:
-            tab_nest.set_title (idx, self.filelist[idx])
-            idx+=1    
+        #Loop 1 
+        #create text box widgets for values of dictionary of type str, int or float
+        #make a list of empty keys
+        for key,values in mydict.items():
+            # check if the member is set to None
+            # if it's a container (list), it will not be set to None, it
+            # will be empty, []
+            # if it's a scalar, it will be set to None or to a non
+            # container value
+            if values['members'] is None or (isinstance(values['members'], list) and len(values['members']) == 0): 
+                emptyKeys.append(key)
+                continue
+            if isinstance(values['members'],str) or isinstance(values['members'],int) or isinstance(values['members'],float):
+                textBox_key   = ipywidgets.Text(value=key,disabled=True,layout=ipywidgets.Layout(width='20%'))
+                textBox_value = ipywidgets.Text(value=str(values['members']),layout=ipywidgets.Layout(width='50%'))
+                textBoxList.append(ipywidgets.HBox([textBox_key, textBox_value]))
+                if (key=='id'): title_id=values['members']
         
-        #add aditional tab for results
-        #tab_nest.set_title (idx, 'Result')
-        #file = open("nml_result.PNG", "rb")
-        #image = file.read()
-        #out.append(ipywidgets.Output(layout=ipywidgets.Layout(width='100%',
-        #                                   height='auto',
-        #                                   max_height='1000px',
-        #                                   overflow='hidden scroll',)))
+        #remove empty keys from dicitonary (to reduce iteration in 2nd loop)
+        for key in emptyKeys:
+            mydict.pop(key)
         
-        #set content to tabs
-        tab_nest.children = out
-        ######################################
+        #Loop 2
+        #create sub-accordions for list of values
+        for key,values in mydict.items():
+            if isinstance(values['members'],str) or isinstance(values['members'],int) or isinstance(values['members'],float): continue
+            if isinstance(values['members'],list):
+                for idx, val in enumerate(values['members']):
+                    if isinstance(val,str) or isinstance(val,int) or isinstance(val,float): 
+                        textBox_key   = ipywidgets.Text(value=key,disabled=True,layout=ipywidgets.Layout(width='20%'))
+                        textBox_value = ipywidgets.Text(value=str(val),layout=ipywidgets.Layout(width='50%'))
+                        textBoxList.append(ipywidgets.HBox([textBox_key, textBox_value]))
+                        if (key=='id'): title_id=values['members']
+                    else:
+                        child_accord=self.createAccordions(val,key)
+                        textBoxList.append(child_accord)
+            else:
+                child_accord=self.createAccordions(values['members'],key)
+                textBoxList.append(child_accord)
         
-        ######################################
-        #display the tab
-        display(tab_nest)
+        subwidget_list.append(ipywidgets.VBox(textBoxList))
+        accordion = ipywidgets.Accordion(children=subwidget_list, selected_index=None)
+        try: 
+            title_with_id = title + ' (' + title_id + ') '
+            accordion.set_title(0, title_with_id)
+        except:
+            accordion.set_title(0, title)
         
-    #function to update existing NeuroML file based on widget inputs
-    def writeNMLinputFile(self,C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, t_0, t_n, delta_t, I_inj_max, I_inj_width, I_inj_trans):
-        print('will do later')
+        return accordion
+
+    #Function to load LEMS life in python object then get component list to create accordions   
+    def createAccordionsLEMS(self):
+        pathfilename=os.path.join(self.path2source,self.fname_LEMS)
+        lems_doc=pynml.read_lems_file(pathfilename)
+        mydict=lems_doc.get_component_list()
+        accordList=[]
+        component=['id', 'type', 'parameters', 'parent_id']
+        for key,values in mydict.items():
+            textBoxList=[]
+            for attr in component:
+                val = getattr(mydict[key],attr)
+                if isinstance(val,dict):
+                    for k,v in val.items():
+                        textBox_key   = ipywidgets.Text(value=k,disabled=True,layout=ipywidgets.Layout(width='20%'))
+                        textBox_value = ipywidgets.Text(value=v,layout=ipywidgets.Layout(width='50%'))
+                        textBoxList.append(ipywidgets.HBox([textBox_key, textBox_value]))
+                    continue
+                textBox_key   = ipywidgets.Text(value=attr,disabled=True,layout=ipywidgets.Layout(width='20%'))
+                textBox_value = ipywidgets.Text(value=val,layout=ipywidgets.Layout(width='50%'))
+                textBoxList.append(ipywidgets.HBox([textBox_key, textBox_value]))
+            accordList.append(ipywidgets.VBox(textBoxList))
+        accordion = ipywidgets.Accordion(children=accordList, selected_index=None)
+        for i,key in enumerate(mydict.keys()):
+            accordion.set_title(i,key)
+        return accordion
+
+    #Function to create GUI by nesting accordions with first level of neruoml object as Tabs
+    def createTabWithAccordions(self,nml_doc):
+        parent=nml_doc.info(True,return_format='dict')
         
+        masterTab=ipywidgets.Tab()
+        masterTab_titles=[]
+        masterTab_child=[]
+        #create LEMS tab for simulation parameters (using get_component_list) 
+        lemsTab=self.createAccordionsLEMS()
+        masterTab_child.append(lemsTab)
+        masterTab_titles.append('LEMS')
+        for key,values in parent.items():
+            if values['members'] is None or (isinstance(values['members'], list) and len(values['members']) == 0): continue   #skip empty elements
+            
+            sub_child=[]
+            if isinstance(values['members'],list):
+                for val in values['members']:
+                    sub_child.append(self.createAccordions(val,key))
+            elif isinstance(values['members'],str) or isinstance(values['members'],int) or isinstance(values['members'],float): 
+                sub_child.append(ipywidgets.Text(value=str(values['members'])))
+            else:
+                sub_child.append(self.createAccordions(values['members'],key))
+            
+            masterTab_child.append(ipywidgets.VBox(sub_child))
+            masterTab_titles.append(key)
+
+        masterTab.children=masterTab_child
+        for i in range(len(masterTab_titles)):
+            masterTab.set_title(i,masterTab_titles[i])
+
+        display(masterTab)
+
+    #function to setup full dashboard/gui
+    def loadGUI(self,nml_doc):
+        
+        #function to run NeuroML with given inputs
+        def runNMLmodel(b):
+            out_log.clear_output()
+            out_plot.clear_output()
+            out_validStatus.clear_output()
+            with out_log:
+                display('Running NeuroML Model...')
+                LEMS_file=os.path.join(self.path2source, self.fname_LEMS)
+                self.nmlOutput = pynml.run_lems_with_jneuroml(LEMS_file, nogui=True, load_saved_data=True)
+                #shell_cmd=['pynml', LEMS, LEMSoption]
+                #subprocess.run(shell_cmd)
+                display('Completed !!!')
+        
+        #function to validate NeuroML model
+        def validateNMLmodel(b):
+            out_log.clear_output()
+            out_validStatus.clear_output()
+            with out_log:
+                display('Validating NeuroML Input File...')
+                #pathfilename=os.path.join(self.path2source, self.nml_file)
+                checkStatus=pynml.validate_neuroml2(self.nml_file)
+                #shell_cmd=['pynml', pathfilename,'-validate']
+                #subprocess.run(shell_cmd)
+                if checkStatus==True:
+                    valid_widget=ipywidgets.Valid(value=True,description='')
+                    with out_validStatus:
+                        display(ipywidgets.HBox([ipywidgets.HTML(value=self.nml_file,disabled=True),valid_widget]))
+                else:
+                    valid_widget=ipywidgets.Valid(value=False,description='')
+                    with out_validStatus:
+                        display(ipywidgets.HBox([ipywidgets.HTML(value=self.nml_file,disabled=True),valid_widget]))
+                display('Completed !!!')
+                        
+        #function to display plot in notebook
+        def plotOutput(b):
+            out_plot.clear_output()
+            with out_plot:
+                self.plotData()
+        
+        #function to update NeuroML files from widget inputs
+        def updateNMLfiles(b):
+            out_log.clear_output()
+            out_plot.clear_output()
+            out_validStatus.clear_output()
+            with out_log:
+                #display('Updating NeuroML Files from GUI inputs...')
+                display('Writing NeuroML python model to file ')
+                #display(type(self.filelist),len(self.filelist))
+                #display(type(self.trees),len(self.trees))
+                self.writeNMLinputFile(nml_doc)
+                display('Completed !!!')
+                        
+        #output windows
+        out_log  = ipywidgets.Output(layout={'border': '1px solid'}) #for displaying output log from NeuroMl execution
+        out_plot = ipywidgets.Output()                              #for displaying plots
+        out_validStatus = ipywidgets.Output()                       #for displaying valid widgets after running validate button
+        
+        ui_widget.run_button.on_click(runNMLmodel)
+        ui_widget.validate_button.on_click(validateNMLmodel)
+        ui_widget.plot_button.on_click(plotOutput)
+        ui_widget.update_button.on_click(updateNMLfiles)
+        
+        display(ui_widget.buttons,out_validStatus,out_log,ui_widget.plot_button,out_plot)
+    
     #function to plot data generated by NeuroML
-    def plotData(self,fname_NML_output):
+    def plotData(self):
+        plt.close('all')
+        for key in self.nmlOutput.keys():
+                if key == "t":
+                    continue
+                plt.ioff()                 #suppress plot console window (plot only at display call)
+                fig=plt.figure(figsize=(8,2))
+                fig.canvas.header_visible = False
 
-        #read data file and import columns as array using numpy
-        data = np.loadtxt(fname_NML_output)
-        t=data[:,0]*1000    #convert to ms
-        V=data[:,1]*1000    #convert to mV
-        m=data[:,2]
-        h=data[:,3]
-        n=data[:,4]
-        ina=data[:,5]
-        ik=data[:,6]
-        il=data[:,7]
-        i_inj1=data[:,8]*10**9 #convert to nA
-        i_inj2=data[:,9]*10**9 #convert to nA
+                htmlBox_tittle    = ipywidgets.HTML(value='<b><p style="text-align:center">{}</p></b>'.format(key),layout=ipywidgets.Layout(border='solid 1px black',width='60%'))
+                plt.xlabel("Time (ms)")
+                plt.ylabel("")
+                plt.grid(True,linestyle="--")
 
-        plt.rcParams['figure.figsize'] = [12, 8]
-        plt.rcParams['font.size'] = 15
-        plt.rcParams['legend.fontsize'] = 12
-        plt.rcParams['legend.loc'] = "upper right"
+                #plt.xlim(min(self.nmlOutput["t"]),max(self.nmlOutput["t"]))
+                #plt.ylim(min(self.nmlOutput[key]),max(self.nmlOutput[key]))
 
-        fig=plt.figure()
+                plt.plot(self.nmlOutput["t"], self.nmlOutput[key], linewidth=1)
 
-        ax1 = plt.subplot(4,1,1)
-        plt.xlim([np.min(t),np.max(t)])  #for all subplots
-        plt.title('Hodgkin-Huxley Neuron')
-        #i_inj_values = [self.I_inj(t) for t in t]
-        plt.plot(t, i_inj1, 'k')
-        plt.plot(t, i_inj2, 'b')
-        plt.ylabel('$I_{inj}$ (nA)')      
+                plotBox=ipywidgets.VBox([htmlBox_tittle,fig.canvas])
 
-        plt.subplot(4,1,2, sharex = ax1)
-        plt.plot(t, ina, 'c', label='$I_{Na}$')
-        plt.plot(t, ik, 'y', label='$I_{K}$')
-        plt.plot(t, il, 'm', label='$I_{L}$')
-        plt.ylabel('Current')
-        plt.legend()
-
-        plt.subplot(4,1,3, sharex = ax1)
-        plt.plot(t, m, 'r', label='m')
-        plt.plot(t, h, 'g', label='h')
-        plt.plot(t, n, 'b', label='n')
-        plt.ylabel('Gating Value')
-        plt.legend()
-
-        plt.subplot(4,1,4, sharex = ax1)
-        plt.plot(t, V, 'k')
-        plt.ylabel('V (mV)')
-        plt.xlabel('t (ms)')
-        #plt.ylim(-1, 40)
-
-        plt.tight_layout()
-        plt.show()
+                display(plotBox)
 #end of class
