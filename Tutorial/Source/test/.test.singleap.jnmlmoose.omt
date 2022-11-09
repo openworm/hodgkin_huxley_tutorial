@@ -1,17 +1,17 @@
 # Script for running automated tests on OSB using Travis-CI, see https://github.com/OpenSourceBrain/osb-model-validation
 
-target: ../LEMS_HH_Simulation.xml 
+target: ../LEMS_HH_SingleAP.xml
 engine: jNeuroML_Moose
-mep: .test.mep
+mep: .test.singleap.mep
 experiments:
   Current clamp:
     observables:
       spike times:
-        file: 
+        file:
           path: ../hh_v.dat
           columns: [0,1]
           scaling: [1000, 1000]
-        spike detection: 
+        spike detection:
           method: threshold
           threshold: 0
-        tolerance: 0.00147105180204
+        tolerance: 0.000750562922191561
