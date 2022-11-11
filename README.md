@@ -18,9 +18,9 @@ The latest version of the tutorial is visible [online at ReadTheDocs](http://hod
 
 This interactive [Jupyter notebook](https://jupyter.org/) can be used to run the Python version of the HH model from above, change the parameters of the model and display the dynamical properties of variables, without the need to write any code.
 
-<p align="center"><kbd><a href="notebooks/Python_HH_version/README.md"><img src="https://raw.githubusercontent.com/openworm/hodgkin_huxley_tutorial/master/notebooks/HH_Jupyter.png" width="600"/></kbd></p>
+<p align="center"><kbd><a href="https://github.com/openworm/hodgkin_huxley_tutorial/blob/master/notebooks/Python_HH_version/README.md"><img src="https://raw.githubusercontent.com/openworm/hodgkin_huxley_tutorial/master/notebooks/HH_Jupyter.png" width="600"/></kbd></p>
 
-Full details can be found [here](notebooks/Python_HH_version/README.md). This work was carried out as part of [Google Summer of Code 2022 by Rahul Sonkar](notebooks/GSoC_2022_Submission/GSoC_Documentation.md).
+Full details can be found [here](https://github.com/openworm/hodgkin_huxley_tutorial/blob/master/notebooks/Python_HH_version/README.md). This work was carried out as part of [Google Summer of Code 2022 by Rahul Sonkar](notebooks/GSoC_2022_Submission/GSoC_Documentation.md).
 
 ### Tutorial 2: Interactive introduction to the HH model on Open Source Brain
 
