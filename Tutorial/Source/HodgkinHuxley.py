@@ -15,7 +15,8 @@ class HodgkinHuxley():
                  I_inj_amplitude=0, I_inj_duration=0, I_inj_delay=0,
                  vc_delay=10, vc_duration=30, vc_condVoltage=-65,
                  vc_testVoltage=10, vc_returnVoltage=-65, runMode='iclamp',
-                 injected_current_plot=True, gating_plot=True, cond_dens_plot=True,
+                 injected_current_plot=True, gating_plot=True, scaling_plot=True,
+                 cond_dens_plot=True, driving_force_plot=True,
                  current_plot=True, memb_pot_plot=True):
 
         self.C_m  = C_m
@@ -78,12 +79,15 @@ class HodgkinHuxley():
         # plotting conditionals
         self.injected_current_plot = injected_current_plot
         self.gating_plot = gating_plot
+        self.scaling_plot = scaling_plot
         self.cond_dens_plot = cond_dens_plot
+        self.driving_force_plot = driving_force_plot
         self.current_plot = current_plot
         self.memb_pot_plot = memb_pot_plot
 
         self.num_plots = (int(self.injected_current_plot) +
-                          int(self.gating_plot) + int(self.cond_dens_plot) +
+                          int(self.gating_plot)+ int(self.scaling_plot) +
+                          int(self.cond_dens_plot) + int(self.driving_force_plot) +
                           int(self.current_plot) + int(self.memb_pot_plot))
 
         self.plot_count = 0
@@ -310,10 +314,24 @@ class HodgkinHuxley():
                 except NameError:
                     ax1 = plt.subplot(self.num_plots,1,self.plot_count + 1)
                     plt.title('Simulation of Hodgkin Huxley model neuron')
-                plt.plot(self.t, m, 'r', label='m')
-                plt.plot(self.t, h, 'g', label='h')
-                plt.plot(self.t, n, 'b', label='n')
-                plt.ylabel('Gating Variable')
+                plt.plot(self.t, m, 'r', label='$m$')
+                plt.plot(self.t, h, 'g', label='$h$')
+                plt.plot(self.t, n, 'b', label='$n$')
+                plt.ylabel('Gating variable')
+                plt.legend()
+                self.plot_count += 1
+
+            if self.scaling_plot:
+                try:
+                    plt.subplot(self.num_plots,1,self.plot_count+1, sharex = ax1)
+                except NameError:
+                    ax1 = plt.subplot(self.num_plots,1,self.plot_count + 1)
+                    plt.title('Simulation of Hodgkin Huxley model neuron')
+                scale_na = m*m*m*h
+                scale_k = n*n*n*n
+                plt.plot(self.t, scale_na, 'c', label='$m^{3}h$')
+                plt.plot(self.t, scale_k, 'y', label='$n^{4}$')
+                plt.ylabel('Cond scaling')
                 plt.legend()
                 self.plot_count += 1
 
@@ -325,8 +343,34 @@ class HodgkinHuxley():
                     plt.title('Simulation of Hodgkin Huxley model neuron')
                 plt.plot(self.t, gna, 'c', label='$g_{Na}$')
                 plt.plot(self.t, gk, 'y', label='$g_{K}$')
-                plt.ylabel('Cond. dens ($mS/cm^2$)')
+                plt.ylabel('Cond dens ($mS/cm^2$)')
                 plt.legend()
+                self.plot_count += 1
+
+
+            if self.driving_force_plot:
+                try:
+                    ax_here = plt.subplot(self.num_plots,1,self.plot_count+1, sharex = ax1)
+                except NameError:
+                    ax1 = plt.subplot(self.num_plots,1,self.plot_count + 1)
+                    plt.title('Simulation of Hodgkin Huxley model neuron')
+                    ax_here = ax1
+
+                dna = V - self.E_Na
+                dk = V - self.E_K
+                zero = [0 for v in V]
+
+                #plt.plot(self.t, dna, 'c', label='$V - E_{Na}$')
+                ax_here.fill_between(self.t, dna, color='c', alpha=0.5)
+                ax_here.fill_between(self.t, dk, color='y', alpha=0.5)
+
+                plt.plot(self.t, dna, 'c', label='$V - E_{Na}$', linewidth=0.8)
+                plt.plot(self.t, dk, 'y', label='$V - E_{K}$', linewidth=0.8)
+                plt.plot(self.t, zero, 'k', linestyle='dashed', linewidth=0.5)
+                plt.ylabel('Driving force (mV)')
+                plt.legend()
+                #if not self.is_vclamp(): plt.ylim(-85,60)
+                #plt.ylim(-1, 40)
                 self.plot_count += 1
 
             if self.current_plot:
@@ -338,7 +382,7 @@ class HodgkinHuxley():
                 plt.plot(self.t, ina, 'c', label='$I_{Na}$')
                 plt.plot(self.t, ik, 'y', label='$I_{K}$')
                 plt.plot(self.t, il, 'm', label='$I_{L}$')
-                plt.ylabel('Current ($\\mu{A}/cm^2$)')
+                plt.ylabel('Curr dens ($\\mu{A}/cm^2$)')
                 plt.legend()
                 self.plot_count += 1
 
@@ -350,7 +394,7 @@ class HodgkinHuxley():
                     plt.title('Simulation of Hodgkin Huxley model neuron')
                 plt.plot(self.t, V, 'k')
                 plt.ylabel('$V_{m}$ (mV)')
-                plt.xlabel('t (ms)')
+                plt.xlabel('Time (ms)')
                 if not self.is_vclamp(): plt.ylim(-85,60)
                 #plt.ylim(-1, 40)
                 self.plot_count += 1

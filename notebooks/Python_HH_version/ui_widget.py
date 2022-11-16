@@ -171,7 +171,8 @@ reset_button.on_click(resetTodefault)
 #define toggle button for default values and connect to fucntion call
 showValue_togglebtn = ipywidgets.ToggleButton(value=False,description='Default Values',disabled=False,button_style='info',tooltip='Show/Hide default value below') # 'success', 'info', 'warning', 'danger' or ''
 showValue_togglebtn.observe(showDefault)
-defalultValues = ipywidgets.HTMLMath(value=r"\(C = 1.0\)<br>\(G_{Na} = 120, G_{K} =  36, G_{L} =  0.3\)<br>\(V_{Na} =  50, V_{K} = -77, G_{L} = -54.387\)")
+defalultValues = ipywidgets.HTMLMath(value=r"\(C = %s\)<br>\(G_{Na} = %s, G_{K} = %s, G_{L} =  %s\)<br>\(E_{Na} =  %s, E_{K} = %s, E_{L} = %s\)" % \
+                     (default_capacitance, default_cond_Na, default_cond_K, default_cond_L, default_E_Na, default_E_K, default_E_L))
 defalultValues.layout.display = 'none'
 
 #define toggle buttons for iclamp/vclamp run mode
