@@ -206,13 +206,15 @@ runMode_vclamp.layout.display = 'none'
 button_row=ipywidgets.HBox([reset_button,showValue_togglebtn])
 
 #plot selectors
-header_plotting = ipywidgets.HTMLMath(value=r"<b> Select plots</b>")
-injected_current_plot_value = ipywidgets.Checkbox(value=True, description="Current injection", disabled=False,)
-gating_plot_value = ipywidgets.Checkbox(value=True, description="Gating variables", disabled=False,)
-cond_dens_plot_value = ipywidgets.Checkbox(value=True, description="Conductance densities", disabled=False,)
-current_plot_value = ipywidgets.Checkbox(value=True, description="Current densities", disabled=False,)
-memb_pot_plot_value = ipywidgets.Checkbox(value=True, description="Membrane potential", disabled=False,)
-plot_selection_row=ipywidgets.VBox([header_plotting, ipywidgets.HBox([injected_current_plot_value, gating_plot_value, cond_dens_plot_value]), ipywidgets.HBox([current_plot_value, memb_pot_plot_value])])
+header_plotting = ipywidgets.HTMLMath(value=r"<b> Select plots to show</b>")
+injected_current_plot_value = ipywidgets.Checkbox(value=True, description="1) Current injection", disabled=False,)
+gating_plot_value = ipywidgets.Checkbox(value=True, description="2) Gating variables", disabled=False,)
+cond_scaling_value = ipywidgets.Checkbox(value=False, description="3) Conductance scaling", disabled=False,)
+cond_dens_plot_value = ipywidgets.Checkbox(value=True, description="4) Conductance densities", disabled=False,)
+driving_force_value = ipywidgets.Checkbox(value=False, description="5) Driving force", disabled=False,)
+current_plot_value = ipywidgets.Checkbox(value=True, description="6) Current densities", disabled=False,)
+memb_pot_plot_value = ipywidgets.Checkbox(value=True, description="7) Membrane potential", disabled=False,)
+plot_selection_row=ipywidgets.VBox([header_plotting, ipywidgets.HBox([injected_current_plot_value, gating_plot_value, cond_scaling_value, cond_dens_plot_value]), ipywidgets.HBox([driving_force_value, current_plot_value, memb_pot_plot_value])])
 
 #layout vertically all the widgets defined above
 modelInputs=ipywidgets.VBox([h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,runMode_iclamp,runMode_vclamp,button_row,defalultValues,plot_selection_row])
@@ -230,7 +232,7 @@ def launch_interactive_widget():
     def runHH(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, t_0, t_n, delta_t,
               I_inj_max, I_inj_width, I_inj_trans, vc_delay, vc_duration,
               vc_condVoltage, vc_testVoltage, vc_returnVoltage, runMode,
-              injected_current_plot, gating_plot, cond_dens_plot, current_plot, memb_pot_plot):
+              injected_current_plot, gating_plot, cond_scaling_plot, cond_dens_plot, driving_force_plot, current_plot, memb_pot_plot):
 
         highlight_slider()
         runner = HHmodel.HodgkinHuxley(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L,
@@ -241,7 +243,9 @@ def launch_interactive_widget():
                                        runMode,
                                        injected_current_plot=injected_current_plot,
                                        gating_plot=gating_plot,
+                                       cond_scaling_plot=cond_scaling_plot,
                                        cond_dens_plot=cond_dens_plot,
+                                       driving_force_plot=driving_force_plot,
                                        current_plot=current_plot,
                                        memb_pot_plot=memb_pot_plot)
         # init_values are the steady state values for v,m,h,n at zero current injection
@@ -257,7 +261,9 @@ def launch_interactive_widget():
                                             'vc_testVoltage':textBox_testVoltage,'vc_returnVoltage':textBox_returnVoltage,
                                             'runMode':runMode_togglebtns, 'injected_current_plot': injected_current_plot_value,
                                                       'gating_plot':gating_plot_value,
+                                                      'cond_scaling_plot':cond_scaling_value,
                                                       'cond_dens_plot':cond_dens_plot_value,
+                                                      'driving_force_plot':driving_force_value,
                                                       'current_plot':current_plot_value,
                                                       'memb_pot_plot':memb_pot_plot_value})
 
