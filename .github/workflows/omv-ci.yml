@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [ 3.7, 3.9 ]
+        python-version: [ 3.7, "3.10" ]
         engine: [ jNeuroML_Brian2, jNeuroML, jNeuroML_NEURON, jNeuroML_NetPyNE, jNeuroML_EDEN, jNeuroML_validate, jNeuroML_PyNN_NEURON, Brian2, jNeuroML_Moose ]
 
     steps:
@@ -29,6 +29,8 @@ jobs:
       run: |
         pip install git+https://github.com/OpenSourceBrain/osb-model-validation
         pip install scipy sympy matplotlib cython pandas tables
+        
+        pip install 'numpy<=1.23.0' # see https://github.com/OpenSourceBrain/osb-model-validation/issues/91
 
     - name: Run OMV tests on engine ${{ matrix.engine }}
       run: |
