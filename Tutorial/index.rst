@@ -14,7 +14,19 @@ This tutorial gives an introduction to the `Hodgkin-Huxley model <https://en.wik
 1) Provide `a guide <_static/Tutorial.html>`_ to implementing the Hodgkin-Huxley model using both `Python <https://www.python.org/>`_ and a `NeuroML2 implementation <http://journal.frontiersin.org/Journal/10.3389/fninf.2014.00079/abstract>`_ of the same equations.
 2) Give some background information on the `electrophysiology <_static/Electrophysiology.html>`_ underlying the Hodgkin-Huxley model.
 
-This was originally created by `@joebowen <https://github.com/joebowen>`_ on behalf of the `OpenWorm project <http://www.openworm.org>`_.
+The original HH tutorial was created by `@joebowen <https://github.com/joebowen>`_ on behalf of the `OpenWorm project <http://www.openworm.org>`_.
+
+New interactive introduction to the HH model in a Jupyter notebook
+==================================================================
+
+A new interactive `Jupyter notebook <https://jupyter.org>`_ can be used to run the HH model, change the parameters of the model and display the dynamical properties of variables, without the need to write any code.
+
+.. image:: _media/HH_Jupyter.png
+   :target: https://github.com/openworm/hodgkin_huxley_tutorial/blob/master/notebooks/Python_HH_version/README.md
+
+
+Full details can be found `here <https://github.com/openworm/hodgkin_huxley_tutorial/blob/master/notebooks/Python_HH_version/README.md>`_ with a link to execute the model in your browser. This work was carried out as part of `Google Summer of Code 2022 by Rahul Sonkar <https://github.com/openworm/hodgkin_huxley_tutorial/blob/master/notebooks/GSoC_2022_Submission/GSoC_Documentation.md>`_.
+
 
 What is the Hodgkin-Huxley model?
 =================================

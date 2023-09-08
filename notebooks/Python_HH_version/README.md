@@ -2,7 +2,7 @@
 
 This is an interactive web notebook using [Jupyter technologies](https://jupyter.org/) which can be used to run the HH model, change the parameters of the model and display the dynamical properties of variables.
 
-<p align="center" ><kbd><a href="#running-the-notebook"><img src="../HH_Jupyter.png" width="600"/></a></kbd></p>
+<p align="center" ><kbd><a href="#running-the-notebook"><img src="../../Tutorial/_media/HH_Jupyter.png" width="600"/></a></kbd></p>
 
 This notebook was developed as part of [Google Summer of Code 2022 by Rahul Sonkar](notebooks/GSoC_2022_Submission/GSoC_Documentation.md).
 
