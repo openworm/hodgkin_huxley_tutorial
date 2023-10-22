@@ -1,5 +1,5 @@
 scipy
 numpy
-matplotlib==3.8.0
+matplotlib
 ipywidgets
 ipympl
