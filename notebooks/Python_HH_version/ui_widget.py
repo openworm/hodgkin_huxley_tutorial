@@ -28,7 +28,7 @@ default_condVoltage   = -65
 default_testVoltage   = 10
 default_returnVoltage = -65
 default_tn_vclamp     = 50
-default_deltat_vclamp = 0.001
+default_deltat_vclamp = 0.0005
 
 #function to reset input values to default on button click
 def resetTodefault(_):
@@ -39,7 +39,6 @@ def resetTodefault(_):
     slider_E_Na.value      = default_E_Na
     slider_E_K.value       = default_E_K
     slider_E_L.value       = default_E_L
-    time_start.value         = default_t0
     time_end.value           = default_tn
     time_step.value          = default_deltat
     slider_amplitude.value   = default_ic_amplitude
@@ -122,7 +121,6 @@ slider_testVoltage      = ipywidgets.FloatSlider(value=default_testVoltage   ,mi
 slider_returnVoltage    = ipywidgets.FloatSlider(value=default_returnVoltage ,min=-120,max=100,step=1,description='Returning',readout=False,continuous_update=False)
 
 #text box widgets
-time_start         = ipywidgets.FloatText(value=default_t0,description='Start Time',disabled=True)
 time_end           = ipywidgets.FloatText(value=default_tn,description='Total Time',disabled=False)
 time_step          = ipywidgets.FloatText(value=default_deltat,description='Time Step',disabled=False)
 
@@ -188,7 +186,7 @@ h4=ipywidgets.HBox([slider_cond_Na,textBox_cond_Na,slider_cond_K,textBox_cond_K,
 h5=ipywidgets.HBox([header_potential])
 h6=ipywidgets.HBox([slider_E_Na,textBox_E_Na,slider_E_K,textBox_E_K,slider_E_L,textBox_E_L])
 h7=ipywidgets.HBox([header_simTime])
-h8=ipywidgets.HBox([time_start,time_end,time_step])
+h8=ipywidgets.HBox([time_end,time_step])
 h9=ipywidgets.HBox([header_runMode])
 h10=ipywidgets.HBox([runMode_togglebtns])
 
@@ -229,14 +227,14 @@ def launch_interactive_widget():
     HHmodel = SourceFileLoader("HodgkinHuxley.py","../../Tutorial/Source/HodgkinHuxley.py").load_module()
 
     #function to call python script as a module
-    def runHH(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, t_0, t_n, delta_t,
+    def runHH(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, t_n, delta_t,
               I_inj_max, I_inj_width, I_inj_trans, vc_delay, vc_duration,
               vc_condVoltage, vc_testVoltage, vc_returnVoltage, runMode,
               injected_current_plot, gating_plot, cond_scaling_plot, cond_dens_plot, driving_force_plot, current_plot, memb_pot_plot):
 
         highlight_slider()
         runner = HHmodel.HodgkinHuxley(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L,
-                                       t_0, t_n, delta_t, I_inj_max,
+                                       t_n, delta_t, I_inj_max,
                                        I_inj_width, I_inj_trans, vc_delay,
                                        vc_duration, vc_condVoltage,
                                        vc_testVoltage, vc_returnVoltage,
@@ -249,13 +247,13 @@ def launch_interactive_widget():
                                        current_plot=current_plot,
                                        memb_pot_plot=memb_pot_plot)
         # init_values are the steady state values for v,m,h,n at zero current injection
-        runner.Main(init_values=[-63.8, 0.0609, 0.5538, 0.3361])
+        runner.simulate(init_values=[-63.8, 0.0609, 0.5538, 0.3361])
 
     #create plot area widget and interact with HHmodel
     wid_plotArea=ipywidgets.interactive_output(runHH,{'C_m':slider_capacitance,
                                             'g_Na':textBox_cond_Na, 'g_K':textBox_cond_K, 'g_L':textBox_cond_L,
                                             'E_Na':textBox_E_Na, 'E_K':textBox_E_K, 'E_L':textBox_E_L,
-                                            't_0':time_start, 't_n':time_end, 'delta_t':time_step,
+                                            't_n':time_end, 'delta_t':time_step,
                                             'I_inj_max':textBox_amplitude,'I_inj_width':textBox_width,'I_inj_trans':textBox_translation,
                                             'vc_delay':textBox_delay,'vc_duration':textBox_duration,'vc_condVoltage':textBox_condVoltage,
                                             'vc_testVoltage':textBox_testVoltage,'vc_returnVoltage':textBox_returnVoltage,
