@@ -279,7 +279,7 @@ class HodgkinHuxley():
 
             fig=plt.figure(figsize=(7, self.num_plots * 2))
             fig.canvas.header_visible = False
-            #plt.xlim([np.min(self.t),np.max(self.t)])  #for all subplots
+            # plt.xlim([np.min(self.t),np.max(self.t)])  #for all subplots
 
             if self.injected_current_plot:
                 ax1 = plt.subplot(self.num_plots,1,self.plot_count + 1)
