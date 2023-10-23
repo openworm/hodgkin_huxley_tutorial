@@ -28,7 +28,7 @@ default_condVoltage   = -65
 default_testVoltage   = 10
 default_returnVoltage = -65
 default_tn_vclamp     = 50
-default_deltat_vclamp = 0.001
+default_deltat_vclamp = 0.0005
 
 #function to reset input values to default on button click
 def resetTodefault(_):

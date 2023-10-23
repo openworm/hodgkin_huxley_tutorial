@@ -394,7 +394,7 @@ class HodgkinHuxley():
 if __name__ == '__main__':
 
     if '-vclamp' in sys.argv:
-        runner = HodgkinHuxley(runMode='vclamp', t_n=50, delta_t=0.001)
+        runner = HodgkinHuxley(runMode='vclamp', t_n=50, delta_t=0.0005)
     else: #default mode
         runner = HodgkinHuxley(runMode='iclamp', t_n=450, delta_t=0.01)
         
