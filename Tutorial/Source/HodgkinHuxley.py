@@ -11,7 +11,7 @@ class HodgkinHuxley():
     """ when no argument is passed default values are used """
 
     def __init__(self, C_m=1, gmax_Na=120, gmax_K=36, gmax_L=0.3, E_Na=50,
-                 E_K=-77, E_L=-54.387, t_0=0, t_n=450, delta_t=0.01,
+                 E_K=-77, E_L=-54.387, t_n=450, delta_t=0.01,
                  I_inj_amplitude=0, I_inj_duration=0, I_inj_delay=0,
                  vc_delay=10, vc_duration=30, vc_condVoltage=-65,
                  vc_testVoltage=10, vc_returnVoltage=-65, runMode='iclamp',
@@ -40,7 +40,7 @@ class HodgkinHuxley():
         self.E_L  = E_L
         """ Leak Nernst reversal potentials, in mV """
 
-        self.t    = np.arange(t_0, t_n, delta_t)
+        self.t    = np.arange(0, t_n, delta_t)
         """ The time to integrate over """
 
         """ Advanced input - injection current (single rectangular pulse only) """
@@ -240,21 +240,10 @@ class HodgkinHuxley():
     def is_vclamp(self):
         return self.run_mode=='vclamp' or self.run_mode=='Voltage Clamp'
 
-    def Main(self, init_values=[-64.99584, 0.05296, 0.59590, 0.31773]):
+    def simulate(self, init_values=[-64.99584, 0.05296, 0.59590, 0.31773]):
         """
-        Main demo for the Hodgkin Huxley neuron model
+        Main simulate method for the Hodgkin Huxley neuron model
         """
-        if __name__ == '__main__':
-
-            self.run_mode='iclamp'
-
-            if '-iclamp' in sys.argv:     #default mode
-                self.run_mode='iclamp'
-            elif '-vclamp' in sys.argv:
-                self.run_mode='vclamp'
-
-        if self.is_vclamp():
-            self.t = np.arange(0, 50, 0.001)           #update default time array for python script (notebook can be controlled through widgets)
 
         # init_values are the steady state values for v,m,h,n at zero current injection
         X = odeint(self.dALLdt, init_values, self.t, args=(self,))
@@ -290,7 +279,7 @@ class HodgkinHuxley():
 
             fig=plt.figure(figsize=(7, self.num_plots * 2))
             fig.canvas.header_visible = False
-            plt.xlim([np.min(self.t),np.max(self.t)])  #for all subplots
+            #plt.xlim([np.min(self.t),np.max(self.t)])  #for all subplots
 
             if self.injected_current_plot:
                 ax1 = plt.subplot(self.num_plots,1,self.plot_count + 1)
@@ -403,5 +392,10 @@ class HodgkinHuxley():
             plt.show()
 
 if __name__ == '__main__':
-    runner = HodgkinHuxley()
-    runner.Main()
+
+    if '-vclamp' in sys.argv:
+        runner = HodgkinHuxley(runMode='vclamp', t_n=50, delta_t=0.001)
+    else: #default mode
+        runner = HodgkinHuxley(runMode='iclamp', t_n=450, delta_t=0.01)
+        
+    runner.simulate()
