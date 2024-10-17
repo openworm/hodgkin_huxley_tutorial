@@ -36,19 +36,21 @@ This notebook was developed as part of [Google Summer of Code 2022 by Rahul Sonk
 - The notebook can also be opened in [Google Collab](https://colab.research.google.com/github/openworm/hodgkin_huxley_tutorial/blob/master/notebooks/Python_HH_version/Python_Notebook_HH.ipynb), but you will need to add a new cell to the top of the notebook and paste the following to set it up to run properly:
 
 
-    from google.colab import output
-    output.enable_custom_widget_manager()
+```
+from google.colab import output
+output.enable_custom_widget_manager()
 
-    from google.colab import drive
-    drive.mount("/content/gdrive")
+from google.colab import drive
+drive.mount("/content/gdrive")
 
-    %cd /content/gdrive/MyDrive
-    !ls
-    !rm -rf hodgkin_huxley_tutorial  # remove this line if you do not want to remove your existing copy to create a new one
-    !git clone --depth 1 https://github.com/openworm/hodgkin_huxley_tutorial/
-    %cd hodgkin_huxley_tutorial/
-    !pip install -r requirements.txt
-    %cd notebooks/Python_HH_version/
+%cd /content/gdrive/MyDrive
+!ls
+!rm -rf hodgkin_huxley_tutorial  # remove this line if you do not want to remove your existing copy to create a new one
+!git clone --depth 1 https://github.com/openworm/hodgkin_huxley_tutorial/
+%cd hodgkin_huxley_tutorial/
+!pip install -r requirements.txt
+%cd notebooks/Python_HH_version/
+```
 
 
 This does the following:
