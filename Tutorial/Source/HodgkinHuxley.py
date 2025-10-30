@@ -389,7 +389,8 @@ class HodgkinHuxley():
                 #plt.ylim(-1, 40)
                 self.plot_count += 1
 
-            plt.tight_layout()
+            # causes errors with the TeX parsing
+            # plt.tight_layout()
             plt.show()
 
 if __name__ == '__main__':
