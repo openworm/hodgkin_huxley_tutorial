@@ -27,4 +27,4 @@ jobs:
         pip install scipy matplotlib
         cd Tutorial/Source
         python HodgkinHuxley.py # test in current clamp mode
-        python HodgkinHuxley.py -vclamp # test in voltrage clamp mode
+        python HodgkinHuxley.py -vclamp # test in voltage clamp mode
