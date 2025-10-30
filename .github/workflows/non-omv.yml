@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ 3.7, 3.9 ]
+        python-version: [ 3.9, "3.12" ]
 
     steps:
     - uses: actions/checkout@v4
@@ -27,4 +27,4 @@ jobs:
         pip install scipy matplotlib
         cd Tutorial/Source
         python HodgkinHuxley.py # test in current clamp mode
-        python HodgkinHuxley.py -vclamp # test in voltrage clamp mode
+        python HodgkinHuxley.py -vclamp # test in voltage clamp mode

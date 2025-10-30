@@ -186,11 +186,12 @@ class HodgkinHuxley():
 
         """ running standalone python script """
         if __name__ == '__main__':
-            return 10*(t>100) - 10*(t>200) + 35*(t>300) - 35*(t>400)
+            # Note this adds a 2nd pulse for demonstration purposes
+            return 10*(t>self.I_inj_delay) - 10*(t>(self.I_inj_delay+self.I_inj_duration)) + 35*(t>300) - 35*(t>400)
 
         #""" running jupyterLab notebook """
         else:
-            return self.I_inj_amplitude*(t>self.I_inj_delay) - self.I_inj_amplitude*(t>self.I_inj_delay+self.I_inj_duration)
+            return self.I_inj_amplitude*(t>self.I_inj_delay) - self.I_inj_amplitude*(t>(self.I_inj_delay+self.I_inj_duration))
 
     def I_inj_vclamp(self,t,v):
         """
@@ -246,7 +247,7 @@ class HodgkinHuxley():
         """
 
         # init_values are the steady state values for v,m,h,n at zero current injection
-        X = odeint(self.dALLdt, init_values, self.t, args=(self,))
+        X = odeint(self.dALLdt, init_values, self.t, args=(self,), tcrit=[self.I_inj_delay, self.I_inj_duration + self.I_inj_delay])
         V = X[:,0]
         m = X[:,1]
         h = X[:,2]
@@ -396,6 +397,8 @@ if __name__ == '__main__':
     if '-vclamp' in sys.argv:
         runner = HodgkinHuxley(runMode='vclamp', t_n=50, delta_t=0.0005)
     else: #default mode
-        runner = HodgkinHuxley(runMode='iclamp', t_n=450, delta_t=0.01)
-        
+        runner = HodgkinHuxley(runMode='iclamp', t_n=450, delta_t=0.01,
+            I_inj_delay=100,
+            I_inj_duration=100)
+
     runner.simulate()

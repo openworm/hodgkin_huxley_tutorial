@@ -40,3 +40,6 @@ Tutorial/Source/*json
 /notebooks/Python_HH_version/hh_py_v.dat
 /Tutorial/Source/HHCellSingleAP.net.nml__flattened.xml
 arm64
+/Tutorial/Source/test/*.dat
+/Tutorial/Source/nmllite/*dat
+/Tutorial/Source/nmllite/*.txt

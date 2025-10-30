@@ -2,15 +2,15 @@
 
 # Note: this is not really running with Brian2, it's just a way to get a general Python script tested on OMV...
 
-target: ../HodgkinHuxley.py
+target: TestShortPulse.py
 engine: Brian2
-mep: .test.mep
+mep: .test.short.mep
 experiments:
   Current clamp:
     observables:
       spike times:
         file:
-          path: ../hh_py_v.dat
+          path: hh_py_v.dat
           columns: [0,1]
           scaling: [1, 1]
         spike detection:
