@@ -246,7 +246,7 @@ class HodgkinHuxley():
         """
 
         # init_values are the steady state values for v,m,h,n at zero current injection
-        X = odeint(self.dALLdt, init_values, self.t, args=(self,))
+        X = odeint(self.dALLdt, init_values, self.t, args=(self,), tcrit=[self.I_inj_delay, self.I_inj_duration + self.I_inj_delay])
         V = X[:,0]
         m = X[:,1]
         h = X[:,2]
