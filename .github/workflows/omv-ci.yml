@@ -18,7 +18,7 @@ jobs:
         engine: [ jNeuroML_Brian2, jNeuroML, jNeuroML_NEURON, jNeuroML_NetPyNE, jNeuroML_EDEN, jNeuroML_validate, jNeuroML_PyNN_NEURON, Brian2 ]  # jNeuroML_Moose disable moose for now  
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
 
     - name: Set up Python  ${{ matrix.python-version }}
       uses: actions/setup-python@v6
